@@ -4,9 +4,8 @@
 *.idea
 target/
 logs/
-db/
-sql/
 .idea/
+*.sql
 
 # Log file
 *.log
