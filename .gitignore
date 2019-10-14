@@ -5,6 +5,7 @@
 target/
 logs/
 db/
+sql/
 .idea/
 
 # Log file
