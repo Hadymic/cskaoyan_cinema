@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.rest.modular.cinema;
+package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.cskaoyan.cinema.cinema.CinemaService;
 import org.apache.dubbo.config.annotation.Service;

@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.rest.modular.cinema;
+package com.cskaoyan.cinema.rest.common.persistence.cinema;
 
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.vo.CinemaQueryVO;
@@ -14,6 +14,6 @@ private CinemaService cinemaService;
 @RequestMapping("cinema/getCinemas")
 
 public CinemaVO  query(CinemaQueryVO cinemaQueryVO){
-
+    
 }
 }
