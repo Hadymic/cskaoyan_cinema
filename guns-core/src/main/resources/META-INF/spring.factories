@@ -1,0 +1,8 @@
+# AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.cskaoyan.cinema.core.base.controller.GlobalController,\
+com.cskaoyan.cinema.core.config.DefaultFastjsonConfig,\
+com.cskaoyan.cinema.core.config.MultiDataSourceConfig,\
+com.cskaoyan.cinema.core.config.SingleDataSourceConfig,\
+com.cskaoyan.cinema.core.config.DefaultProperties,\
+com.cskaoyan.cinema.core.config.DefaultWebConfig
