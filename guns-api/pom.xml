@@ -17,6 +17,8 @@
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+
     <dependencies>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -31,7 +33,6 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
@@ -40,6 +41,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

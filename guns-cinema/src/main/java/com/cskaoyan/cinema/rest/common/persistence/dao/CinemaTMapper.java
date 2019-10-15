@@ -3,6 +3,8 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 影院信息表 Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface CinemaTMapper extends BaseMapper<CinemaT> {
 
+    List<CinemaVo> queryCinemaMsg(Integer brandId, Integer areaId);
 }
