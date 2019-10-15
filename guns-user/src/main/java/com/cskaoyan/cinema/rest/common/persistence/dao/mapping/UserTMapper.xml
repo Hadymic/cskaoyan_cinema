@@ -24,7 +24,6 @@
 
     <update id="updateUserInfo">
         update mtime_user_t set
-        UUID = #{user.uuid},
         nick_name=#{user.nickname},
         email = #{user.email},
         user_phone = #{user.phone},
@@ -33,6 +32,6 @@
         life_state=#{user.lifeState},
         biography=#{user.biography},
         address =#{user.address}
+        where UUID = #{user.uuid}
     </update>
-
 </mapper>

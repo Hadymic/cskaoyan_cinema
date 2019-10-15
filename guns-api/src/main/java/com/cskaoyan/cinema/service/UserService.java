@@ -9,9 +9,7 @@ public interface UserService {
 
     Integer check(String username);
 
-    Integer logout(String token);
-
-    BaseRespVo selectUserInfo(String token);
+    BaseRespVo selectUserInfo(String userId);
 
     BaseRespVo updateUserInfo(UserVo userVo);
 }

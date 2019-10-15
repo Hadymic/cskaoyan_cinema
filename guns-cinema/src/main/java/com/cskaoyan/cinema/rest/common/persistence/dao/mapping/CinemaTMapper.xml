@@ -4,19 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cskaoyan.cinema.rest.common.persistence.model.CinemaT">
-        <id column="UUID" property="uuid" />
-        <result column="cinema_name" property="cinemaName" />
-        <result column="cinema_phone" property="cinemaPhone" />
-        <result column="brand_id" property="brandId" />
-        <result column="area_id" property="areaId" />
-        <result column="hall_ids" property="hallIds" />
-        <result column="img_address" property="imgAddress" />
-        <result column="cinema_address" property="cinemaAddress" />
-        <result column="minimum_price" property="minimumPrice" />
+        <id column="UUID" property="uuid"/>
+        <result column="cinema_name" property="cinemaName"/>
+        <result column="cinema_phone" property="cinemaPhone"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="area_id" property="areaId"/>
+        <result column="hall_ids" property="hallIds"/>
+        <result column="img_address" property="imgAddress"/>
+        <result column="cinema_address" property="cinemaAddress"/>
+        <result column="minimum_price" property="minimumPrice"/>
     </resultMap>
 
 
-    <select id="queryCinemaMsg"  resultType="com.cskaoyan.cinema.vo.CinemaVo">
+    <select id="queryCinemaMsg" resultType="com.cskaoyan.cinema.vo.cinema.CinemaVo">
 select b.show_name  as cinemaName,c.uuid,c.cinema_address as address,c.minimum_price as minimumPrice from
 mtime_cinema_t c LEFT JOIN mtime_brand_dict_t b on c.brand_id=b.UUID
 LEFT JOIN  mtime_area_dict_t  a  on a.UUID=c.area_id   where b.UUID=#{brandId} and  a.UUID=#{areaId}

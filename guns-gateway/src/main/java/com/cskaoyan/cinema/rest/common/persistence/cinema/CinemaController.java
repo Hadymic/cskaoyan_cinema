@@ -1,12 +1,17 @@
 package com.cskaoyan.cinema.rest.common.persistence.cinema;
 
 import com.cskaoyan.cinema.cinema.CinemaService;
-import com.cskaoyan.cinema.vo.CinemaRespVo;
+
+
+import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaRespVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 
 @RestController
 public class CinemaController {
@@ -21,8 +26,4 @@ public class CinemaController {
         return cinemaRespVo;
 
     }
-
-
-
-
 }

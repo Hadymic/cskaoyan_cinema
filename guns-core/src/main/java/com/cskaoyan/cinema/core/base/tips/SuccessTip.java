@@ -7,9 +7,9 @@ package com.cskaoyan.cinema.core.base.tips;
  * @date 2016年11月12日 下午5:05:22
  */
 public class SuccessTip extends Tip {
-	
-	public SuccessTip(){
-		super.code = 200;
-		super.message = "操作成功";
-	}
+
+    public SuccessTip() {
+        super.status = 200;
+        super.msg = "操作成功";
+    }
 }
