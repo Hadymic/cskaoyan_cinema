@@ -2,6 +2,9 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.YearDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cskaoyan.cinema.rest.common.persistence.vo.YearInfoVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface YearDictTMapper extends BaseMapper<YearDictT> {
 
+    List<YearInfoVo> selectAll();
 }

@@ -3,10 +3,12 @@ package com.cskaoyan.cinema.rest.common.aop;
 import com.cskaoyan.cinema.core.aop.BaseControllerExceptionHandler;
 import com.cskaoyan.cinema.core.base.tips.ErrorTip;
 import com.cskaoyan.cinema.rest.common.exception.BizExceptionEnum;
+import com.cskaoyan.cinema.vo.BaseRespVo;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,5 +33,12 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
     @ResponseBody
     public ErrorTip jwtException(JwtException e) {
         return new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage());
+    }
+
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BaseRespVo bindException(BindException e) {
+        return new BaseRespVo(400, null, e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
     }
 }
