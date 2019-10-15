@@ -7,6 +7,7 @@ import com.cskaoyan.cinema.rest.modular.auth.controller.dto.AuthResponse;
 import com.cskaoyan.cinema.rest.modular.auth.service.UserService;
 import com.cskaoyan.cinema.rest.modular.auth.util.JwtTokenUtil;
 import com.cskaoyan.cinema.rest.modular.auth.validator.IReqValidator;
+import com.cskaoyan.cinema.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,8 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Resource(name = "dbValidator")
-    private IReqValidator reqValidator;
+//    @Resource(name = "dbValidator")
+//    private IReqValidator reqValidator;
 
     @Autowired
     private Jedis jedis;
@@ -37,14 +38,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping(value = "${jwt.auth-path}")
-    public ResponseEntity<?> createAuthenticationToken(AuthRequest authRequest) {
+    public BaseRespVo createAuthenticationToken(AuthRequest authRequest) {
 
-        boolean validate = reqValidator.validate(authRequest);
+//        boolean validate = reqValidator.validate(authRequest);
 
         //用户登录的真正逻辑
         Integer userId = userService.login(authRequest);
 
-        if (validate) {
+        if (userId != null && userId != 0) {
             final String randomKey = jwtTokenUtil.getRandomKey();
             final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
 
@@ -53,7 +54,7 @@ public class AuthController {
             //redis过期时长5个小时
             jedis.expire(token, 18000);
 
-            return ResponseEntity.ok(new AuthResponse(token, randomKey));
+            return new BaseRespVo(0, new AuthResponse(token, randomKey), null);
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
         }

@@ -1,5 +1,6 @@
 package com.cskaoyan.cinema.rest.modular.auth.service.impl;
 
+import com.cskaoyan.cinema.core.util.MD5Util;
 import com.cskaoyan.cinema.rest.common.persistence.dao.UserTMapper;
 import com.cskaoyan.cinema.rest.modular.auth.controller.dto.AuthRequest;
 import com.cskaoyan.cinema.rest.modular.auth.service.UserService;
@@ -13,6 +14,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer login(AuthRequest authRequest) {
-        return userTMapper.selectByUsernameAndPassword(authRequest.getUserName(), authRequest.getPassword());
+        return userTMapper.selectByUsernameAndPassword(authRequest.getUserName(), MD5Util.encrypt(authRequest.getPassword()));
     }
 }

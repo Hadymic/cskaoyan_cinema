@@ -24,7 +24,7 @@ public class DbValidator implements IReqValidator {
 
     @Override
     public boolean validate(Credence credence) {
-        List<UserT> users = userTMapper.selectList(new EntityWrapper<UserT>().eq("userName", credence.getCredenceName()));
+        List<UserT> users = userTMapper.selectList(new EntityWrapper<UserT>().eq("user_name", credence.getCredenceName()));
         if (users != null && users.size() > 0) {
             return true;
         } else {

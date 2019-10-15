@@ -43,9 +43,19 @@ public class AuthFilter extends OncePerRequestFilter {
         String ignoreUrls = jwtProperties.getIgnoreUrl();
         String[] split = ignoreUrls.split(",");
         for (String ignoreUrl : split) {
-            if (ignoreUrl.equals(servletPath)) {
-                chain.doFilter(request, response);
-                return;
+            //如果url结尾为通配符
+            if (ignoreUrl.endsWith("*")) {
+                //判断url是否以其开头
+                if (servletPath.startsWith(ignoreUrl.substring(0, ignoreUrl.length() - 1))) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+            } else {
+                //否则判断是否为相同url
+                if (ignoreUrl.equals(servletPath)) {
+                    chain.doFilter(request, response);
+                    return;
+                }
             }
         }
         final String requestHeader = request.getHeader(jwtProperties.getHeader());
