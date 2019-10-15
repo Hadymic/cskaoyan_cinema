@@ -6,6 +6,8 @@ target/
 logs/
 .idea/
 *.sql
+Project_Default.xml
+vcs.xml
 
 # Log file
 *.log
