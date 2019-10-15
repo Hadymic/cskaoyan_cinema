@@ -37,6 +37,9 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
     }
 }

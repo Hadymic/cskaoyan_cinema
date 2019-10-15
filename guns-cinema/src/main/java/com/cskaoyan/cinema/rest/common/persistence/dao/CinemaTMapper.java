@@ -2,10 +2,14 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+<<<<<<< HEAD
 import com.cskaoyan.cinema.vo.cinema.CinemaInfoVo;
 import com.cskaoyan.cinema.vo.cinema.CinemaVo;
 import com.cskaoyan.cinema.vo.cinema.FilmFields;
 import com.cskaoyan.cinema.vo.cinema.FilmMsgVo;
+=======
+import com.cskaoyan.cinema.vo.cinema.CinemaVo;
+>>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
 
 import java.util.List;
 

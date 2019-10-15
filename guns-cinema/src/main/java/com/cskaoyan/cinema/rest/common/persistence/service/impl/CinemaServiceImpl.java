@@ -1,10 +1,17 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
+<<<<<<< HEAD
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
+=======
+import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
+import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaVo;
+>>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
