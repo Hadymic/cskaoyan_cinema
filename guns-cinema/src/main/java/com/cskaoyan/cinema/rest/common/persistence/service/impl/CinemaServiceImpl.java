@@ -1,25 +1,22 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
+import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
-import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
-import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
-import com.cskaoyan.cinema.vo.cinema.CinemaVo;
-import org.apache.dubbo.config.annotation.Service;
 import com.cskaoyan.cinema.rest.common.persistence.dao.AreaDictTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.dao.CatDictTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.dao.HallDictTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.CatDictT;
 import com.cskaoyan.cinema.vo.AreaVo;
 import com.cskaoyan.cinema.vo.BrandVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.HalltypeVo;
-import com.google.common.base.Equivalence;
-import com.sun.org.apache.xml.internal.resolver.CatalogManager;
+import com.cskaoyan.cinema.vo.cinema.*;
+import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.zookeeper.data.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -34,9 +31,47 @@ public class CinemaServiceImpl implements CinemaService {
 //
 //        EntityWrapper<CinemaT> cinemaList = new EntityWrapper<>();
 //        List<CinemaVo> cinemaVoList=convert(cinemaList);
-        List<CinemaVo> cinemaVo = cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
+        return cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
+    }
+    public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
+        PageHelper.startPage(cinemaQueryVo.getNowPage(),cinemaQueryVo.getPageSize());
+        List<CinemaVo> cinemaVo= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
+        PageInfo<CinemaVo> cinemaPageInfo = new PageInfo<>(cinemaVo);
+        //总记录
+        long total = cinemaPageInfo.getTotal();
+        //总页数
+        long totalPage=total/cinemaQueryVo.getPageSize();
 
-        return cinemaVo;
+        ListBean cinemaList = new ListBean<>();
+        cinemaList.setData(cinemaVo);
+        cinemaList.setNowPage(cinemaQueryVo.getNowPage());
+        cinemaList.setTotalPage(totalPage);
+        return cinemaList;
+    }
+
+    @Override
+    public CinemaMsgVo queryCinemaMsg(String cinemaId) {
+        CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
+        List list = new ArrayList();
+        CinemaInfoVo cinemaMsg =cinemaTMapper.selectCinemaMsg(cinemaId);
+        List<FilmMsgVo> filmMsgVos=cinemaTMapper.queryFilmMsg(cinemaId);
+        for (FilmMsgVo filmMsgVo : filmMsgVos) {
+            String filmType = filmMsgVo.getFilmType();
+            Integer filmId = filmMsgVo.getFilmId();
+           List<FilmFields> filmFields=cinemaTMapper.queryHall(filmId);
+            for (FilmFields filmField : filmFields) {
+                filmField.setLanguage(filmType);
+            }
+           filmMsgVo.setFilmFields(filmFields);
+        }
+       list.add(cinemaMsg);
+       list.add(filmMsgVos);
+       cinemaMsgVo.setData(list);
+       cinemaMsgVo.setImgPre(null);
+       cinemaMsgVo.setNowPage(null);
+       cinemaMsgVo.setStatus(0);
+       cinemaMsgVo.setTotalPage(null);
+        return cinemaMsgVo;
     }
     @Autowired
     CatDictTMapper catDictTMapper;

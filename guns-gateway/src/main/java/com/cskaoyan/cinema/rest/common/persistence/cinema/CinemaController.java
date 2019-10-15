@@ -14,4 +14,3 @@ private CinemaService cinemaService;
 public CinemaVO  query(CinemaQueryVO cinemaQueryVO){
 
 }
-}

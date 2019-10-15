@@ -60,6 +60,7 @@ public class FieldT extends Model<FieldT> {
      */
     private Integer price;
 
+     private  String Language;
 
     public Integer getUuid() {
         return uuid;
@@ -125,22 +126,32 @@ public class FieldT extends Model<FieldT> {
         this.price = price;
     }
 
+    public String getLanguage() {
+        return Language;
+    }
+
+    public void setLanguage(String language) {
+        Language = language;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.uuid;
     }
 
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "FieldT{" +
-        "uuid=" + uuid +
-        ", cinemaId=" + cinemaId +
-        ", filmId=" + filmId +
-        ", beginTime=" + beginTime +
-        ", endTime=" + endTime +
-        ", hallId=" + hallId +
-        ", hallName=" + hallName +
-        ", price=" + price +
-        "}";
+                "uuid=" + uuid +
+                ", cinemaId=" + cinemaId +
+                ", filmId=" + filmId +
+                ", beginTime='" + beginTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", hallId=" + hallId +
+                ", hallName='" + hallName + '\'' +
+                ", price=" + price +
+                ", Language='" + Language + '\'' +
+                '}';
     }
 }
