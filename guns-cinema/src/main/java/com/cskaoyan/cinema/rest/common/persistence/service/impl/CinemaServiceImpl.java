@@ -1,17 +1,17 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
-<<<<<<< HEAD
+
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
-=======
+
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
 import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
 import com.cskaoyan.cinema.vo.cinema.CinemaVo;
->>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
+
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,8 +46,8 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
         List list = new ArrayList();
         CinemaInfoVo cinemaMsg =cinemaTMapper.selectCinemaMsg(cinemaId);
-        List<FilmMsgVo> filmMsgVos=cinemaTMapper.queryFilmMsg(cinemaId);
-        for (FilmMsgVo filmMsgVo : filmMsgVos) {
+        List<FilmMsgVo> filmList=cinemaTMapper.queryFilmMsg(cinemaId);
+        for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
             Integer filmId = filmMsgVo.getFilmId();
            List<FilmFields> filmFields=cinemaTMapper.queryHall(filmId);
@@ -55,9 +55,10 @@ public class CinemaServiceImpl implements CinemaService {
                 filmField.setLanguage(filmType);
             }
            filmMsgVo.setFilmFields(filmFields);
+            filmMsgVo.setFilmType(filmType);
         }
        list.add(cinemaMsg);
-       list.add(filmMsgVos);
+       list.add(filmList);
        cinemaMsgVo.setData(list);
        cinemaMsgVo.setImgPre(null);
        cinemaMsgVo.setNowPage(null);
