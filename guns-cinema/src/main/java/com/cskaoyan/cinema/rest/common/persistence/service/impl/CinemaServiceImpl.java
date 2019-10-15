@@ -27,7 +27,7 @@ public class CinemaServiceImpl implements CinemaService {
         //总页数
         long totalPage=total/cinemaQueryVo.getPageSize();
 
-        ListBean<CinemaVo> cinemaList = new ListBean<>();
+        ListBean cinemaList = new ListBean<>();
         cinemaList.setData(cinemaVo);
         cinemaList.setNowPage(cinemaQueryVo.getNowPage());
         cinemaList.setTotalPage(totalPage);

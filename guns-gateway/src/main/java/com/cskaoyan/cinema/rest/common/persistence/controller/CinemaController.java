@@ -13,6 +13,12 @@ public class CinemaController {
     @Reference(interfaceClass = CinemaService.class)
     private CinemaService cinemaService;
 
+    /**
+     * author:zt
+     * 1、查询影院列表-根据条件查询所有影院
+     * @param cinemaQueryVo
+     * @return
+     */
     @RequestMapping("cinema/getCinemas")
     public     ListBean query(CinemaQueryVo cinemaQueryVo) {
         ListBean cinemaList = cinemaService.queryList(cinemaQueryVo);
@@ -30,8 +36,5 @@ public class CinemaController {
           CinemaMsgVo cinemaMsgVo=cinemaService.queryCinemaMsg(cinemaId);
           return  cinemaMsgVo;
     }
-
-
-
 
 }
