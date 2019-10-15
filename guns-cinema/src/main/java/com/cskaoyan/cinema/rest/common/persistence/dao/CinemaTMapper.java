@@ -2,8 +2,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.vo.CinemaQueryVo;
-import com.cskaoyan.cinema.vo.CinemaVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaVo;
 
 import java.util.List;
 
