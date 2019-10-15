@@ -5,6 +5,7 @@ import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.user.UserRegisterVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
+    Updated upstream;
     public BaseRespVo register(@Valid UserRegisterVo vo) {
         Integer checkCode = userService.check(vo.getUsername());
         if (checkCode != 0) {
@@ -38,5 +40,7 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
+    public BaseRespVo register(@RequestBody UserRegisterVo vo) {
+        return new BaseRespVo();
     }
 }
