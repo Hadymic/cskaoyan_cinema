@@ -18,6 +18,11 @@
         <result column="film_time" property="filmTime" />
         <result column="film_status" property="filmStatus" />
     </resultMap>
+    <sql id="Base_Sql">
+        film_name,film_type,img_address,film_score,UUID,film_preSaleNum,film_box_office,
+        film_source,film_area,film_date,film_time,film_status
+    </sql>
+
 
     <resultMap id="FilmInfoMap" type="com.cskaoyan.cinema.rest.common.persistence.vo.FilmInfo">
         <id column="UUID" property="filmId" />
@@ -39,4 +44,23 @@
         on f.UUID = fi.film_id
         where film_status = #{state}
     </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Sql"/>
+        from mtime_file_t
+        <where>
+            film_status = #{status}
+            <if test="sourceId != 99">
+                and film_source = #{sourceId}
+            </if>
+            <if test="yearId != 99">
+                and film_date = #{yearId}
+            </if>
+            <if test="catId != '%#99#%'">
+                and film_cats like #{catId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

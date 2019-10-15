@@ -8,4 +8,8 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
+    <select id="selectAll" resultType="com.cskaoyan.cinema.rest.common.persistence.vo.YearInfoVo">
+        select UUID as yearId, show_name as yearName
+        from mtime_year_dict_t
+    </select>
 </mapper>

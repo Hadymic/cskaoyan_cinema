@@ -1,0 +1,18 @@
+package com.cskaoyan.cinema.rest.common.persistence.dao;
+
+import com.cskaoyan.cinema.rest.common.persistence.model.UserT;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * <p>
+ * 用户表 Mapper 接口
+ * </p>
+ *
+ * @author stylefeng
+ * @since 2019-10-15
+ */
+public interface UserTMapper extends BaseMapper<UserT> {
+
+    Integer selectByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+}

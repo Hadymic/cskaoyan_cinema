@@ -25,4 +25,15 @@ public interface FilmTMapper extends BaseMapper<FilmT> {
      * @return
      */
     List<FilmInfo> selectFilmsByStatus(Page page, @Param("status") Integer status);
+
+     /** Zeng-jz
+     * @param sourceId
+     * @param yearId
+     * @param film_catId
+     * @param showType
+     * @return
+     */
+    List<FilmT> selectByIds(@Param("sourceId") int sourceId, @Param("yearId") int yearId,
+                            @Param("catId") String film_catId,@Param("status") int showType);
+
 }

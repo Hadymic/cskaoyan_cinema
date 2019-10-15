@@ -1,8 +1,8 @@
 package com.cskaoyan.cinema.rest.modular.auth.validator.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.cskaoyan.cinema.rest.common.persistence.dao.UserMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.User;
+import com.cskaoyan.cinema.rest.common.persistence.dao.UserTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.UserT;
 import com.cskaoyan.cinema.rest.modular.auth.validator.IReqValidator;
 import com.cskaoyan.cinema.rest.modular.auth.validator.dto.Credence;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ import java.util.List;
 public class DbValidator implements IReqValidator {
 
     @Autowired
-    UserMapper userMapper;
+    private UserTMapper userTMapper;
 
     @Override
     public boolean validate(Credence credence) {
-        List<User> users = userMapper.selectList(new EntityWrapper<User>().eq("userName", credence.getCredenceName()));
+        List<UserT> users = userTMapper.selectList(new EntityWrapper<UserT>().eq("user_name", credence.getCredenceName()));
         if (users != null && users.size() > 0) {
             return true;
         } else {
