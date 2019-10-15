@@ -1,6 +1,5 @@
-package com.cskaoyan.cinema.vo;
+package com.cskaoyan.cinema.vo.cinema;
 
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,9 +8,9 @@ import java.io.Serializable;
 public class CinemaVo implements Serializable {
     private static final long serialVersionUID = -7912924984186708341L;
     private Integer uuid;
-private String cinemaName;
-private String address;
-private String minimumPrice;
+    private String cinemaName;
+    private String address;
+    private String minimumPrice;
 
 
 }
