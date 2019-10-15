@@ -17,6 +17,6 @@ public class UserController {
 
     @PostMapping("register")
     public BaseRespVo register(@RequestBody UserRegisterVo vo) {
-        return new BaseRespVo(1, null, null);
+        return new BaseRespVo();
     }
 }
