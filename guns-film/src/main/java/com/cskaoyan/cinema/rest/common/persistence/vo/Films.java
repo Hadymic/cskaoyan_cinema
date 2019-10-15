@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class HotFilms implements Serializable {
+public class Films implements Serializable {
     private static final long serialVersionUID = 6894410132827857956L;
 
     private Integer filmNum;
-    private List<HotFilmInfo> filmInfo;
+    private List<FilmInfo> filmInfo;
 }

@@ -22,10 +22,10 @@ public class FilmController {
         return new FilmVO<>(0,indexVO,null);
     }
 
-    @RequestMapping("films/{name}")
+    @RequestMapping("films/{na  me}")
     public FilmVO getFilmInfo(@PathVariable String name, Integer searchType){
         if (searchType != 0 && searchType != 1) {
-            throw new 
+            return new FilmVO(400,"系统出现异常，输入不合法");
         }
         Object filmInfoVO = filmService.selectFilmInfo(name,searchType);
         if (filmInfoVO == null) {
