@@ -1,8 +1,5 @@
 package com.cskaoyan.cinema.vo;
 
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
-
-
 public class CinemaQueryVO {
     private Integer brandId=99;
     private Integer  hallType=99;

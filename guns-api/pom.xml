@@ -17,16 +17,6 @@
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-<<<<<<< HEAD
-<dependencies>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.16.20</version>
-        <scope>provided</scope>
-    </dependency>
-</dependencies>
-=======
 
     <dependencies>
         <dependency>
@@ -38,11 +28,9 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
->>>>>>> b40dc4fdd7e72e1c524488cf3708c8b1100aa696
     <build>
         <plugins>
             <plugin>
