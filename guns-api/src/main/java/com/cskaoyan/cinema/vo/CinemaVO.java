@@ -1,6 +1,5 @@
 package com.cskaoyan.cinema.vo;
 
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 
 
 public class CinemaVO {
