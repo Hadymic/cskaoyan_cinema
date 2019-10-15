@@ -1,13 +1,12 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
-
 import com.cskaoyan.cinema.service.UserService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.user.UserRegisterVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 
 @RestController
@@ -17,10 +16,6 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-<<<<<<< HEAD
-    public BaseRespVo register(@RequestBody UserRegisterVo vo) {
-        return new BaseRespVo();
-=======
     public BaseRespVo register(@Valid UserRegisterVo vo) {
         Integer checkCode = userService.check(vo.getUsername());
         if (checkCode != 0) {
@@ -42,6 +37,6 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
->>>>>>> 4722be2a87d97b3391d70d4ba0962873d698c43f
+
     }
 }

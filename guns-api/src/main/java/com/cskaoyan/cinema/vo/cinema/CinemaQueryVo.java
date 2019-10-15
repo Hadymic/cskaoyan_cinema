@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.vo;
+package com.cskaoyan.cinema.vo.cinema;
 
 import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import lombok.Data;

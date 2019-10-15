@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("film")
 public class FilmController {
-    @Reference(interfaceClass = FilmService.class)
-    private FilmService filmService;
+//    @Reference(interfaceClass = FilmService.class)
+//    private FilmService filmService;
 
 }
