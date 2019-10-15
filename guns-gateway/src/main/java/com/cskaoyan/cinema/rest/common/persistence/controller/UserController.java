@@ -7,6 +7,7 @@ import com.cskaoyan.cinema.vo.user.UserRegisterVo;
 import com.cskaoyan.cinema.vo.user.UserVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     JwtProperties jwtProperties;
+    
 
-
+    @RequestMapping("register")
     public BaseRespVo register(@Valid UserRegisterVo vo) {
         Integer checkCode = userService.check(vo.getUsername());
         if (checkCode != 0) {
@@ -45,6 +47,7 @@ public class UserController {
         if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
             authToken = requestHeader.substring(7);
         }
+
         Integer code = userService.logout(authToken);
         if (code == 0) {
             return new BaseRespVo(0, null, "成功退出");
