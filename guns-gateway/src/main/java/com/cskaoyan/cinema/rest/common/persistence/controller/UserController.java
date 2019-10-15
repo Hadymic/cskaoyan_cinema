@@ -1,13 +1,16 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
+import com.cskaoyan.cinema.rest.config.properties.JwtProperties;
 import com.cskaoyan.cinema.service.UserService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.user.UserRegisterVo;
+import com.cskaoyan.cinema.vo.user.UserVo;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -15,6 +18,11 @@ import javax.validation.Valid;
 public class UserController {
     @Reference(interfaceClass = UserService.class)
     private UserService userService;
+    @Autowired
+    private JwtProperties jwtProperties;
+    @Autowired
+    private Jedis jedis;
+
 
     @PostMapping("register")
     public BaseRespVo register(@Valid UserRegisterVo vo) {
@@ -30,6 +38,23 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("logout")
+    public BaseRespVo logout(HttpServletRequest request) {//Authorization
+        final String requestHeader = request.getHeader(jwtProperties.getHeader());
+        String authToken = null;
+        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
+            authToken = requestHeader.substring(7);
+            Long del = jedis.del(authToken);
+            if (del == 1) {
+                return new BaseRespVo(0, null, "成功退出");
+            } else if (del == 0) {
+                return new BaseRespVo(1, null, "退出失败，用户尚未登录");
+            }
+        }
+        return new BaseRespVo(999, null, "系统出现异常，请联系管理员");
+    }
+
     @PostMapping("check")
     public BaseRespVo check(String username) {
         Integer code = userService.check(username);
@@ -39,4 +64,24 @@ public class UserController {
             return new BaseRespVo(1, null, "用户已经注册");
         }
     }
+
+    @GetMapping("getUserInfo")
+    public BaseRespVo getUserInfo(HttpServletRequest request) {
+        final String requestHeader = request.getHeader(jwtProperties.getHeader());
+        String authToken = null;
+        String userId = null;
+        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
+            authToken = requestHeader.substring(7);
+            userId = jedis.get(authToken);
+        }
+        BaseRespVo baseRespVo = userService.selectUserInfo(userId);
+        return baseRespVo;
+    }
+
+    @PostMapping("updateUserInfo")
+    public BaseRespVo updateUserInfo(@RequestBody UserVo userVo) {
+        BaseRespVo baseRespVo = userService.updateUserInfo(userVo);
+        return baseRespVo;
+    }
 }
+

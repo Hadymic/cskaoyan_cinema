@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class FilmMsgVo implements Serializable {
     private static final long serialVersionUID = 361783078783435977L;
-    String actors;
-    String filmCats;
-    List<FilmFields> filmFields;
+    private String actors;
+    private String filmCats;
+    private List<FilmFields> filmFields;
     private Integer filmId;
     private String filmLength;
     private String filmName;
