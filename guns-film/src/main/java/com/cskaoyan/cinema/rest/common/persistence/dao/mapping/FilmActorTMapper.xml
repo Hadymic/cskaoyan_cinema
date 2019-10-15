@@ -10,4 +10,15 @@
         <result column="role_name" property="roleName" />
     </resultMap>
 
+    <resultMap id="filmActorMap" type="com.cskaoyan.cinema.rest.common.persistence.vo.FilmActor">
+        <result column="actor_name" property="directorName" />
+        <result column="role_name" property="roleName" />
+        <result column="actor_img" property="imgAddress" />
+    </resultMap>
+    <select id="selectFilmActors" resultMap="filmActorMap">
+        select fa.role_name, actor_name, actor_img from mtime_film_actor_t fa
+        left join mtime_actor_t a
+        on fa.actor_id = a.UUID
+        where film_id = #{filmId}
+    </select>
 </mapper>
