@@ -14,5 +14,4 @@ public class FilmMsgVo implements Serializable {
     private   String filmName;
     private   String filmType;
     private   String imgAddress;
-    private  String  filmLanguage;
 }

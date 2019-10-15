@@ -66,6 +66,7 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
+
 }
 
     @GetMapping("getUserInfo")

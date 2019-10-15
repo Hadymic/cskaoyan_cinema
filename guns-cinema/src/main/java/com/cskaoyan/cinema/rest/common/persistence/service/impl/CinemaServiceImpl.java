@@ -1,5 +1,6 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
+
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
@@ -40,8 +41,8 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
         List list = new ArrayList();
         CinemaInfoVo cinemaMsg =cinemaTMapper.selectCinemaMsg(cinemaId);
-        List<FilmMsgVo> filmMsgVos=cinemaTMapper.queryFilmMsg(cinemaId);
-        for (FilmMsgVo filmMsgVo : filmMsgVos) {
+        List<FilmMsgVo> filmList=cinemaTMapper.queryFilmMsg(cinemaId);
+        for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
             Integer filmId = filmMsgVo.getFilmId();
            List<FilmFields> filmFields=cinemaTMapper.queryHall(filmId);
@@ -49,9 +50,10 @@ public class CinemaServiceImpl implements CinemaService {
                 filmField.setLanguage(filmType);
             }
            filmMsgVo.setFilmFields(filmFields);
+            filmMsgVo.setFilmType(filmType);
         }
        list.add(cinemaMsg);
-       list.add(filmMsgVos);
+       list.add(filmList);
        cinemaMsgVo.setData(list);
        cinemaMsgVo.setImgPre(null);
        cinemaMsgVo.setNowPage(null);
