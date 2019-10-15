@@ -16,12 +16,36 @@
     </resultMap>
 
 
+<<<<<<< HEAD
+    <select id="queryCinemaMsg"  resultType="com.cskaoyan.cinema.vo.cinema.CinemaVo">
+=======
     <select id="queryCinemaMsg" resultType="com.cskaoyan.cinema.vo.cinema.CinemaVo">
+>>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
 select b.show_name  as cinemaName,c.uuid,c.cinema_address as address,c.minimum_price as minimumPrice from
 mtime_cinema_t c LEFT JOIN mtime_brand_dict_t b on c.brand_id=b.UUID
 LEFT JOIN  mtime_area_dict_t  a  on a.UUID=c.area_id   where b.UUID=#{brandId} and  a.UUID=#{areaId}
 
+    </select>
 
+
+
+    <select id="queryFilmMsg"   resultType="com.cskaoyan.cinema.vo.cinema.FilmMsgVo">
+        select i.actors,i.film_cats as filmCats,i.film_id as filmId,i.film_length as filmLength,i.film_name as filmName,i.img_address as imgAddress,
+        i.film_language as filmLanguage from mtime_hall_film_info_t i left JOIN
+mtime_field_t f on i.film_id=f.film_id where f.cinema_id=#{cinemaId}
+
+    </select>
+
+
+    <select id="selectCinemaMsg" resultType="com.cskaoyan.cinema.vo.cinema.CinemaInfoVo">
+          select cinema_address as cinemaAdress, UUID as cinemaId, cinema_name as cinemaName ,
+          cinema_phone as cinemaPhone,img_address as imgUrl from mtime_cinema_t  where UUID=#{cinemaId}
+    </select>
+
+
+    <select id="queryHall" resultType="com.cskaoyan.cinema.vo.cinema.FilmFields">
+        select begin_time as beginTime,end_time as endTime, hall_id as fieldId,hall_name as hallName ,
+        price from mtime_field_t where cinema_id=#{cinemaId}
     </select>
 </mapper>
 
