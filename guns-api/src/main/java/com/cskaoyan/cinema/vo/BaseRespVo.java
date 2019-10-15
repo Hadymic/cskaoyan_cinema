@@ -1,7 +1,6 @@
 package com.cskaoyan.cinema.vo;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,11 +11,16 @@ import java.io.Serializable;
  * @author hadymic
  */
 @Data
-@RequiredArgsConstructor
 public class BaseRespVo<T> implements Serializable {
     private static final long serialVersionUID = -8364967086003877027L;
 
     private int status;
     private T data;
     private String msg;
+
+    public BaseRespVo(int status, T data, String msg) {
+        this.status = status;
+        this.data = data;
+        this.msg = msg;
+    }
 }
