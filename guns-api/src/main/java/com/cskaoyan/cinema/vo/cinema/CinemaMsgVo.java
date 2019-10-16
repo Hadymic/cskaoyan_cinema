@@ -14,4 +14,9 @@ private   String nowPage;
 private   String totalPage;
 private   Integer status;
 
+    public CinemaMsgVo() {
+        this.data = data;
+        this.msg = msg;
+        this.status = status;
+    }
 }
