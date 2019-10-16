@@ -25,4 +25,21 @@ public class OrderController {
         }
         return new BaseRespVo(0, new PayResultVo(null, 1, "支付成功"), null);
     }
+
+    /**
+     * Zeng-jz
+     * 获取用户订单信息
+     * @param nowPage
+     * @param pageSize
+     * @return
+     */
+    @PostMapping("getOrderInfo")
+    public BaseRespVo getOrderInfo(@NotNull Integer nowPage,@NotNull Integer pageSize){
+        int userId = 1;
+        Object data = orderService.getOrderInfo(nowPage, pageSize, userId);
+        if (data != null){
+            throw new GunsException(OrderExceptionEnum.ORDER_EMPTY);
+        }
+        return new BaseRespVo(0, data, null);
+    }
 }

@@ -50,7 +50,7 @@ public class FilmController {
     public BaseRespVo getConditionList(ConditionNoVO conditionNoVO) {
         Object conditionVo = filmService.selectConfitionList(conditionNoVO);
         if (conditionVo != null) {
-            return new BaseRespVo<>(0, conditionVo, null);
+            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         } else {
             return new BaseRespVo<>(1, null, "查询失败，无条件可加载");
         }
