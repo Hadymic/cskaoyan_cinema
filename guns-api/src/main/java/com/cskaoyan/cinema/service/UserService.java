@@ -9,7 +9,7 @@ public interface UserService {
 
     Integer check(String username);
 
-    BaseRespVo selectUserInfo(String userId);
+    BaseRespVo selectUserInfo(Integer userId);
 
     BaseRespVo updateUserInfo(UserVo userVo);
 }

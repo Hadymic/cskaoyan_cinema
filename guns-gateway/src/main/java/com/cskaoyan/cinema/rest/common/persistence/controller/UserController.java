@@ -1,6 +1,7 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
 import com.cskaoyan.cinema.rest.config.properties.JwtProperties;
+import com.cskaoyan.cinema.rest.util.JedisUtils;
 import com.cskaoyan.cinema.service.UserService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.user.UserRegisterVo;
@@ -22,7 +23,8 @@ public class UserController {
     private JwtProperties jwtProperties;
     @Autowired
     private Jedis jedis;
-
+    @Autowired
+    private JedisUtils jedisUtils;
 
     @PostMapping("register")
     public BaseRespVo register(@Valid UserRegisterVo vo) {
@@ -67,13 +69,7 @@ public class UserController {
 
     @GetMapping("getUserInfo")
     public BaseRespVo getUserInfo(HttpServletRequest request) {
-        final String requestHeader = request.getHeader(jwtProperties.getHeader());
-        String authToken = null;
-        String userId = null;
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
-            authToken = requestHeader.substring(7);
-            userId = jedis.get(authToken);
-        }
+        Integer userId = jedisUtils.getUserId(request);
         BaseRespVo baseRespVo = userService.selectUserInfo(userId);
         return baseRespVo;
     }

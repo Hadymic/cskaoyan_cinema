@@ -4,7 +4,11 @@ import com.cskaoyan.cinema.vo.BaseRespVo;
 
 public interface OrderService {
 
+
     BaseRespVo getPayInfo(String orderId);
+
+
+    BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName,Integer userId);
 
     /**
      * 获取支付结果

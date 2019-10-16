@@ -22,19 +22,22 @@ import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.service.OrderService;
+import com.cskaoyan.cinema.service.OssService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import com.cskaoyan.cinema.vo.order.PayInfoVO;
 import org.apache.commons.lang.StringUtils;
+import com.cskaoyan.cinema.vo.order.OrderVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 import java.util.List;
 
 @Component
@@ -44,9 +47,47 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderTMapper orderTMapper;
     @Reference(interfaceClass = FilmService.class)
-    FilmService filmService;
-    @Reference(interfaceClass = CinemaService.class)
-    CinemaService cinemaService;
+    private FilmService filmService;
+    @Reference(interfaceClass = OssService.class)
+    private OssService ossService;
+
+
+    @Override
+    public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
+        String[] seats = soldSeats.split(",");
+        int length = seats.length;
+        OrderT orderT = orderTMapper.queryOrderMsg(fieldId);
+        UUID uuid = UUID.randomUUID();
+        String uuid1 = uuid.toString().replace("-", "");
+        String substring = uuid1.substring(0, 18);
+        orderT.setUuid(substring);
+        orderT.setSeatsName(seatsName);
+        orderT.setSeatsIds(soldSeats);
+        Integer price = orderTMapper.queryFilmPrice(fieldId);
+        String s = price.toString();
+        Double.valueOf(s.toString());
+        orderT.setFilmPrice(Double.valueOf(s.toString()));
+        orderT.setOrderPrice((double) (price * length));
+        orderT.setOrderTime(new Date());
+        orderT.setOrderUser(userId);
+        orderT.setOrderStatus(0);
+        //把数据插入数据库
+        boolean flag = orderTMapper.insertDb(orderT);
+
+        OrderVo orderVo = new OrderVo();
+        orderVo.setOrderId(orderT.getUuid());
+        Integer filmId = orderT.getFilmId();
+        String filmName = orderTMapper.queryFilmName(filmId);
+        orderVo.setFilmName(filmName);
+        String fieldTime = orderTMapper.queryFieldTime(fieldId);
+        orderVo.setFieldTime(fieldTime);
+        String cinemaName = orderTMapper.queryCinema(fieldId);
+        orderVo.setCinemaName(cinemaName);
+        orderVo.setSeatsName(seatsName);
+        orderVo.setOrderPrice(price.toString());
+        orderVo.setOrderTimestamp(new Date().getTime() + "");
+        return new BaseRespVo(0, orderVo, null);
+    }
 
     private static Log log = LogFactory.getLog(OrderServiceImpl.class);
 
@@ -159,7 +200,8 @@ public class OrderServiceImpl implements OrderService {
                 String filePath = String.format("D:\\tmp/qr-%s.png", response.getOutTradeNo());
                 log.info("filePath:" + filePath);
                 File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
-                return new BaseRespVo(0,"",new PayInfoVO(orderId,qrCodeImge.getName()),null);
+                String imgPre = ossService.upload(qrCodeImge);
+                return new BaseRespVo(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
 
             case FAILED:
                 log.error("支付宝预下单失败!!!");
