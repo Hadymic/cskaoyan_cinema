@@ -19,9 +19,12 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Service(interfaceClass = OrderService.class)
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     private OrderTMapper orderTMapper;
 
@@ -92,5 +95,15 @@ public class OrderServiceImpl implements OrderService {
                 log.error("订单号：" + orderId + "，不支持的交易状态，交易返回异常!!!");
                 throw new GunsException(GunsExceptionEnum.SERVER_ERROR);
         }
+    }
+
+    @Override
+    public String getSoldSeatsByFieldId(Integer fieldId) {
+        List<String> seats = orderTMapper.selectSoldSeats(fieldId);
+        StringBuilder s = new StringBuilder();
+        for (String seat : seats) {
+            s.append(",").append(seat);
+        }
+        return s.substring(1);
     }
 }

@@ -16,5 +16,8 @@
         <result column="order_user" property="orderUser" />
         <result column="order_status" property="orderStatus" />
     </resultMap>
+    <select id="selectSoldSeats" resultType="java.lang.String">
+        select seats_ids from mooc_order_t where field_id = #{fieldId}
+    </select>
 
 </mapper>
