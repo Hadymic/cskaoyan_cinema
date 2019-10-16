@@ -7,5 +7,5 @@ public interface OrderService {
      * @param fieldId
      * @return
      */
-   // String getSoldSeatsByFieldId(Integer fieldId);
+    String getSoldSeatsByFieldId(Integer fieldId);
 }

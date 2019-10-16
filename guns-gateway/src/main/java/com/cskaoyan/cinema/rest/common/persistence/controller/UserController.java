@@ -83,5 +83,6 @@ public class UserController {
         BaseRespVo baseRespVo = userService.updateUserInfo(userVo);
         return baseRespVo;
     }
+
 }
 

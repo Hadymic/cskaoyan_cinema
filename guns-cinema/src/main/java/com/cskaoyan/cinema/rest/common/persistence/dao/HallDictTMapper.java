@@ -2,6 +2,10 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.HallDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cskaoyan.cinema.vo.cinema.HalltypeVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface HallDictTMapper extends BaseMapper<HallDictT> {
 
+    List<HalltypeVo> selectListByUUID(@Param("hallType") Integer hallType);
 }
