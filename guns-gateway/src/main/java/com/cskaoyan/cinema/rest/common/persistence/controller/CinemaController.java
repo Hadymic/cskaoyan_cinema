@@ -58,9 +58,10 @@ public class CinemaController {
      * @return
      */
     @RequestMapping(value = "cinema/getFieldInfo",method = RequestMethod.POST)
-    public BaseRespVo getFieIdInfo(@RequestBody String cinemaId, String fieldId){
-        BaseRespVo fieIdInfo = cinemaService.getFieIdInfo(cinemaId, fieldId);
-        return fieIdInfo;
+    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId){
+        FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
+        //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
+        return fieldInfoVo;
     }
 
 }

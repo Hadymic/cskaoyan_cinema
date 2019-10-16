@@ -2,10 +2,7 @@ package com.cskaoyan.cinema.cinema;
 
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
-import com.cskaoyan.cinema.vo.cinema.CinemaMsgVo;
-import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
-import com.cskaoyan.cinema.vo.cinema.CinemaVo;
-import com.cskaoyan.cinema.vo.cinema.ListBean;
+import com.cskaoyan.cinema.vo.cinema.*;
 
 public interface CinemaService {
 
@@ -14,5 +11,5 @@ public interface CinemaService {
 
     CinemaMsgVo queryCinemaMsg(String cinemaId);
 
-    BaseRespVo getFieIdInfo(String cinemaId, String fieldId);
+    FieldInfoVo getFieIdInfo(String cinemaId, String fieldId);
 }

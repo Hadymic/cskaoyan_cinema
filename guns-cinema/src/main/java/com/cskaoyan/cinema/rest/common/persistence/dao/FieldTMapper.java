@@ -17,8 +17,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface FieldTMapper extends BaseMapper<FieldT> {
 
-    HallInfoVo selectHallInfo(@Param("cinemaId") String cinemaId,
-                              @Param("fieldId") String fieldId);
+    HallInfoVo selectHallInfo(@Param("fieldId") String fieldId);
 
     FilmInfoVo selectOneById(@Param("fieldId") String fieldId);
 }

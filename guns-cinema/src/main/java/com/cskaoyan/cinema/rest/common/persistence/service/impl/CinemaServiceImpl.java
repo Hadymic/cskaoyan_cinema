@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 @Service(interfaceClass = CinemaService.class)
 public class CinemaServiceImpl implements CinemaService {
+    @Autowired
     CinemaTMapper cinemaTMapper;
 //    @Override
 //    public  List<CinemaVo>queryList(CinemaQueryVo cinemaQueryVo) {
@@ -71,21 +72,21 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
 
-    @Autowired
-    FieldTMapper fieldTMapper;
+    //@Autowired
+    //表mtime_hall_film_info_t,查询电影信息
     @Autowired
     HallFilmInfoTMapper hallFilmInfoTMapper;
+    //表`mtime_field_t,场地信息
+    @Autowired FieldTMapper fieldTMapper;
     //获取场次详细信息
     @Override
-    public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
-        CinemaInfoVo cinemaInfoVo = cinemaTMapper.selectCinemaMsg(cinemaId);
-        HallInfoVo hallInfoVo = fieldTMapper.selectHallInfo(cinemaId, fieldId);
-        FilmInfoVo filmInfoVo = fieldTMapper.selectOneById(fieldId);
+    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = new FieldInfoVo();
+        CinemaInfoVo cinemaInfoVo = cinemaTMapper.selectCinemaMsg(cinemaId);
         fieldInfoVo.setCinemaInfoVo(cinemaInfoVo);
-        fieldInfoVo.setFilmInfoVo(filmInfoVo);
-        fieldInfoVo.setHallInfoVo(hallInfoVo);
-        return null;
+        fieldInfoVo.setFilmInfoVo(hallFilmInfoTMapper.selectByfieldId(cinemaId,fieldId));
+        fieldInfoVo.setHallInfoVo(fieldTMapper.selectHallInfo(fieldId));
+        return fieldInfoVo;
     }
 
     @Autowired
