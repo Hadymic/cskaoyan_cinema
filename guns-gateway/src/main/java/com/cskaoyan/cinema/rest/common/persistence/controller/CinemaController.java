@@ -20,45 +20,50 @@ public class CinemaController {
     /**
      * author:zt
      * 1、查询影院列表-根据条件查询所有影院
+     *
      * @param cinemaQueryVo
      * @return
      */
     @RequestMapping("cinema/getCinemas")
-    public     ListBean query(CinemaQueryVo cinemaQueryVo) {
+    public ListBean query(CinemaQueryVo cinemaQueryVo) {
         ListBean cinemaList = cinemaService.queryList(cinemaQueryVo);
-        return  cinemaList;
+        return cinemaList;
 
     }
 
-    /**2获得影院列表查询
+    /**
+     * 2获得影院列表查询
+     *
      * @param brandId
      * @param hallType
      * @param areaId
      * @return
      */
     @RequestMapping("cinema/getCondition")
-    public BaseRespVo selectGetCondition(Integer brandId, Integer hallType, Integer areaId){
+    public BaseRespVo selectGetCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = cinemaService.selectCondition(brandId, hallType, areaId);
-        BaseRespVo baseRespVo = new BaseRespVo(0,conditionVo,null);
+        BaseRespVo baseRespVo = new BaseRespVo(0, conditionVo, null);
         return baseRespVo;
     }
+
     /**
      * author:zt
-     *
+     * <p>
      * 3、获取播放场次接口
      */
     @RequestMapping("cinema/getFields")
-    public CinemaMsgVo queryCinemaMsg(String cinemaId){
-          CinemaMsgVo cinemaMsgVo=cinemaService.queryCinemaMsg(cinemaId);
-          return  cinemaMsgVo;
+    public CinemaMsgVo queryCinemaMsg(String cinemaId) {
+        CinemaMsgVo cinemaMsgVo = cinemaService.queryCinemaMsg(cinemaId);
+        return cinemaMsgVo;
     }
 
     /**
      * 获取场次详细详细接口
+     *
      * @return
      */
-    @RequestMapping(value = "cinema/getFieldInfo",method = RequestMethod.POST)
-    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId){
+    @RequestMapping(value = "cinema/getFieldInfo", method = RequestMethod.POST)
+    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
         //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
         return fieldInfoVo;
