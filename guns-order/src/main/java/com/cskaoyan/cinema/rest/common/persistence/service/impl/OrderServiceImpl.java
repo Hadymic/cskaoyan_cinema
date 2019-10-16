@@ -13,23 +13,17 @@ import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.cskaoyan.cinema.service.OrderService;
-<<<<<<< HEAD
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.order.OrderVo;
-=======
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.UUID;
-=======
 import java.util.List;
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -38,44 +32,43 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderTMapper orderTMapper;
 
-<<<<<<< HEAD
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
         String[] seats = soldSeats.split(",");
         int length = seats.length;
-        OrderT orderT=orderTMapper.queryOrderMsg(fieldId);
+        OrderT orderT = orderTMapper.queryOrderMsg(fieldId);
         UUID uuid = UUID.randomUUID();
         String uuid1 = uuid.toString().replace("-", "");
         String substring = uuid1.substring(0, 18);
         orderT.setUuid(substring);
         orderT.setSeatsName(seatsName);
-         orderT.setSeatsIds(soldSeats);
-          Integer price=orderTMapper.queryFilmPrice(fieldId);
+        orderT.setSeatsIds(soldSeats);
+        Integer price = orderTMapper.queryFilmPrice(fieldId);
         String s = price.toString();
         Double.valueOf(s.toString());
         orderT.setFilmPrice(Double.valueOf(s.toString()));
-          orderT.setOrderPrice((double) (price*length));
-          orderT.setOrderTime(new Date());
-          orderT.setOrderUser(userId);
-          orderT.setOrderStatus(0);
-          //把数据插入数据库
-        boolean flag =  orderTMapper.insertDb(orderT);
+        orderT.setOrderPrice((double) (price * length));
+        orderT.setOrderTime(new Date());
+        orderT.setOrderUser(userId);
+        orderT.setOrderStatus(0);
+        //把数据插入数据库
+        boolean flag = orderTMapper.insertDb(orderT);
 
         OrderVo orderVo = new OrderVo();
-         orderVo.setOrderId(orderT.getUuid());
+        orderVo.setOrderId(orderT.getUuid());
         Integer filmId = orderT.getFilmId();
-        String  filmName=orderTMapper.queryFilmName(filmId);
+        String filmName = orderTMapper.queryFilmName(filmId);
         orderVo.setFilmName(filmName);
-        String fieldTime=orderTMapper.queryFieldTime(fieldId);
+        String fieldTime = orderTMapper.queryFieldTime(fieldId);
         orderVo.setFieldTime(fieldTime);
-        String cinemaName=orderTMapper.queryCinema(fieldId);
+        String cinemaName = orderTMapper.queryCinema(fieldId);
         orderVo.setCinemaName(cinemaName);
         orderVo.setSeatsName(seatsName);
         orderVo.setOrderPrice(price.toString());
-        orderVo.setOrderTimestamp(new Date().getTime()+"");
-        return new BaseRespVo(0, orderVo,null);
+        orderVo.setOrderTimestamp(new Date().getTime() + "");
+        return new BaseRespVo(0, orderVo, null);
+    }
 
-=======
     private static Log log = LogFactory.getLog(OrderServiceImpl.class);
 
     // 支付宝当面付2.0服务
@@ -153,6 +146,5 @@ public class OrderServiceImpl implements OrderService {
             s.append(",").append(seat);
         }
         return s.substring(1);
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
     }
 }
