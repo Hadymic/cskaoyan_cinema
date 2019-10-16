@@ -1,6 +1,5 @@
 package com.cskaoyan.cinema.vo.cinema;
 
-
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,5 +12,4 @@ public class CinemaVo implements Serializable {
     private  String cinemaPhone;
     private String address;
     private String minimumPrice;
-
 }

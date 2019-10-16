@@ -19,9 +19,9 @@ public class UserController {
     @Reference(interfaceClass = UserService.class)
     private UserService userService;
     @Autowired
-    JwtProperties jwtProperties;
+    private JwtProperties jwtProperties;
     @Autowired
-    Jedis jedis;
+    private Jedis jedis;
 
 
     @PostMapping("register")
@@ -63,7 +63,7 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
-}
+    }
 
     @GetMapping("getUserInfo")
     public BaseRespVo getUserInfo(HttpServletRequest request) {
