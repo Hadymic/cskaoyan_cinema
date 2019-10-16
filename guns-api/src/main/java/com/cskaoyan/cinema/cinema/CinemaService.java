@@ -7,8 +7,6 @@ import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
 import com.cskaoyan.cinema.vo.cinema.CinemaVo;
 import com.cskaoyan.cinema.vo.cinema.ListBean;
 
-import java.util.List;
-
 public interface CinemaService {
 
     ConditionVo selectCondition(Integer brandId, Integer hallType, Integer areaId);

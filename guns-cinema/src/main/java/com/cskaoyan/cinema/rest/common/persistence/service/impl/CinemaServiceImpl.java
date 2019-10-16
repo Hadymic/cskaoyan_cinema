@@ -3,12 +3,8 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
-import com.cskaoyan.cinema.rest.common.persistence.model.HallFilmInfoT;
 import com.cskaoyan.cinema.vo.BaseRespVo;
-import com.cskaoyan.cinema.vo.cinema.AreaVo;
-import com.cskaoyan.cinema.vo.cinema.BrandVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
-import com.cskaoyan.cinema.vo.cinema.HalltypeVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
@@ -53,8 +49,8 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
         List list = new ArrayList();
         CinemaInfoVo cinemaMsg =cinemaTMapper.selectCinemaMsg(cinemaId);
-        List<FilmMsgVo> filmMsgVos=cinemaTMapper.queryFilmMsg(cinemaId);
-        for (FilmMsgVo filmMsgVo : filmMsgVos) {
+        List<FilmMsgVo> filmList=cinemaTMapper.queryFilmMsg(cinemaId);
+        for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
             Integer filmId = filmMsgVo.getFilmId();
            List<FilmFields> filmFields=cinemaTMapper.queryHall(filmId);
@@ -62,9 +58,10 @@ public class CinemaServiceImpl implements CinemaService {
                 filmField.setLanguage(filmType);
             }
            filmMsgVo.setFilmFields(filmFields);
+            filmMsgVo.setFilmType(filmType);
         }
        list.add(cinemaMsg);
-       list.add(filmMsgVos);
+       list.add(filmList);
        cinemaMsgVo.setData(list);
        cinemaMsgVo.setImgPre(null);
        cinemaMsgVo.setNowPage(null);

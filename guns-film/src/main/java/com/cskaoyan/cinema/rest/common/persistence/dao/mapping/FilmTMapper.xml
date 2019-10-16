@@ -42,7 +42,7 @@
         film_length,fi.film_score as score,film_time from mtime_film_t f
         left join mtime_film_info_t fi
         on f.UUID = fi.film_id
-        where film_status = #{state}
+        where film_status = #{status}
     </select>
 
     <select id="selectByIds" resultMap="BaseResultMap">
