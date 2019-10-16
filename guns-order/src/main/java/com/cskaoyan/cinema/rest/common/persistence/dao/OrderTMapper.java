@@ -3,6 +3,8 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 订单信息表 Mapper 接口
@@ -13,6 +15,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface OrderTMapper extends BaseMapper<OrderT> {
 
+<<<<<<< HEAD
     OrderT queryOrderMsg(Integer fieldId);
 
     Integer queryFilmPrice(Integer fieldId);
@@ -24,4 +27,12 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
     String queryFieldTime(Integer fieldId);
 
     String queryCinema(Integer fieldId);
+=======
+    /**
+     * 查询售出的座位编号列表
+     * @param fieldId
+     * @return
+     */
+    List<String> selectSoldSeats(Integer fieldId);
+>>>>>>> ff5a32ca1770877947664be96894cd552e57a143
 }

@@ -16,8 +16,13 @@
         <result column="order_user" property="orderUser" />
         <result column="order_status" property="orderStatus" />
     </resultMap>
+<<<<<<< HEAD
     <select id="queryOrderMsg"   resultMap="BaseResultMap">
           select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
+=======
+    <select id="selectSoldSeats" resultType="java.lang.String">
+        select seats_ids from mooc_order_t where field_id = #{fieldId}
+>>>>>>> ff5a32ca1770877947664be96894cd552e57a143
     </select>
 
     <select id="queryFilmPrice"  resultType="int">
