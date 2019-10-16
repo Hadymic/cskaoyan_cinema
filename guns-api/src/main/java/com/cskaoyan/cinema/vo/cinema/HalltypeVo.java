@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.vo;
+package com.cskaoyan.cinema.vo.cinema;
 
 import lombok.Data;
 

@@ -16,11 +16,8 @@
     </resultMap>
 
 
-<<<<<<< HEAD
-    <select id="queryCinemaMsg"  resultType="com.cskaoyan.cinema.vo.cinema.CinemaVo">
-=======
+
     <select id="queryCinemaMsg" resultType="com.cskaoyan.cinema.vo.cinema.CinemaVo">
->>>>>>> 82aecced46fd54d4b0c35bdbbdc7e7d982ede52d
 select b.show_name  as cinemaName,c.uuid,c.cinema_address as address,c.minimum_price as minimumPrice from
 mtime_cinema_t c LEFT JOIN mtime_brand_dict_t b on c.brand_id=b.UUID
 LEFT JOIN  mtime_area_dict_t  a  on a.UUID=c.area_id   where b.UUID=#{brandId} and  a.UUID=#{areaId}

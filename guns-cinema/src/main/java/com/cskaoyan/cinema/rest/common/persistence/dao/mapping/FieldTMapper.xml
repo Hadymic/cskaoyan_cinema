@@ -13,5 +13,17 @@
         <result column="hall_name" property="hallName" />
         <result column="price" property="price" />
     </resultMap>
-
+    <select id="selectHallInfo" resultType="com.cskaoyan.cinema.vo.cinema.HallInfoVo">
+        select f.UUID as hallFieldId,f.hall_name as hallName,f.price,h.seatFile
+        from mtime_field_t f
+        left join mtime_hall_dict_t  h on h.UUID = f.film_id
+        where f.cinema_id =#{cinemaId}
+        and f.field_id = #{fieldId}
+    </select>
+    <select id="selectOneById" resultType="com.cskaoyan.cinema.vo.cinema.FilmInfoVo">
+        select film_id as filmId,film_name as filmName,film_language as filmType,
+        img_address as imgAddress,film_cats as filmCats,film_length as filmLength
+        from mtime_hall_film_info_t
+        where film_id = #{filmId}
+    </select>
 </mapper>

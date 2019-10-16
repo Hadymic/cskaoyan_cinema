@@ -2,7 +2,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.HallDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.vo.HalltypeVo;
+import com.cskaoyan.cinema.vo.cinema.HalltypeVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -2,14 +2,13 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
-import com.cskaoyan.cinema.rest.common.persistence.dao.AreaDictTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.dao.CatDictTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.dao.CinemaTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.dao.HallDictTMapper;
-import com.cskaoyan.cinema.vo.AreaVo;
-import com.cskaoyan.cinema.vo.BrandVo;
+import com.cskaoyan.cinema.rest.common.persistence.dao.*;
+import com.cskaoyan.cinema.rest.common.persistence.model.HallFilmInfoT;
+import com.cskaoyan.cinema.vo.BaseRespVo;
+import com.cskaoyan.cinema.vo.cinema.AreaVo;
+import com.cskaoyan.cinema.vo.cinema.BrandVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
-import com.cskaoyan.cinema.vo.HalltypeVo;
+import com.cskaoyan.cinema.vo.cinema.HalltypeVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
@@ -23,16 +22,16 @@ import java.util.List;
 @Service(interfaceClass = CinemaService.class)
 public class CinemaServiceImpl implements CinemaService {
     CinemaTMapper cinemaTMapper;
-    @Override
-    public  List<CinemaVo>queryList(CinemaQueryVo cinemaQueryVo) {
+//    @Override
+//    public  List<CinemaVo>queryList(CinemaQueryVo cinemaQueryVo) {
 //        Page<CinemaT>  page = new Page<>();
 //        page.setSize(cinemaQueryVo.getPageSize());
 //        page.setCurrent(cinemaQueryVo.getNowPage());
 //
 //        EntityWrapper<CinemaT> cinemaList = new EntityWrapper<>();
 //        List<CinemaVo> cinemaVoList=convert(cinemaList);
-        return cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
-    }
+//        return cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
+//    }
     public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
         PageHelper.startPage(cinemaQueryVo.getNowPage(),cinemaQueryVo.getPageSize());
         List<CinemaVo> cinemaVo= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
@@ -73,29 +72,58 @@ public class CinemaServiceImpl implements CinemaService {
        cinemaMsgVo.setTotalPage(null);
         return cinemaMsgVo;
     }
+
+
+    @Autowired
+    FieldTMapper fieldTMapper;
+    @Autowired
+    HallFilmInfoTMapper hallFilmInfoTMapper;
+    //获取场次详细信息
+    @Override
+    public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
+        CinemaInfoVo cinemaInfoVo = cinemaTMapper.selectCinemaMsg(cinemaId);
+        HallInfoVo hallInfoVo = fieldTMapper.selectHallInfo(cinemaId, fieldId);
+        FilmInfoVo filmInfoVo = fieldTMapper.selectOneById(fieldId);
+        FieldInfoVo fieldInfoVo = new FieldInfoVo();
+        fieldInfoVo.setCinemaInfoVo(cinemaInfoVo);
+        fieldInfoVo.setFilmInfoVo(filmInfoVo);
+        fieldInfoVo.setHallInfoVo(hallInfoVo);
+        return null;
+    }
+
     @Autowired
     CatDictTMapper catDictTMapper;
     @Autowired
     AreaDictTMapper areaDictTMapper;
     @Autowired
     HallDictTMapper hallDictTMapper;
+    //影院列表查询条件
     public ConditionVo selectCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = new ConditionVo();
         List<BrandVo> brandVos = catDictTMapper.selectListByUUID(brandId);
-        for (BrandVo brandVo : brandVos) {
-            if (brandVo.getBrandId() == brandId) brandVo.setActive(true);
-        }
-        conditionVo.setBrandList(brandVos);
         List<AreaVo> areaVos  = areaDictTMapper.selectListByUUID(areaId);
-        for (AreaVo areaVo : areaVos) {
-            if (areaVo.getAreaId() == areaId ) areaVo.setActive(true);
-        }
-        conditionVo.setAreaList(areaVos);
         List<HalltypeVo> halltypeVos  = hallDictTMapper.selectListByUUID(hallType);
         for (HalltypeVo halltypeVo : halltypeVos) {
             if (halltypeVo.getHallType() == hallType ) halltypeVo.setActive(true);
         }
+        for (BrandVo brandVo : brandVos) {
+            if (brandVo.getBrandId() == brandId) brandVo.setActive(true);
+        }
+        for (AreaVo areaVo : areaVos) {
+            if (areaVo.getAreaId() == areaId ) areaVo.setActive(true);
+        }
+        conditionVo.setAreaList(areaVos);
+        conditionVo.setBrandList(brandVos);
         conditionVo.setHalltypeList(halltypeVos);
         return conditionVo;
+    }
+
+    public CinemaTMapper getCinemaTMapper() {
+        return cinemaTMapper;
+    }
+
+    public CinemaServiceImpl setCinemaTMapper(CinemaTMapper cinemaTMapper) {
+        this.cinemaTMapper = cinemaTMapper;
+        return this;
     }
 }

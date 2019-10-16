@@ -2,7 +2,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.CatDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.vo.BrandVo;
+import com.cskaoyan.cinema.vo.cinema.BrandVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
