@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.vo.user;
+package com.cskaoyan.cinema.vo;
 
 import java.util.List;
 
