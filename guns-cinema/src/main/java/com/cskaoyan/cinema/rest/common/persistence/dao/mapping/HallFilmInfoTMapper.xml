@@ -13,5 +13,12 @@
         <result column="actors" property="actors" />
         <result column="img_address" property="imgAddress" />
     </resultMap>
-
+    <select id="selectByfieldId" resultType="com.cskaoyan.cinema.vo.cinema.FilmInfoVo">
+       select i.actors,i.film_cats as filmCats,i.film_id as filmId,i.film_length as filmLength,
+       i.film_name as filmName,i.img_address as imgAddress,
+       i.film_language as filmType
+       from mtime_hall_film_info_t i
+       left JOIN mtime_field_t f on i.film_id=f.film_id
+       where f.cinema_id=#{cinemaId} and f.UUID = #{fieldId}
+    </select>
 </mapper>

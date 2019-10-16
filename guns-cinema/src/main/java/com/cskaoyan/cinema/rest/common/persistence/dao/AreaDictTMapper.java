@@ -2,6 +2,10 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.AreaDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cskaoyan.cinema.vo.cinema.AreaVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface AreaDictTMapper extends BaseMapper<AreaDictT> {
 
+    List<AreaVo> selectListByUUID(@Param("areaId") Integer areaId);
 }
