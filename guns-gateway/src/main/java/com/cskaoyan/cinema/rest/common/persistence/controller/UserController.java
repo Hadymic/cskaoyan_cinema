@@ -8,11 +8,8 @@ import com.cskaoyan.cinema.vo.user.UserVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -22,9 +19,9 @@ public class UserController {
     @Reference(interfaceClass = UserService.class)
     private UserService userService;
     @Autowired
-    JwtProperties jwtProperties;
+    private JwtProperties jwtProperties;
     @Autowired
-    Jedis jedis;
+    private Jedis jedis;
 
 
     @PostMapping("register")
@@ -66,8 +63,7 @@ public class UserController {
         } else {
             return new BaseRespVo(1, null, "用户已经注册");
         }
-
-}
+    }
 
     @GetMapping("getUserInfo")
     public BaseRespVo getUserInfo(HttpServletRequest request) {
