@@ -1,12 +1,12 @@
 package com.cskaoyan.cinema.rest.common.persistence.dao;
 
-import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.cskaoyan.cinema.vo.cinema.CinemaInfoVo;
 import com.cskaoyan.cinema.vo.cinema.CinemaVo;
 import com.cskaoyan.cinema.vo.cinema.FilmFields;
 import com.cskaoyan.cinema.vo.cinema.FilmMsgVo;
-
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface CinemaTMapper extends BaseMapper<CinemaT> {
 
     List<FilmMsgVo> queryFilmMsg(String cinemaId);
 
-  CinemaInfoVo selectCinemaMsg(String cinemaId);
+    CinemaInfoVo selectCinemaMsg(@Param("cinemaId") String cinemaId);
 
     List<FilmFields> queryHall(Integer filmId);
 }
