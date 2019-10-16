@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cskaoyan.cinema.rest.common.persistence.model.FilmT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.cskaoyan.cinema.rest.common.persistence.vo.FilmInfo;
+import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,4 +37,5 @@ public interface FilmTMapper extends BaseMapper<FilmT> {
     List<FilmT> selectByIds(@Param("sourceId") int sourceId, @Param("yearId") int yearId,
                             @Param("catId") String film_catId,@Param("status") int showType);
 
+    FilmOrderVo selectFilmByFilmId(@Param("uuid") Integer filmId);
 }

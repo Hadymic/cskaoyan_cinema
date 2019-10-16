@@ -199,7 +199,7 @@ public class FilmT extends Model<FilmT> {
 
     @Override
     public String toString() {
-        return "FilmT{" +
+        return "FilmOrderVo{" +
         "uuid=" + uuid +
         ", filmName=" + filmName +
         ", filmType=" + filmType +

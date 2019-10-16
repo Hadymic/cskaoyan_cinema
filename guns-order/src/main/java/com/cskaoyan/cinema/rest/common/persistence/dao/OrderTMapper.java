@@ -2,6 +2,9 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,12 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface OrderTMapper extends BaseMapper<OrderT> {
 
+    /**
+     * 查询售出的座位编号列表
+     * @param fieldId
+     * @return
+     */
+    List<String> selectSoldSeats(Integer fieldId);
+
+    OrderT queryOrderInfo(@Param("uuid") String orderId);
 }

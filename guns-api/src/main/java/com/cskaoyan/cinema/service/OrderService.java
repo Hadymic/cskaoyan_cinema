@@ -3,5 +3,22 @@ package com.cskaoyan.cinema.service;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 
 public interface OrderService {
+
     BaseRespVo getPayInfo(String orderId);
+
+    /**
+     * 获取支付结果
+     *
+     * @param orderId
+     * @return
+     */
+    boolean getPayResult(String orderId);
+
+    /**
+     * 根据FieldId获取所有已经销售的座位编号
+     *
+     * @param fieldId
+     * @return
+     */
+    String getSoldSeatsByFieldId(Integer fieldId);
 }

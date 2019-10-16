@@ -1,6 +1,7 @@
 package com.cskaoyan.cinema.service;
 
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
+import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 
 public interface FilmService {
 
@@ -23,4 +24,5 @@ public interface FilmService {
 
     Object selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset);
 
+    FilmOrderVo selectFilmByFilmId(Integer filmId);
 }

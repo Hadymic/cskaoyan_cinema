@@ -8,6 +8,7 @@ import com.cskaoyan.cinema.rest.common.persistence.model.*;
 import com.cskaoyan.cinema.rest.common.persistence.vo.*;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
+import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -277,5 +278,11 @@ public class FilmServiceImpl implements FilmService {
         filmsVo.setImgPre("http://img.meetingshop.cn/");
 
         return filmsVo;
+    }
+
+    @Override
+    public FilmOrderVo selectFilmByFilmId(Integer filmId) {
+        FilmOrderVo filmOrderVo  = filmTMapper.selectFilmByFilmId(filmId);
+        return filmOrderVo;
     }
 }
