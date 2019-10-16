@@ -1,8 +1,6 @@
 package com.cskaoyan.cinema.vo.cinema;
 
 import lombok.Data;
-import sun.reflect.generics.tree.FieldTypeSignature;
-
 import java.io.Serializable;
 import java.util.List;
 @Data
@@ -16,5 +14,4 @@ public class FilmMsgVo implements Serializable {
     private   String filmName;
     private   String filmType;
     private   String imgAddress;
-    private  String  filmLanguage;
 }

@@ -1,5 +1,6 @@
 package com.cskaoyan.cinema.vo.cinema;
 
+
 import lombok.Data;
 
 import java.io.Serializable;
