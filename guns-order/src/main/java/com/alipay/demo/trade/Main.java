@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -98,7 +99,7 @@ public class Main {
         //        main.test_trade_refund();
 
         // 测试当面付2.0生成支付二维码
-//        main.test_trade_precreate();
+        main.test_trade_precreate();
     }
 
     // 测试系统商交易保障调度

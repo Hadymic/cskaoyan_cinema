@@ -43,10 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BaseRespVo selectUserInfo(String userId) {
+    public BaseRespVo selectUserInfo(Integer userId) {
         if (userId != null) {
-            Integer uuid = Integer.parseInt(userId);
-            UserT userT = userTMapper.selectById(uuid);
+            UserT userT = userTMapper.selectById(userId);
             return new BaseRespVo(0, userT, null);
         } else if (userId == null) {
             return new BaseRespVo(1, null, "查询失败，用户尚未登录");

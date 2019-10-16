@@ -49,3 +49,12 @@ logging:
   level.com.cskaoyan.cinema: debug
   path: logs/
   file: guns-order.log
+
+# 阿里云oss存储
+cinema:
+  aliyun:
+    oss:
+      access-key-id: LTAI4FfWGmJfGug6ekaEHw4v
+      access-secret: C6k2x76D2LuULywLoHMFz7YTzu8Aku
+      bucket: cskaoyan-cinema
+      end-point: oss-cn-shanghai.aliyuncs.com

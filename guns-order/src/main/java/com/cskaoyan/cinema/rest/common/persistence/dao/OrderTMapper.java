@@ -15,6 +15,17 @@ import java.util.List;
  */
 public interface OrderTMapper extends BaseMapper<OrderT> {
 
+    OrderT queryOrderMsg(Integer fieldId);
+
+    Integer queryFilmPrice(Integer fieldId);
+
+ boolean insertDb(OrderT orderT);
+
+    String queryFilmName(Integer filmId);
+
+    String queryFieldTime(Integer fieldId);
+
+    String queryCinema(Integer fieldId);
     /**
      * 查询售出的座位编号列表
      * @param fieldId
