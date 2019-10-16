@@ -25,4 +25,10 @@ public class OrderController {
         }
         return new BaseRespVo(0, new PayResultVo(null, 1, "支付成功"), null);
     }
+
+    @PostMapping("getPayInfo")
+    public BaseRespVo getPayInfo(String orderId) {
+        BaseRespVo baseRespVo = orderService.getPayInfo(orderId);
+        return baseRespVo;
+    }
 }

@@ -3,6 +3,7 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
 import com.cskaoyan.cinema.service.OrderService;
+import com.cskaoyan.cinema.vo.BaseRespVo;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,4 +13,9 @@ import org.springframework.stereotype.Component;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderTMapper orderTMapper;
+
+    @Override
+    public BaseRespVo getPayInfo(String orderId) {
+        // Integer count = orderTMapper.getPayInfoByOrderId(orderId);
+    }
 }
