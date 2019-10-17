@@ -91,8 +91,9 @@ public class OrderController {
      * @return
      */
     @PostMapping("getOrderInfo")
-    public BaseRespVo getOrderInfo(@NotNull Integer nowPage, @NotNull Integer pageSize) {
-        int userId = 1;
+    public BaseRespVo getOrderInfo(@NotNull Integer nowPage, @NotNull Integer pageSize, HttpServletRequest request) {
+
+        Integer userId = jedisUtils.getUserId(request);
         List<OrderVo> data = orderService.getOrderInfo(nowPage, pageSize, userId);
         if (data == null) {
             throw new CinemaException(OrderExceptionEnum.ORDER_EMPTY);

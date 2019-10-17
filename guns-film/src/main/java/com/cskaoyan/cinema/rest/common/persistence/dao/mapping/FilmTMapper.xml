@@ -18,6 +18,22 @@
         <result column="film_time" property="filmTime" />
         <result column="film_status" property="filmStatus" />
     </resultMap>
+
+    <resultMap id="VoResultMap" type="com.cskaoyan.cinema.vo.film.FilmOrderVo">
+        <id column="UUID" property="uuid" />
+        <result column="film_name" property="filmName" />
+        <result column="film_type" property="filmType" />
+        <result column="img_address" property="imgAddress" />
+        <result column="film_score" property="filmScore" />
+        <result column="film_preSaleNum" property="filmPreSaleNum" />
+        <result column="film_box_office" property="filmBoxOffice" />
+        <result column="film_source" property="filmSource" />
+        <result column="film_cats" property="filmCats" />
+        <result column="film_area" property="filmArea" />
+        <result column="film_date" property="filmDate" />
+        <result column="film_time" property="filmTime" />
+        <result column="film_status" property="filmStatus" />
+    </resultMap>
     <sql id="Base_Sql">
         film_name,film_type,img_address,film_score,UUID,film_preSaleNum,film_box_office,
         film_source,film_area,film_date,film_time,film_status
@@ -68,8 +84,7 @@
             </if>
         </where>
     </select>
-    <select id="selectFilmByFilmId"
-            resultType="com.cskaoyan.cinema.vo.film.FilmOrderVo">
+    <select id="selectFilmByFilmId" resultMap="VoResultMap">
         select
         <include refid="Base_Sql"/>
         from mtime_film_t

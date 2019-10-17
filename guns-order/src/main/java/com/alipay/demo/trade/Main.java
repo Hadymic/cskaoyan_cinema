@@ -93,7 +93,7 @@ public class Main {
 //        main.test_trade_pay(tradeService);
 
         // 测试查询当面付2.0交易
-        main.test_trade_query();
+//        main.test_trade_query();
 
         // 测试当面付2.0退货
         //        main.test_trade_refund();

@@ -19,7 +19,7 @@ public class FilmOrderVo implements Serializable {
 
     private String filmScore;
 
-    private Integer filmPresalenum;
+    private Integer filmPreSaleNum;
 
     private Integer filmBoxOffice;
 
