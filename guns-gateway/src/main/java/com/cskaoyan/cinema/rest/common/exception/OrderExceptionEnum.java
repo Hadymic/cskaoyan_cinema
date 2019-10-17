@@ -19,7 +19,7 @@ public enum OrderExceptionEnum implements ServiceExceptionEnum {
 
     @Override
     public Integer getCode() {
-        return null;
+        return code;
     }
 
     public void setCode(Integer code) {
@@ -28,7 +28,7 @@ public enum OrderExceptionEnum implements ServiceExceptionEnum {
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 
     public void setMessage(String message) {

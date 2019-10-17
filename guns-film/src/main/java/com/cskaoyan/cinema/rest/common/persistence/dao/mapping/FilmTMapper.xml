@@ -24,7 +24,7 @@
     </sql>
 
 
-    <resultMap id="FilmInfoMap" type="com.cskaoyan.cinema.rest.common.persistence.vo.FilmInfo">
+    <resultMap id="FilmInfoMap" type="com.cskaoyan.cinema.vo.film.FilmInfo">
         <id column="UUID" property="filmId" />
         <result column="film_name" property="filmName" />
         <result column="film_type" property="filmType" />
@@ -34,21 +34,27 @@
         <result column="film_box_office" property="boxNum" />
         <result column="film_cats" property="filmCats" />
         <result column="film_length" property="filmLength" />
-        <result column="score" property="score" />
+        <result column="film_score" property="score" />
         <result column="film_time" property="showTime" />
     </resultMap>
     <select id="selectFilmsByStatus" resultMap="FilmInfoMap">
         select f.UUID,film_name,film_type,img_address,f.film_score,film_preSaleNum,film_box_office,film_cats,
-        film_length,fi.film_score as score,film_time from mtime_film_t f
+        film_length,film_time from mtime_film_t f
         left join mtime_film_info_t fi
         on f.UUID = fi.film_id
-        where film_status = #{status}
+        where
+        <if test="status gt 0">
+            film_status = #{status}
+        </if>
+        <if test="status == 0">
+            film_status != 2
+        </if>
     </select>
 
     <select id="selectByIds" resultMap="BaseResultMap">
         select
         <include refid="Base_Sql"/>
-        from mtime_file_t
+        from mtime_film_t
         <where>
             film_status = #{status}
             <if test="sourceId != 99">
@@ -66,7 +72,7 @@
             resultType="com.cskaoyan.cinema.vo.film.FilmOrderVo">
         select
         <include refid="Base_Sql"/>
-        from mtime_file_t
+        from mtime_film_t
         where UUID = #{uuid}
     </select>
 

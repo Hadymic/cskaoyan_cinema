@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.rest.common.persistence.vo;
+package com.cskaoyan.cinema.vo.film;
 
 import lombok.Data;
 
@@ -9,6 +9,6 @@ public class CatInfoVo implements Serializable {
     private static final long serialVersionUID = -1864186617500754396L;
 
     private int catId;
-    private int catName;
+    private String catName;
     private boolean active;
 }

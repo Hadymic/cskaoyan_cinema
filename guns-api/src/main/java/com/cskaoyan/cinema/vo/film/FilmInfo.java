@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.rest.common.persistence.vo;
+package com.cskaoyan.cinema.vo.film;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -3,16 +3,6 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.cinema.CinemaService;
-import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
-import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
-import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
-import com.cskaoyan.cinema.service.FilmService;
-import com.cskaoyan.cinema.service.OrderService;
-import org.apache.dubbo.config.annotation.Reference;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
@@ -26,29 +16,40 @@ import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
+import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
+import com.cskaoyan.cinema.service.FilmService;
+import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.service.OssService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
+import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import com.cskaoyan.cinema.vo.order.PayInfoVO;
 import org.apache.commons.lang.StringUtils;
-import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.io.File;
-import java.util.ArrayList;
 import redis.clients.jedis.Jedis;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-
-
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -67,6 +68,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private Jedis jedis;
 
+    /**
+     * author:zt
+     * 创建订单
+     * @param fieldId
+     * @param soldSeats
+     * @param seatsName
+     * @param userId
+     * @return
+     */
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
         String[] seats = soldSeats.split(",");
@@ -215,19 +225,19 @@ public class OrderServiceImpl implements OrderService {
                 log.info("filePath:" + filePath);
                 File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 String imgPre = ossService.upload(qrCodeImge);
-                return new BaseRespVo(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
+                return new BaseRespVo<>(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
 
             case FAILED:
                 log.error("支付宝预下单失败!!!");
-                return new BaseRespVo(1,null,"订单支付失败，请稍后重试");
+                return new BaseRespVo<>(1,null,"订单支付失败，请稍后重试");
 
             case UNKNOWN:
                 log.error("系统异常，预下单状态未知!!!");
-                 return new BaseRespVo(999,null,"系统出现异常，请联系管理员");
+                 return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
 
             default:
                 log.error("不支持的交易状态，交易返回异常!!!");
-                return new BaseRespVo(999,null,"系统出现异常，请联系管理员");
+                return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
         }
     }
 
@@ -261,11 +271,11 @@ public class OrderServiceImpl implements OrderService {
 
             case UNKNOWN:
                 log.error("订单号：" + orderId + "，系统异常，订单支付状态未知!!!");
-                throw new GunsException(GunsExceptionEnum.SERVER_ERROR);
+                throw new CinemaException(GunsExceptionEnum.SERVER_ERROR);
 
             default:
                 log.error("订单号：" + orderId + "，不支持的交易状态，交易返回异常!!!");
-                throw new GunsException(GunsExceptionEnum.SERVER_ERROR);
+                throw new CinemaException(GunsExceptionEnum.SERVER_ERROR);
         }
     }
 
@@ -281,6 +291,14 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * author:zt
+     * 判断座位号是否存在
+     * @param fieldId
+     * @param soldSeats
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException {
         String seats = orderTMapper.getSeatMsg(fieldId);
@@ -299,12 +317,37 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
         }
-        return false;
+        String seatMsg = jedis.get(seats);
+        String[]cinemaSeats = soldSeats.split(",");
+        for (String cinemaSeat : cinemaSeats) {
+               if(cinemaSeat.contains(seatMsg))
+                   return  false;
+        }
+
+        return true;
     }
 
+    /**
+     * author:zt
+     * 判断座位是否已经售出
+     * @param fieldId
+     * @param soldSeats
+     * @return
+     */
     @Override
     public boolean isNotSoldSeats(Integer fieldId, String soldSeats) {
-        return false;
+        List<String> seats = orderTMapper.selectSoldSeats(fieldId);
+        StringBuilder s = new StringBuilder();
+        for (String seat : seats) {
+            s.append(",").append(seat);
+        }
+        String soldSeatMsgs = s.substring(1);
+        String[] strings = soldSeats.split(",");
+        for (String string : strings) {
+            if(soldSeatMsgs.contains(string))
+                return  false;
+        }
+        return true;
 
     }
 
