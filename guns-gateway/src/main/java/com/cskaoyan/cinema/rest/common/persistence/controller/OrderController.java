@@ -6,6 +6,7 @@ import com.cskaoyan.cinema.rest.common.exception.OrderExceptionEnum;
 import com.cskaoyan.cinema.rest.util.JedisUtils;
 import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
+import com.cskaoyan.cinema.vo.order.OrderVo;
 import com.cskaoyan.cinema.vo.order.PayResultVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("order")
@@ -90,8 +92,8 @@ public class OrderController {
     @PostMapping("getOrderInfo")
     public BaseRespVo getOrderInfo(@NotNull Integer nowPage, @NotNull Integer pageSize) {
         int userId = 1;
-        Object data = orderService.getOrderInfo(nowPage, pageSize, userId);
-        if (data != null) {
+        List<OrderVo> data = orderService.getOrderInfo(nowPage, pageSize, userId);
+        if (data == null) {
             throw new CinemaException(OrderExceptionEnum.ORDER_EMPTY);
         }
         return new BaseRespVo<>(0, data, null);

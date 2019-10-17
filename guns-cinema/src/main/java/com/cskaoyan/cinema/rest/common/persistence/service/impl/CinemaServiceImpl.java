@@ -119,9 +119,11 @@ public class CinemaServiceImpl implements CinemaService {
     public Date selectFieldTimeById(Integer fieldId) {
         FieldT fieldT = fieldTMapper.selectById(fieldId);
         String beginTime = fieldT.getBeginTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         try {
-            return sdf.parse(beginTime);
+            Date parse = sdf.parse(beginTime);
+            System.out.println(parse);
+            return parse;
         } catch (ParseException e) {
             e.printStackTrace();
         }
