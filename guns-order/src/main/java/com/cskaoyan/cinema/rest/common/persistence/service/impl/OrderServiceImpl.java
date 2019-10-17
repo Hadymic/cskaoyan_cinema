@@ -33,6 +33,7 @@ import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import com.cskaoyan.cinema.vo.order.PayInfoVO;
 import org.apache.commons.lang.StringUtils;
+import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.dubbo.config.annotation.Service;
@@ -40,9 +41,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.util.ArrayList;
+import redis.clients.jedis.Jedis;
+import java.io.*;
 import java.util.Date;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
+
+
+
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -56,6 +62,10 @@ public class OrderServiceImpl implements OrderService {
     private OssService ossService;
     @Reference(interfaceClass = CinemaService.class, check = false)
     private CinemaService cinemaService;
+
+
+    @Autowired
+    private Jedis jedis;
 
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
@@ -78,8 +88,7 @@ public class OrderServiceImpl implements OrderService {
         orderT.setOrderStatus(0);
         //把数据插入数据库
         boolean flag = orderTMapper.insertDb(orderT);
-
-        OrderVo orderVo = new OrderVo();
+        OrderMsgVo orderVo = new OrderMsgVo();
         orderVo.setOrderId(orderT.getUuid());
         Integer filmId = orderT.getFilmId();
         String filmName = orderTMapper.queryFilmName(filmId);
@@ -91,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
         orderVo.setSeatsName(seatsName);
         orderVo.setOrderPrice(price.toString());
         orderVo.setOrderTimestamp(new Date().getTime() + "");
-        return new BaseRespVo(0, orderVo, null);
+        return new BaseRespVo(0, orderVo, "下单成功");
     }
 
     private static Log log = LogFactory.getLog(OrderServiceImpl.class);
@@ -133,7 +142,7 @@ public class OrderServiceImpl implements OrderService {
         /** 如果需要在程序中覆盖Configs提供的默认参数, 可以使用ClientBuilder类的setXXX方法修改默认参数 否则使用代码中的默认设置 */
         monitorService = new AlipayMonitorServiceImpl.ClientBuilder()
                 .setGatewayUrl("http://mcloudmonitor.com/gateway.do").setCharset("GBK")
-                .setFormat("json").build();
+                .setFormat("seats").build();
     }
 
     @Override
@@ -268,6 +277,35 @@ public class OrderServiceImpl implements OrderService {
             s.append(",").append(seat);
         }
         return s.substring(1);
+
+
+    }
+
+    @Override
+    public boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException {
+        String seats = orderTMapper.getSeatMsg(fieldId);
+        String seatsIds = jedis.get(seats);
+        if (seatsIds == null) {
+            String file = this.getClass().getResource(seats).getFile();
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String tmp;
+            while ((tmp = reader.readLine()) != null) {
+                if (tmp.contains("ids")) {
+                    tmp = tmp.replace(" ", "");
+                    int index = tmp.indexOf(":");
+                    seatsIds = tmp.substring(index + 2, tmp.length() - 2);
+                    jedis.set(seats, seatsIds);
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isNotSoldSeats(Integer fieldId, String soldSeats) {
+        return false;
+
     }
 
     /**
@@ -299,5 +337,6 @@ public class OrderServiceImpl implements OrderService {
             orderVos.add(orderVo);
         }
         return orderVos;
+
     }
 }

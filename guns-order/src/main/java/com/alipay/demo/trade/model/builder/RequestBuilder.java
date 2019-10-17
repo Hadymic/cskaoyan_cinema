@@ -34,8 +34,8 @@ public abstract class RequestBuilder {
          (Serialization)
          BagOfPrimitives obj = new BagOfPrimitives();
          Gson gson = new Gson();
-         String json = gson.toJson(obj);
-         ==> json is {"value1":1,"value2":"abc"}
+         String seats = gson.toJson(obj);
+         ==> seats is {"value1":1,"value2":"abc"}
          */
         return GsonFactory.getGson().toJson(this.getBizContent());
     }

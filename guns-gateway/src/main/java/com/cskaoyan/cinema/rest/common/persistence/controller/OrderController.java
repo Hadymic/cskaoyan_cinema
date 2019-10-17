@@ -1,31 +1,44 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
-
-import com.cskaoyan.cinema.core.exception.GunsException;
-import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
-import com.cskaoyan.cinema.rest.common.exception.OrderExceptionEnum;
 import com.cskaoyan.cinema.rest.util.JedisUtils;
 import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
-import com.cskaoyan.cinema.vo.order.PayResultVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
+import com.cskaoyan.cinema.rest.common.exception.OrderExceptionEnum;
+import com.cskaoyan.cinema.vo.order.PayResultVo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("order")
 public class OrderController {
     @Reference(interfaceClass = OrderService.class)
     private OrderService orderService;
+
     @Autowired
     private JedisUtils jedisUtils;
 
-    @PostMapping("order/buyTickets")
-    public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, HttpServletRequest request) {
+    @PostMapping("buyTickets")
+    public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, HttpServletRequest request) throws IOException {
+
         Integer userId = jedisUtils.getUserId(request);
+
+        //判断座位是否存在
+        boolean flag1=orderService.isTrueSeats(fieldId,soldSeats);
+        //判断座位是不是已经销售
+       boolean flag2=  orderService.isNotSoldSeats(fieldId,soldSeats);
+        if(flag1==false){
+            return  new BaseRespVo(1,null,"座位不存在");
+        }else if(flag2==false){
+            return  new BaseRespVo(1,null,"座位已经售出");
+        }
+
         BaseRespVo baseRespVo = orderService.buyTickets(fieldId, soldSeats, seatsName, userId);
         return baseRespVo;
     }
@@ -54,14 +67,15 @@ public class OrderController {
         } else {
             return new BaseRespVo<>(1, null, "支付失败！");
         }
+
     }
 
-<<<<<<< HEAD
+
     @PostMapping("getPayInfo")
     public BaseRespVo getPayInfo(String orderId) {
         BaseRespVo baseRespVo = orderService.getPayInfo(orderId);
         return baseRespVo;
-=======
+    }
     /**
      * Zeng-jz
      * 获取用户订单信息
@@ -70,13 +84,12 @@ public class OrderController {
      * @return
      */
     @PostMapping("getOrderInfo")
-    public BaseRespVo getOrderInfo(@NotNull Integer nowPage,@NotNull Integer pageSize){
+    public BaseRespVo getOrderInfo(@NotNull Integer nowPage, @NotNull Integer pageSize){
         int userId = 1;
         Object data = orderService.getOrderInfo(nowPage, pageSize, userId);
         if (data != null){
             throw new GunsException(OrderExceptionEnum.ORDER_EMPTY);
         }
         return new BaseRespVo(0, data, null);
->>>>>>> dc3474bf7921386e567846f1c271461bfe896816
     }
 }

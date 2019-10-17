@@ -1,10 +1,9 @@
 package com.cskaoyan.cinema.service;
 
 import com.cskaoyan.cinema.vo.BaseRespVo;
+import java.io.IOException;
 
 public interface OrderService {
-
-
     BaseRespVo getPayInfo(String orderId);
 
 
@@ -26,6 +25,11 @@ public interface OrderService {
      */
     String getSoldSeatsByFieldId(Integer fieldId);
 
+
+    boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException;
+
+    boolean isNotSoldSeats(Integer fieldId, String soldSeats);
+
     /**
      * 获取用户订单信息接口
      * @param nowPage
@@ -34,4 +38,5 @@ public interface OrderService {
      * @return
      */
     Object getOrderInfo(Integer nowPage, Integer pageSize, int userId);
+
 }
