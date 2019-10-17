@@ -52,10 +52,18 @@ public class FilmServiceImpl implements FilmService {
         // 即将上映
         indexVO.setSoonFilms(selectFilms(2));
         // 今日票房
-        indexVO.setBoxRanking(filmTMapper.selectFilmsByStatus(getPage(1), 1));
+        List<FilmInfo> boxRanking = filmTMapper.selectFilmsByStatus(getPage(1), 1);
+        for (FilmInfo filmInfo : boxRanking) {
+            Integer boxNum = filmInfo.getBoxNum();
+            if (boxNum > 10000) {
+                boxNum =  boxNum / 10000;
+            }
+            filmInfo.setBoxNum(boxNum);
+        }
+        indexVO.setBoxRanking(boxRanking);
         // 最受期待
         indexVO.setExpectRanking(filmTMapper.selectFilmsByStatus(getPage(2), 2));
-        indexVO.setTop100(filmTMapper.selectFilmsByStatus(getPage(3), 3));
+        indexVO.setTop100(filmTMapper.selectFilmsByStatus(getPage(0), 0));
         return indexVO;
     }
 
@@ -131,6 +139,7 @@ public class FilmServiceImpl implements FilmService {
     private Films selectFilms(Integer status) {
         Films films = new Films();
         Page<FilmInfo> page = getPage(status);
+        page.setSize(8);
         films.setFilmInfo(filmTMapper.selectFilmsByStatus(page, status));
         films.setFilmNum((int) page.getTotal());
         return films;
