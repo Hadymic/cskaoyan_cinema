@@ -11,14 +11,7 @@ public class HalltypeVo implements Serializable {
    private String halltypeName;
    private boolean isActive;
 
-    public Integer getHallType() {
-        return hallType;
-    }
 
-    public HalltypeVo setHallType(Integer hallType) {
-        this.hallType = hallType;
-        return this;
-    }
 
     public String getHalltypeName() {
         return halltypeName;

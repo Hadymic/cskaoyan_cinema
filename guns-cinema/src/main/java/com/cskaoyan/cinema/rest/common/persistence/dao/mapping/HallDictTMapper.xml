@@ -10,8 +10,8 @@
     </resultMap>
     <select id="selectListByUUID" resultType="com.cskaoyan.cinema.vo.cinema.HalltypeVo">
         select UUID as  hallType,show_name as halltypeName from `mtime_hall_dict_t`
-        <if test="hallType != 99">
-            where UUID = #{hallType}
-        </if>
+        <!--<if test="hallType != 99">-->
+            <!--where UUID = #{hallType}-->
+        <!--</if>-->
     </select>
 </mapper>
