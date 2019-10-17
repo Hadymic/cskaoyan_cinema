@@ -39,7 +39,7 @@ public class CinemaController {
     @RequestMapping("cinema/getCondition")
     public BaseRespVo selectGetCondition(Integer brandId, Integer hallType, Integer areaId){
         ConditionVo conditionVo = cinemaService.selectCondition(brandId, hallType, areaId);
-        BaseRespVo baseRespVo = new BaseRespVo(0,conditionVo,null);
+        BaseRespVo baseRespVo = new BaseRespVo(0,conditionVo,"");
         return baseRespVo;
     }
     /**
@@ -61,7 +61,10 @@ public class CinemaController {
     public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId){
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
         //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
-        return fieldInfoVo;
+        //String imgPre = "http://img.meetingshop.cn/";
+        //BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+        //return baseRespVo;
+        return  fieldInfoVo;
     }
 
 }
