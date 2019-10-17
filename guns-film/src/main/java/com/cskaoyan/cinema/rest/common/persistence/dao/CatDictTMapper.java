@@ -2,7 +2,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.CatDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.rest.common.persistence.vo.CatInfoVo;
+import com.cskaoyan.cinema.vo.film.CatInfoVo;
 
 import java.util.List;
 
