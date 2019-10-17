@@ -19,19 +19,12 @@
         <result column="order_status" property="orderStatus"/>
     </resultMap>
 
-<<<<<<< HEAD
     <select id="queryOrderMsg" resultMap="BaseResultMap">
-=======
-    <select id="queryOrderMsg"   resultMap="BaseResultMap">
->>>>>>> 32a7ed8fe1e74c0c9ba6b32a6aebd901c603decc
           select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
-</select>
+    </select>
+
     <select id="selectSoldSeats" resultType="java.lang.String">
         select seats_ids from mooc_order_t where field_id = #{fieldId}
-<<<<<<< HEAD
-=======
-
->>>>>>> 32a7ed8fe1e74c0c9ba6b32a6aebd901c603decc
     </select>
 
     <select id="queryOrderInfo"
@@ -67,7 +60,7 @@
 LEFT JOIN mtime_field_t f  on f.cinema_id=c.UUID where f.UUID=#{fieldId}
     </select>
 
-    <select id="getSeatMsg"  resultType="string">
+    <select id="getSeatMsg" resultType="string">
         select h.seat_address from mtime_hall_dict_t h LEFT JOIN mtime_field_t f on f.hall_id=h.UUID
         WHERE f.UUID=#{fieldId}
     </select>
