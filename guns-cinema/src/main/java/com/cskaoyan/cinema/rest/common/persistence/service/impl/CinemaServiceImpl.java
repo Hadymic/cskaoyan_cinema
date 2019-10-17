@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -72,7 +73,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaMsgVo queryCinemaMsg(String cinemaId) {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
-        List list = new ArrayList();
+        HashMap map= new HashMap();
         CinemaInfoVo cinemaMsg = cinemaTMapper.selectCinemaMsg(cinemaId);
         List<FilmMsgVo> filmList = cinemaTMapper.queryFilmMsg(cinemaId);
         for (FilmMsgVo filmMsgVo : filmList) {
@@ -85,10 +86,10 @@ public class CinemaServiceImpl implements CinemaService {
             filmMsgVo.setFilmFields(filmFields);
             filmMsgVo.setFilmType(filmType);
         }
-        list.add(cinemaMsg);
-        list.add(filmList);
-        cinemaMsgVo.setData(list);
-        cinemaMsgVo.setImgPre(null);
+        map.put("cinemaInfo",cinemaMsg);
+        map.put("filmList",filmList);
+        cinemaMsgVo.setData(map);
+        cinemaMsgVo.setImgPre("http://img.meetingshop.cn/");
         cinemaMsgVo.setNowPage(null);
         cinemaMsgVo.setStatus(0);
         cinemaMsgVo.setTotalPage(null);
