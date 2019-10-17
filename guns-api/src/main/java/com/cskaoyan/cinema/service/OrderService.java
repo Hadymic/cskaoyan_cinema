@@ -25,4 +25,13 @@ public interface OrderService {
      * @return
      */
     String getSoldSeatsByFieldId(Integer fieldId);
+
+    /**
+     * 获取用户订单信息接口
+     * @param nowPage
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    Object getOrderInfo(Integer nowPage, Integer pageSize, int userId);
 }

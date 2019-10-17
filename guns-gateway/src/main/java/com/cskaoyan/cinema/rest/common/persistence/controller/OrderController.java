@@ -56,9 +56,27 @@ public class OrderController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("getPayInfo")
     public BaseRespVo getPayInfo(String orderId) {
         BaseRespVo baseRespVo = orderService.getPayInfo(orderId);
         return baseRespVo;
+=======
+    /**
+     * Zeng-jz
+     * 获取用户订单信息
+     * @param nowPage
+     * @param pageSize
+     * @return
+     */
+    @PostMapping("getOrderInfo")
+    public BaseRespVo getOrderInfo(@NotNull Integer nowPage,@NotNull Integer pageSize){
+        int userId = 1;
+        Object data = orderService.getOrderInfo(nowPage, pageSize, userId);
+        if (data != null){
+            throw new GunsException(OrderExceptionEnum.ORDER_EMPTY);
+        }
+        return new BaseRespVo(0, data, null);
+>>>>>>> dc3474bf7921386e567846f1c271461bfe896816
     }
 }

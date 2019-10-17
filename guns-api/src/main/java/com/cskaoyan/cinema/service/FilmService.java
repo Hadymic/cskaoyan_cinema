@@ -24,5 +24,13 @@ public interface FilmService {
 
     Object selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset);
 
+
     FilmOrderVo selectFilmByFilmId(Integer filmId);
+
+    /**
+     * 通过id查filmName
+     * @param filmId
+     * @return
+     */
+    String selectNameById(Integer filmId);
 }

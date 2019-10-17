@@ -19,6 +19,9 @@ public class BaseRespVo<T> implements Serializable {
     private T data;
     private String msg;
 
+    public BaseRespVo() {
+    }
+
     public BaseRespVo(int status, T data, String msg) {
         this.status = status;
         this.data = data;

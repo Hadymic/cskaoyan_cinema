@@ -1,7 +1,18 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
+
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
+import com.cskaoyan.cinema.service.FilmService;
+import com.cskaoyan.cinema.service.OrderService;
+import org.apache.dubbo.config.annotation.Reference;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
@@ -15,22 +26,15 @@ import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
-import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
-import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
-import com.cskaoyan.cinema.service.FilmService;
-import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.service.OssService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import com.cskaoyan.cinema.vo.order.PayInfoVO;
 import org.apache.commons.lang.StringUtils;
-import com.cskaoyan.cinema.vo.order.OrderVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,7 +54,8 @@ public class OrderServiceImpl implements OrderService {
     private FilmService filmService;
     @Reference(interfaceClass = OssService.class)
     private OssService ossService;
-
+    @Reference(interfaceClass = CinemaService.class, check = false)
+    private CinemaService cinemaService;
 
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
@@ -263,5 +268,36 @@ public class OrderServiceImpl implements OrderService {
             s.append(",").append(seat);
         }
         return s.substring(1);
+    }
+
+    /**
+     * Zeng-jz
+     * @param nowPage
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    @Override
+    public Object getOrderInfo(Integer nowPage, Integer pageSize, int userId) {
+        Page<OrderT> page = new Page<>();
+        page.setSize(pageSize);
+        page.setCurrent(nowPage);
+        EntityWrapper<OrderT> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("order_user", userId);
+
+        List<OrderT> orderTS = orderTMapper.selectPage(page, entityWrapper);
+        List<OrderVo> orderVos = new ArrayList<>();
+        for (OrderT orderT : orderTS) {
+            OrderVo orderVo = new OrderVo();
+            orderVo.setOrderId(orderT.getUuid());
+            orderVo.setFilmName(filmService.selectNameById(orderT.getFilmId()));
+            orderVo.setFieldTime(cinemaService.selectFieldTimeById(orderT.getFieldId()));
+            orderVo.setCinemaName(cinemaService.selectNameById(orderT.getCinemaId()));
+            orderVo.setOrderPrice(orderT.getOrderPrice());
+            orderVo.setSeatsName(orderT.getSeatsName());
+            orderVo.setOrderStatus(OrderStatusVo.get(orderT.getOrderStatus()));
+            orderVos.add(orderVo);
+        }
+        return orderVos;
     }
 }
