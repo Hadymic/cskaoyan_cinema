@@ -95,8 +95,9 @@ public class FilmServiceImpl implements FilmService {
         List<FilmActor> actorList = filmActorTMapper.selectFilmActors(film.getUuid());
         actors.setActors(actorList);
         filmActors.setActors(actors);
+        filmActors.setFilmId(film.getUuid());
+        filmActors.setImgVO(getSub2Img(filmInfo.getFilmImgs()));
         filmInfoVO.setInfo04(filmActors);
-        filmInfoVO.setImgVO(getSub2Img(filmInfo.getFilmImgs()));
         filmInfoVO.setFilmId(film.getUuid());
         return filmInfoVO;
     }
