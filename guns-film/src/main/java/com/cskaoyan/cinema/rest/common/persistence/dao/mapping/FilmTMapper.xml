@@ -54,7 +54,7 @@
     <select id="selectByIds" resultMap="BaseResultMap">
         select
         <include refid="Base_Sql"/>
-        from mtime_file_t
+        from mtime_film_t
         <where>
             film_status = #{status}
             <if test="sourceId != 99">
@@ -72,7 +72,7 @@
             resultType="com.cskaoyan.cinema.vo.film.FilmOrderVo">
         select
         <include refid="Base_Sql"/>
-        from mtime_file_t
+        from mtime_film_t
         where UUID = #{uuid}
     </select>
 

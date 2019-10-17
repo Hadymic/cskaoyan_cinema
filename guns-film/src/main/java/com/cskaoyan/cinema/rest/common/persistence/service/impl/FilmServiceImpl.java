@@ -3,17 +3,11 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
-import com.cskaoyan.cinema.rest.common.persistence.vo.*;
-import com.cskaoyan.cinema.vo.film.FilmActor;
-import com.cskaoyan.cinema.vo.film.FilmInfo;
-import com.cskaoyan.cinema.vo.film.FilmInfoVO;
-import com.cskaoyan.cinema.vo.film.Films;
 import com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO;
-import com.cskaoyan.cinema.vo.film.IndexVO;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Service;
@@ -261,7 +255,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Object selectConfitionList(ConditionNoVO conditionNoVO) {
+    public ConditionListVo selectConditionList(ConditionNoVO conditionNoVO) {
         List<CatInfoVo> catInfo = catDictTMapper.selectAll();
         List<SourceInfoVo> sourceInfo = sourceDictTMapper.selectAll();
         List<YearInfoVo> yearInfo = yearDictTMapper.selectAll();
@@ -288,15 +282,15 @@ public class FilmServiceImpl implements FilmService {
             }
         }
 
-        ConditionVo conditionVo = new ConditionVo(catInfo, sourceInfo, yearInfo);
-        return conditionVo;
+        return new ConditionListVo(catInfo, sourceInfo, yearInfo);
     }
 
     @Override
-    public FilmsVo selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset) {
-        FilmsVo filmsVo = new FilmsVo();
+    public FilmsRespVO selectFilms(ConditionNoVO conditionNoVO, Integer showType, Integer nowPage,
+                                   Integer sortId, Integer pageSize, Integer offset) {
+        FilmsRespVO<List> filmsVo = new FilmsRespVO<>();
 
-        String film_catId = "%#" + conditionNoVO.getCatId() + "#%";
+        String film_catId = "#" + conditionNoVO.getCatId() + "#";
         List<FilmT> films = filmTMapper.selectByIds(conditionNoVO.getSourceId(),
                 conditionNoVO.getYearId(), film_catId, showType);
         String orderByField = null;
@@ -311,14 +305,37 @@ public class FilmServiceImpl implements FilmService {
                 orderByField = "film_score";
                 break;
             default:
-                throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
+                throw new CinemaException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
-        Page<FilmT> filmList = new Page<FilmT>(offset, pageSize, orderByField);
-        Page filmTPage = filmList.setRecords(films);
+        Page<FilmT> filmTPage = new Page<>();
+        filmTPage.setSize(pageSize);
+        filmTPage.setCurrent(offset + 1);
+        filmTPage.setOrderByField(orderByField);
 
-        filmsVo.setData(filmTPage.getRecords());
-        filmsVo.setStatus(0);
-        filmsVo.setNowPage(filmTPage.getCurrent());
+        EntityWrapper<FilmT> entityWrapper = new EntityWrapper<>();
+        entityWrapper.like(conditionNoVO.getCatId() != 99, "film_cats", film_catId);
+        entityWrapper.eq(conditionNoVO.getSourceId() != 99, "film_source", conditionNoVO.getSourceId());
+        entityWrapper.eq(conditionNoVO.getYearId() != 99, "film_date", conditionNoVO.getYearId());
+
+        List<FilmT> filmTS = filmTMapper.selectPage(filmTPage, entityWrapper);
+
+        List<FilmsTVo> filmsTVos = new ArrayList<>();
+
+        for (FilmT filmT : filmTS) {
+            FilmsTVo filmsTVo = new FilmsTVo();
+            filmsTVo.setBoxNum(filmT.getFilmBoxOffice());
+            filmsTVo.setExpectNum(filmT.getFilmPresalenum());
+            filmsTVo.setFilmId(filmT.getUuid());
+            filmsTVo.setFilmScore(filmT.getFilmScore());
+            filmsTVo.setScore(filmT.getFilmScore());
+            filmsTVo.setImgAddress(filmT.getImgAddress());
+            filmsTVo.setShowTime(filmT.getFilmTime());
+            filmsTVo.setFilmType(filmT.getFilmType());
+            filmsTVos.add(filmsTVo);
+        }
+
+        filmsVo.setData(filmsTVos);
+        filmsVo.setNowPage(offset + 1);
         filmsVo.setTotalPage(filmTPage.getTotal());
         filmsVo.setImgPre("http://img.meetingshop.cn/");
 

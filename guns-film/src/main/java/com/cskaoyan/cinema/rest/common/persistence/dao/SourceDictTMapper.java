@@ -2,7 +2,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 
 import com.cskaoyan.cinema.rest.common.persistence.model.SourceDictT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.rest.common.persistence.vo.SourceInfoVo;
+import com.cskaoyan.cinema.vo.film.SourceInfoVo;
 
 import java.util.List;
 

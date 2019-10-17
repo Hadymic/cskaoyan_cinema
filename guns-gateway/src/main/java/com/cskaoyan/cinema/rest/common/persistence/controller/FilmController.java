@@ -1,17 +1,12 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
-
-import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
-import com.cskaoyan.cinema.vo.film.ConditionNoVO;
-import com.cskaoyan.cinema.vo.film.FilmInfoVO;
-import com.cskaoyan.cinema.vo.film.FilmVO;
-import com.cskaoyan.cinema.vo.film.IndexVO;
+import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +20,7 @@ public class FilmController {
     public FilmVO getIndex() {
         IndexVO indexVO = filmService.selectFilms4Index();
         if (indexVO == null) {
-            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
+            throw new CinemaException(FilmExceptionEnum.FILM_NOT_FOUND);
         }
         return new FilmVO<>(0, indexVO, null);
     }
@@ -33,11 +28,11 @@ public class FilmController {
     @RequestMapping("films/{name}")
     public FilmVO getFilmInfo(@PathVariable String name, Integer searchType) {
         if (searchType != 0 && searchType != 1) {
-            throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
+            throw new CinemaException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
         FilmInfoVO filmInfoVO = filmService.selectFilmInfo(name, searchType);
         if (filmInfoVO == null) {
-            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
+            throw new CinemaException(FilmExceptionEnum.FILM_NOT_FOUND);
         }
         return new FilmVO<>(0, filmInfoVO, null);
     }
@@ -50,11 +45,11 @@ public class FilmController {
      */
     @RequestMapping("getConditionList")
     public BaseRespVo getConditionList(ConditionNoVO conditionNoVO) {
-        Object conditionVo = filmService.selectConfitionList(conditionNoVO);
-        if (conditionVo != null) {
-            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
+        ConditionListVo conditionVo = filmService.selectConditionList(conditionNoVO);
+        if (conditionVo == null) {
+            throw new CinemaException(FilmExceptionEnum.FILM_NOT_FOUND);
         } else {
-            return new BaseRespVo<>(1, null, "查询失败，无条件可加载");
+            return new BaseRespVo<>(0, conditionVo, null);
         }
     }
 
@@ -69,10 +64,15 @@ public class FilmController {
      * @return
      */
     @RequestMapping("getFilms")
-    public Object getFilms(@RequestBody ConditionNoVO conditionNoVO, int showType,
-                           int sortId, int pageSize, int offset) {
-        Object films = filmService.selectFilms(conditionNoVO, showType, sortId, pageSize, offset);
-        return films;
-
+    public FilmsRespVO getFilms(ConditionNoVO conditionNoVO, Integer showType,
+                                Integer sortId, Integer nowPage, Integer pageSize, Integer offset) {
+        FilmsRespVO films = null;
+        films = filmService.selectFilms(conditionNoVO, showType, nowPage, sortId, pageSize, offset);
+        if (films.getData() == null) {
+            throw new CinemaException(FilmExceptionEnum.FILM_NOT_FOUND);
+        } else {
+            films.setStatus(0);
+            return films;
+        }
     }
 }
