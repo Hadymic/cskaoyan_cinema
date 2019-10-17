@@ -3,7 +3,10 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 import com.cskaoyan.cinema.rest.common.persistence.model.HallFilmInfoT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.cskaoyan.cinema.vo.cinema.FilmInfoVo;
+import com.cskaoyan.cinema.vo.cinema.HalltypeVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +19,5 @@ import org.apache.ibatis.annotations.Param;
 public interface HallFilmInfoTMapper extends BaseMapper<HallFilmInfoT> {
     FilmInfoVo selectByfieldId(@Param("cinemaId") String cinemaId,
                                @Param("fieldId") String fieldId);
+
 }

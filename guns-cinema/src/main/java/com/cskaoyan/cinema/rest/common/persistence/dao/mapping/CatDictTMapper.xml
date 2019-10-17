@@ -7,10 +7,5 @@
         <id column="UUID" property="uuid" />
         <result column="show_name" property="showName" />
     </resultMap>
-    <select id="selectListByUUID" resultType="com.cskaoyan.cinema.vo.cinema.BrandVo">
-      select UUID as brandId,show_name as brandName from `mtime_cat_dict_t`
-      <!--<if test="brandId != 99">-->
-          <!--where UUID = #{brandId}-->
-      <!--</if>-->
-    </select>
+
 </mapper>
