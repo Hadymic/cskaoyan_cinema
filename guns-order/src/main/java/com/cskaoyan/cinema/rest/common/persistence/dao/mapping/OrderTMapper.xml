@@ -19,6 +19,7 @@
         <result column="order_status" property="orderStatus"/>
     </resultMap>
 
+
     <select id="queryOrderMsg" resultMap="BaseResultMap">
           select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
     </select>
