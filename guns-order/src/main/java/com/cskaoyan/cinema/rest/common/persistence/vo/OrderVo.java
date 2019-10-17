@@ -1,6 +1,5 @@
 package com.cskaoyan.cinema.rest.common.persistence.vo;
 
-import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 

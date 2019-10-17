@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.cskaoyan.cinema.rest.common.persistence.model.OrderT">
-        <result column="UUID" property="uuid" />
-        <result column="cinema_id" property="cinemaId" />
-        <result column="field_id" property="fieldId" />
-        <result column="film_id" property="filmId" />
-        <result column="seats_ids" property="seatsIds" />
-        <result column="seats_name" property="seatsName" />
-        <result column="film_price" property="filmPrice" />
-        <result column="order_price" property="orderPrice" />
-        <result column="order_time" property="orderTime" />
-        <result column="order_user" property="orderUser" />
-        <result column="order_status" property="orderStatus" />
+    <resultMap id="BaseResultMap"
+               type="com.cskaoyan.cinema.rest.common.persistence.model.OrderT">
+        <result column="UUID" property="uuid"/>
+        <result column="cinema_id" property="cinemaId"/>
+        <result column="field_id" property="fieldId"/>
+        <result column="film_id" property="filmId"/>
+        <result column="seats_ids" property="seatsIds"/>
+        <result column="seats_name" property="seatsName"/>
+        <result column="film_price" property="filmPrice"/>
+        <result column="order_price" property="orderPrice"/>
+        <result column="order_time" property="orderTime"/>
+        <result column="order_user" property="orderUser"/>
+        <result column="order_status" property="orderStatus"/>
     </resultMap>
 
-    <select id="queryOrderMsg"   resultMap="BaseResultMap">
+    <select id="queryOrderMsg" resultMap="BaseResultMap">
           select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
-</select>
-    <select id="selectSoldSeats" resultType="java.lang.String">
-        select seats_ids from mooc_order_t where field_id = #{fieldId}
-
     </select>
 
-    <select id="queryFilmPrice"  resultType="int">
+    <select id="selectSoldSeats" resultType="java.lang.String">
+        select seats_ids from mooc_order_t where field_id = #{fieldId}
+    </select>
+
+    <select id="queryOrderInfo"
+            resultType="com.cskaoyan.cinema.rest.common.persistence.model.OrderT">
+        select UUID,cinema_id,field_id,film_id,seats_ids,seats_name,film_price,
+        order_price,order_time,order_user,order_status
+        from mooc_order_t where UUID = #{uuid}
+    </select>
+
+    <select id="queryFilmPrice" resultType="int">
    select price from mtime_field_t where UUID={fieldId}
     </select>
 
 
     <insert id="insertDb">
-
         insert into mooc_order_t(UUID,cinema_id,field_id,film_id,seats_ids,seats_name,film_price,order_price,order_time,
          order_user,order_status) values(null,#{cinema_id},#{field_id},#{film_id},#{seats_ids},#{seats_name},#{film_price},#{order_price},#{order_time},#{
          order_user},#{order_status})
@@ -43,16 +51,16 @@
     </select>
 
 
-    <select id="queryFieldTime"  resultType="string">
+    <select id="queryFieldTime" resultType="string">
         select begin_time as fieldTime from mtime_field_t where UUID=#{fieldId}
     </select>
 
-    <select id="queryCinema"  resultType="string">
+    <select id="queryCinema" resultType="string">
         select c.cinema_name  as cinemaName FROM mtime_cinema_t c
 LEFT JOIN mtime_field_t f  on f.cinema_id=c.UUID where f.UUID=#{fieldId}
     </select>
 
-    <select id="getSeatMsg"  resultType="string">
+    <select id="getSeatMsg" resultType="string">
         select h.seat_address from mtime_hall_dict_t h LEFT JOIN mtime_field_t f on f.hall_id=h.UUID
         WHERE f.UUID=#{fieldId}
     </select>

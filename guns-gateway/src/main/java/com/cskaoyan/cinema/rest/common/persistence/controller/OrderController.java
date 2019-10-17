@@ -70,6 +70,12 @@ public class OrderController {
 
     }
 
+
+    @PostMapping("getPayInfo")
+    public BaseRespVo getPayInfo(String orderId) {
+        BaseRespVo baseRespVo = orderService.getPayInfo(orderId);
+        return baseRespVo;
+    }
     /**
      * Zeng-jz
      * 获取用户订单信息
@@ -85,6 +91,5 @@ public class OrderController {
             throw new GunsException(OrderExceptionEnum.ORDER_EMPTY);
         }
         return new BaseRespVo(0, data, null);
-
     }
 }

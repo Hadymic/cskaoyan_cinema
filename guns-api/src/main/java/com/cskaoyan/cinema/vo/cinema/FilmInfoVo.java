@@ -1,6 +1,6 @@
 package com.cskaoyan.cinema.vo.cinema;
 
-import com.cskaoyan.cinema.vo.cinema.FilmFields;
+
 import lombok.Data;
 
 import java.io.Serializable;

@@ -62,5 +62,12 @@
             </if>
         </where>
     </select>
+    <select id="selectFilmByFilmId"
+            resultType="com.cskaoyan.cinema.vo.film.FilmOrderVo">
+        select
+        <include refid="Base_Sql"/>
+        from mtime_file_t
+        where UUID = #{uuid}
+    </select>
 
 </mapper>

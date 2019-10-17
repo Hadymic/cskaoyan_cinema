@@ -1,12 +1,12 @@
 package com.cskaoyan.cinema.service;
 
 import com.cskaoyan.cinema.vo.BaseRespVo;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface OrderService {
-;
+    BaseRespVo getPayInfo(String orderId);
+
+
     BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName,Integer userId);
 
     /**
