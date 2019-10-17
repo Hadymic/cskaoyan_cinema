@@ -1,7 +1,10 @@
 package com.cskaoyan.cinema.service;
 
 import com.cskaoyan.cinema.vo.BaseRespVo;
+import com.cskaoyan.cinema.vo.order.OrderVo;
+
 import java.io.IOException;
+import java.util.List;
 
 public interface OrderService {
     BaseRespVo getPayInfo(String orderId);
@@ -37,6 +40,6 @@ public interface OrderService {
      * @param userId
      * @return
      */
-    Object getOrderInfo(Integer nowPage, Integer pageSize, int userId);
+    List<OrderVo> getOrderInfo(Integer nowPage, Integer pageSize, Integer userId);
 
 }

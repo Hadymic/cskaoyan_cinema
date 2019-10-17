@@ -24,7 +24,7 @@ import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
 import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
-import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
+import com.cskaoyan.cinema.vo.order.OrderVo;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.service.OssService;
@@ -357,7 +357,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public Object getOrderInfo(Integer nowPage, Integer pageSize, int userId) {
+    public List<OrderVo> getOrderInfo(Integer nowPage, Integer pageSize, Integer userId) {
         Page<OrderT> page = new Page<>();
         page.setSize(pageSize);
         page.setCurrent(nowPage);
@@ -375,6 +375,8 @@ public class OrderServiceImpl implements OrderService {
             orderVo.setOrderPrice(orderT.getOrderPrice());
             orderVo.setSeatsName(orderT.getSeatsName());
             orderVo.setOrderStatus(OrderStatusVo.get(orderT.getOrderStatus()));
+            String time = String.valueOf(orderT.getOrderTime().getTime()/1000);
+            orderVo.setOrderTimestamp(time);
             orderVos.add(orderVo);
         }
         return orderVos;
