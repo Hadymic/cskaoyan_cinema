@@ -46,6 +46,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * author:zt
      * 创建订单
+     *
      * @param fieldId
      * @param soldSeats
      * @param seatsName
@@ -177,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
         // 如果该字段为空，则默认为与支付宝签约的商户的PID，也就是appid对应的PID
         String sellerId = "";
 
-        int number  =(int)(orderT.getOrderPrice()/orderT.getFilmPrice());
+        int number = (int) (orderT.getOrderPrice() / orderT.getFilmPrice());
         // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
         String body = "购买" + number + "张电影票" + orderT.getOrderPrice() + "元";
 
@@ -197,9 +199,9 @@ public class OrderServiceImpl implements OrderService {
         // 商品明细列表，需填写购买商品详细信息，
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();
         // 创建一个商品信息，参数含义分别为商品id（使用国标）、名称、单价（单位为分）、数量，如果需要添加商品类别，详见GoodsDetail
-        FilmOrderVo filmT  = filmService.selectFilmByFilmId(orderT.getFilmId());
+        FilmOrderVo filmT = filmService.selectFilmByFilmId(orderT.getFilmId());
 
-        GoodsDetail goods1 = GoodsDetail.newInstance(filmT.getUuid().toString(), filmT.getFilmName(), orderT.getFilmPrice().intValue(),number );
+        GoodsDetail goods1 = GoodsDetail.newInstance(filmT.getUuid().toString(), filmT.getFilmName(), orderT.getFilmPrice().intValue(), number);
         // 创建好一个商品后添加至商品明细列表
         goodsDetailList.add(goods1);
 
@@ -225,19 +227,19 @@ public class OrderServiceImpl implements OrderService {
                 log.info("filePath:" + filePath);
                 File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 String imgPre = ossService.upload(qrCodeImge);
-                return new BaseRespVo<>(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
+                return new BaseRespVo<>(0, imgPre, new PayInfoVO(orderId, qrCodeImge.getName()), null);
 
             case FAILED:
                 log.error("支付宝预下单失败!!!");
-                return new BaseRespVo<>(1,null,"订单支付失败，请稍后重试");
+                return new BaseRespVo<>(1, null, "订单支付失败，请稍后重试");
 
             case UNKNOWN:
                 log.error("系统异常，预下单状态未知!!!");
-                 return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
+                return new BaseRespVo<>(999, null, "系统出现异常，请联系管理员");
 
             default:
                 log.error("不支持的交易状态，交易返回异常!!!");
-                return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
+                return new BaseRespVo<>(999, null, "系统出现异常，请联系管理员");
         }
     }
 
@@ -294,6 +296,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * author:zt
      * 判断座位号是否存在
+     *
      * @param fieldId
      * @param soldSeats
      * @return
@@ -304,7 +307,7 @@ public class OrderServiceImpl implements OrderService {
         String seats = orderTMapper.getSeatMsg(fieldId);
         String seatsIds = jedis.get(seats);
         if (seatsIds == null) {
-            String file = this.getClass().getResource(seats).getFile();
+            String file = this.getClass().getClassLoader().getResource(seats).getPath();
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String tmp;
             while ((tmp = reader.readLine()) != null) {
@@ -318,10 +321,10 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         String seatMsg = jedis.get(seats);
-        String[]cinemaSeats = soldSeats.split(",");
+        String[] cinemaSeats = soldSeats.split(",");
         for (String cinemaSeat : cinemaSeats) {
-               if(cinemaSeat.contains(seatMsg))
-                   return  false;
+            if (cinemaSeat.contains(seatMsg))
+                return false;
         }
 
         return true;
@@ -330,6 +333,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * author:zt
      * 判断座位是否已经售出
+     *
      * @param fieldId
      * @param soldSeats
      * @return
@@ -344,8 +348,8 @@ public class OrderServiceImpl implements OrderService {
         String soldSeatMsgs = s.substring(1);
         String[] strings = soldSeats.split(",");
         for (String string : strings) {
-            if(soldSeatMsgs.contains(string))
-                return  false;
+            if (soldSeatMsgs.contains(string))
+                return false;
         }
         return true;
 
@@ -353,6 +357,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Zeng-jz
+     *
      * @param nowPage
      * @param pageSize
      * @param userId
