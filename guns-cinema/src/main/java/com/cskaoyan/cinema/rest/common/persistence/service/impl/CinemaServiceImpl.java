@@ -133,9 +133,11 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaT cinemaT = cinemaTMapper.selectById(cinemaId);
         return cinemaT.getCinemaName();
     }
-
+    //`mtime_brand_dict_t`
     @Autowired
-    CatDictTMapper catDictTMapper;
+    BrandDictTMapper brandDictTMapper;
+//    @Autowired
+//    CatDictTMapper catDictTMapper;
     @Autowired
     AreaDictTMapper areaDictTMapper;
     @Autowired
@@ -144,13 +146,11 @@ public class CinemaServiceImpl implements CinemaService {
     //影院列表查询条件
     public ConditionVo selectCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = new ConditionVo();
-        List<BrandVo> brandVos = catDictTMapper.selectListByUUID(brandId);
+        List<BrandVo> brandVos = brandDictTMapper.selectListByUUID(brandId);
         List<AreaVo> areaVos = areaDictTMapper.selectListByUUID(areaId);
         List<HalltypeVo> halltypeVos = hallDictTMapper.selectListByUUID(hallType);
         for (HalltypeVo halltypeVo : halltypeVos) {
-
             if (halltypeVo.getHalltypeId() == hallType ) halltypeVo.setActive(true);
-
         }
         for (BrandVo brandVo : brandVos) {
             if (brandVo.getBrandId() == brandId) brandVo.setActive(true);

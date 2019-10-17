@@ -17,5 +17,4 @@ import java.util.List;
  */
 public interface CatDictTMapper extends BaseMapper<CatDictT> {
 
-    List<BrandVo> selectListByUUID(@Param("brandId") Integer brandId);
 }
