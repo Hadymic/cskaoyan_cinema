@@ -19,8 +19,6 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
 
     Integer queryFilmPrice(Integer fieldId);
 
- boolean insertDb(OrderT orderT);
-
     String queryFilmName(Integer filmId);
 
     String queryFieldTime(Integer fieldId);
@@ -33,10 +31,6 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
      * @return
      */
     String selectSoldSeats(Integer fieldId);
-
-    OrderT queryOrderInfo(@Param("uuid") String orderId);
-
-
 
     /**
      * 查询影厅的座位

@@ -21,30 +21,16 @@
 
 
     <select id="queryOrderMsg" resultMap="BaseResultMap">
-          select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
+          select  cinema_id ,UUID as field_id,film_id from mtime_field_t where UUID=#{fieldId}
     </select>
 
     <select id="selectSoldSeats" resultType="java.lang.String">
         select group_concat(seats_ids) from mooc_order_t WHERE field_id = #{fieldId} GROUP BY field_id
     </select>
 
-    <select id="queryOrderInfo"
-            resultType="com.cskaoyan.cinema.rest.common.persistence.model.OrderT">
-        select UUID,cinema_id,field_id,film_id,seats_ids,seats_name,film_price,
-        order_price,order_time,order_user,order_status
-        from mooc_order_t where UUID = #{uuid}
-    </select>
-
     <select id="queryFilmPrice" resultType="int">
-   select price from mtime_field_t where UUID={fieldId}
+   select price from mtime_field_t where UUID=#{fieldId}
     </select>
-
-
-    <insert id="insertDb">
-        insert into mooc_order_t(UUID,cinema_id,field_id,film_id,seats_ids,seats_name,film_price,order_price,order_time,
-         order_user,order_status) values(null,#{cinema_id},#{field_id},#{film_id},#{seats_ids},#{seats_name},#{film_price},#{order_price},#{order_time},#{
-         order_user},#{order_status})
-    </insert>
 
 
     <select id="queryFilmName" resultType="string">
