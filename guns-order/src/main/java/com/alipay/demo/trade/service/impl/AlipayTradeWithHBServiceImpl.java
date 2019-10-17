@@ -53,7 +53,7 @@ public class AlipayTradeWithHBServiceImpl extends AbsAlipayTradeService {
                 privateKey = Configs.getPrivateKey();
             }
             if (StringUtils.isEmpty(format)) {
-                format = "json";
+                format = "seats";
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = "utf-8";
@@ -109,7 +109,7 @@ public class AlipayTradeWithHBServiceImpl extends AbsAlipayTradeService {
             this.privateKey = privateKey;
             return this;
         }
-        
+
         public ClientBuilder setSignType(String signType) {
             this.signType = signType;
             return this;

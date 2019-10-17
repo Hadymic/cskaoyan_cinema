@@ -1,13 +1,13 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
-<<<<<<< HEAD
+
 import com.cskaoyan.cinema.rest.util.JedisUtils;
 import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-=======
+
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.exception.OrderExceptionEnum;
@@ -17,7 +17,7 @@ import com.cskaoyan.cinema.vo.order.PayResultVo;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
+
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +27,26 @@ import javax.servlet.http.HttpServletRequest;
 public class OrderController {
     @Reference(interfaceClass = OrderService.class)
     private OrderService orderService;
-<<<<<<< HEAD
+
     @Autowired
     private JedisUtils jedisUtils;
 
-    @PostMapping("order/buyTickets")
+    @PostMapping("buyTickets")
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, HttpServletRequest request) {
+
         Integer userId = jedisUtils.getUserId(request);
-        BaseRespVo baseRespVo = orderService.buyTickets(fieldId, soldSeats, seatsName,userId);
+        //判断座位是否存在
+        boolean flag1=orderService.isTrueSeats(fieldId,soldSeats);
+        //判断座位是不是已经销售
+       boolean flag2=  orderService.isNotSoldSeats(fieldId,soldSeats);
+        if(flag1==false){
+            return  new BaseRespVo(1,null,"座位不存在");
+        }else if(flag2==false){
+            return  new BaseRespVo(1,null,"座位已经售出");
+        }
+        BaseRespVo baseRespVo = orderService.buyTickets(fieldId, soldSeats, seatsName, userId);
         return baseRespVo;
-=======
+    }
 
     /**
      * 获取支付结果
@@ -62,6 +72,6 @@ public class OrderController {
         } else {
             return new BaseRespVo<>(1, null, "支付失败！");
         }
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
+
     }
 }

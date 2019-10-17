@@ -541,7 +541,7 @@
 
         // 上传图片的自定义header
         uploadImgHeaders: {
-            // 'Accept': 'text/x-json'
+            // 'Accept': 'text/x-seats'
         },
 
         // 配置 XHR withCredentials

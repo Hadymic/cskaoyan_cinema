@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface OrderTMapper extends BaseMapper<OrderT> {
 
-<<<<<<< HEAD
+
     OrderT queryOrderMsg(Integer fieldId);
 
     Integer queryFilmPrice(Integer fieldId);
@@ -27,12 +27,19 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
     String queryFieldTime(Integer fieldId);
 
     String queryCinema(Integer fieldId);
-=======
+
     /**
      * 查询售出的座位编号列表
      * @param fieldId
      * @return
      */
     List<String> selectSoldSeats(Integer fieldId);
->>>>>>> ff5a32ca1770877947664be96894cd552e57a143
+
+    /**
+     * 查询影厅的座位
+     * @param fieldId
+     * @return
+     */
+    String getSeatMsg(Integer fieldId);
+
 }
