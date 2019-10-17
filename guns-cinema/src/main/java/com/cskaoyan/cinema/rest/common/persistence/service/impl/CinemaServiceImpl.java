@@ -27,16 +27,8 @@ public class CinemaServiceImpl implements CinemaService {
     CinemaTMapper cinemaTMapper;
     @Autowired
     private FieldTMapper fieldTMapper;
-//    @Override
-//    public  List<CinemaVo>queryList(CinemaQueryVo cinemaQueryVo) {
-//        Page<CinemaT>  page = new Page<>();
-//        page.setSize(cinemaQueryVo.getPageSize());
-//        page.setCurrent(cinemaQueryVo.getNowPage());
-//
-//        EntityWrapper<CinemaT> cinemaList = new EntityWrapper<>();
-//        List<CinemaVo> cinemaVoList=convert(cinemaList);
-//        return cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
-//    }
+   @Override
+
     public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
         PageHelper.startPage(cinemaQueryVo.getNowPage(),cinemaQueryVo.getPageSize());
         List<CinemaVo> cinemaVo= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());

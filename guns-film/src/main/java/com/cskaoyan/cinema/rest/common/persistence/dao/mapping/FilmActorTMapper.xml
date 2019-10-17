@@ -10,7 +10,7 @@
         <result column="role_name" property="roleName" />
     </resultMap>
 
-    <resultMap id="filmActorMap" type="com.cskaoyan.cinema.rest.common.persistence.vo.FilmActor">
+    <resultMap id="filmActorMap" type="com.cskaoyan.cinema.vo.film.FilmActor">
         <result column="actor_name" property="directorName" />
         <result column="role_name" property="roleName" />
         <result column="actor_img" property="imgAddress" />

@@ -6,7 +6,9 @@ import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
+import com.cskaoyan.cinema.vo.film.FilmInfoVO;
 import com.cskaoyan.cinema.vo.film.FilmVO;
+import com.cskaoyan.cinema.vo.film.IndexVO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +23,7 @@ public class FilmController {
 
     @RequestMapping("getIndex")
     public FilmVO getIndex() {
-        Object indexVO = filmService.selectFilms4Index();
+        IndexVO indexVO = filmService.selectFilms4Index();
         if (indexVO == null) {
             throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         }
@@ -33,7 +35,7 @@ public class FilmController {
         if (searchType != 0 && searchType != 1) {
             throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
-        Object filmInfoVO = filmService.selectFilmInfo(name, searchType);
+        FilmInfoVO filmInfoVO = filmService.selectFilmInfo(name, searchType);
         if (filmInfoVO == null) {
             throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         }

@@ -3,7 +3,7 @@ package com.cskaoyan.cinema.rest.common.persistence.dao;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cskaoyan.cinema.rest.common.persistence.model.FilmT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.rest.common.persistence.vo.FilmInfo;
+import com.cskaoyan.cinema.vo.film.FilmInfo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
 import org.apache.ibatis.annotations.Param;
 

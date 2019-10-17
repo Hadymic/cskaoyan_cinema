@@ -1,6 +1,5 @@
-package com.cskaoyan.cinema.rest.common.persistence.vo;
+package com.cskaoyan.cinema.vo.film;
 
-import com.cskaoyan.cinema.rest.common.persistence.model.ActorT;
 import lombok.Data;
 
 import java.io.Serializable;

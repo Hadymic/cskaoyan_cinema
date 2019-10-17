@@ -1,4 +1,4 @@
-package com.cskaoyan.cinema.rest.common.persistence.vo;
+package com.cskaoyan.cinema.vo.film;
 
 import lombok.Data;
 
@@ -18,6 +18,7 @@ public class FilmInfoVO implements Serializable {
     private String info02;
     private String info03;
     private FilmActors info04;
-    private ImgVO imgVO;
+    private com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO imgVO;
     private Integer filmId;
 }
+
