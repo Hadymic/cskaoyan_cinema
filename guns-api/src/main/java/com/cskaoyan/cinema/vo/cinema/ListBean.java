@@ -10,5 +10,7 @@ public class ListBean<T>  implements Serializable {
     private   List<T> data;
 private   Integer nowPage;
 private   long totalPage;
-
+private  String msg;
+private  String imgPre;
+private  Integer status;
 }

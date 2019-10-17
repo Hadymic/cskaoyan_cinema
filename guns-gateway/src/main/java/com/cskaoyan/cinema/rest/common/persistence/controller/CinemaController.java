@@ -27,6 +27,9 @@ public class CinemaController {
     @RequestMapping("cinema/getCinemas")
     public ListBean query(CinemaQueryVo cinemaQueryVo) {
         ListBean cinemaList = cinemaService.queryList(cinemaQueryVo);
+        cinemaList.setImgPre(null);
+        cinemaList.setStatus(0);
+        cinemaList.setMsg(null);
         return cinemaList;
 
     }

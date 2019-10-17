@@ -31,18 +31,44 @@ public class CinemaServiceImpl implements CinemaService {
 
     public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
         PageHelper.startPage(cinemaQueryVo.getNowPage(),cinemaQueryVo.getPageSize());
-        List<CinemaVo> cinemaVo= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
-        PageInfo<CinemaVo> cinemaPageInfo = new PageInfo<>(cinemaVo);
+        boolean flag=(cinemaQueryVo.getBrandId()==99 || cinemaQueryVo.getAreaId()==99);
+       List<CinemaVo> cinemaVos;
+        if(flag==true){
+           cinemaVos= cinemaTMapper.queryAllCinema();
+
+        }else {
+            cinemaVos= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
+        }
+
+        List<CinemaVo>  cinemaList=new ArrayList<>();
+
+         //判断影院是否存在相应的影厅
+        for (CinemaVo cinemaVo : cinemaVos) {
+            //传入的影厅
+            Integer halltypeId = cinemaQueryVo.getHalltypeId();
+
+             String halls= cinemaTMapper.queryHallById(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
+            if(halltypeId==99)
+            {
+                cinemaList.add(cinemaVo);
+
+            }else
+             if(halls.contains(halltypeId.toString())){
+                 cinemaList.add(cinemaVo);
+
+             }
+       }
+        PageInfo<CinemaVo> cinemaPageInfo = new PageInfo<>(cinemaList);
         //总记录
         long total = cinemaPageInfo.getTotal();
         //总页数
         long totalPage=total/cinemaQueryVo.getPageSize();
 
-        ListBean cinemaList = new ListBean<>();
-        cinemaList.setData(cinemaVo);
-        cinemaList.setNowPage(cinemaQueryVo.getNowPage());
-        cinemaList.setTotalPage(totalPage);
-        return cinemaList;
+        ListBean cinemaLists= new ListBean<>();
+        cinemaLists.setData(cinemaList);
+        cinemaLists.setNowPage(cinemaQueryVo.getNowPage());
+        cinemaLists.setTotalPage(totalPage+1);
+        return cinemaLists;
     }
 
     @Override
@@ -120,7 +146,7 @@ public class CinemaServiceImpl implements CinemaService {
         List<AreaVo> areaVos  = areaDictTMapper.selectListByUUID(areaId);
         List<HalltypeVo> halltypeVos  = hallDictTMapper.selectListByUUID(hallType);
         for (HalltypeVo halltypeVo : halltypeVos) {
-            if (halltypeVo.getHallType() == hallType ) halltypeVo.setActive(true);
+            if (halltypeVo.getHalltypeId() == hallType ) halltypeVo.setActive(true);
         }
         for (BrandVo brandVo : brandVos) {
             if (brandVo.getBrandId() == brandId) brandVo.setActive(true);

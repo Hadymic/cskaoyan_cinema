@@ -41,4 +41,12 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
     public BaseRespVo bindException(BindException e) {
         return new BaseRespVo(1, null, e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BaseRespVo exception(Exception e) {
+        e.printStackTrace();
+        return new BaseRespVo(1, null, e.getMessage());
+    }
 }
