@@ -62,13 +62,25 @@ public class CinemaController {
     /**
      * 获取场次详细详细接口
      *
-     * @return
-     */
+     * @return**/
     @PostMapping("getFieldInfo")
-    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
+    public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
         //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
-        return fieldInfoVo;
+        //String imgPre = "http://img.meetingshop.cn/";
+        BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+        baseRespVo.setImgPre("http://img.meetingshop.cn/");
+        return baseRespVo;
+        //return  fieldInfoVo;
     }
 
+//    @RequestMapping(value = "cinema/getFieldInfo", method = RequestMethod.POST)
+//    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
+//        FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
+//        //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
+//        //String imgPre = "http://img.meetingshop.cn/";
+//        //BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+//        //return baseRespVo;
+//        return  fieldInfoVo;
+//    }
 }

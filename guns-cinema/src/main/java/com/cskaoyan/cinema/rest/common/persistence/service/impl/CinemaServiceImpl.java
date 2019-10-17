@@ -109,9 +109,9 @@ public class CinemaServiceImpl implements CinemaService {
     public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = new FieldInfoVo();
         CinemaInfoVo cinemaInfoVo = cinemaTMapper.selectCinemaMsg(cinemaId);
-        fieldInfoVo.setCinemaInfoVo(cinemaInfoVo);
-        fieldInfoVo.setFilmInfoVo(hallFilmInfoTMapper.selectByfieldId(cinemaId, fieldId));
-        fieldInfoVo.setHallInfoVo(fieldTMapper.selectHallInfo(fieldId));
+        fieldInfoVo.setCinemaInfo(cinemaInfoVo);
+        fieldInfoVo.setFilmInfo(hallFilmInfoTMapper.selectByfieldId(cinemaId, fieldId));
+        fieldInfoVo.setHallInfo(fieldTMapper.selectHallInfo(fieldId));
         return fieldInfoVo;
     }
 

@@ -7,34 +7,34 @@ import java.io.Serializable;
 @Data
 public class FieldInfoVo implements Serializable {
     private static final long serialVersionUID = 5075787183682259213L;
-    private CinemaInfoVo cinemaInfoVo;
-    private FilmInfoVo filmInfoVo;
-    private HallInfoVo hallInfoVo;
+    private CinemaInfoVo cinemaInfo;
+    private FilmInfoVo filmInfo;
+    private HallInfoVo hallInfo;
 
-    public CinemaInfoVo getCinemaInfoVo() {
-        return cinemaInfoVo;
+    public CinemaInfoVo getCinemaInfo() {
+        return cinemaInfo;
     }
 
-    public FieldInfoVo setCinemaInfoVo(CinemaInfoVo cinemaInfoVo) {
-        this.cinemaInfoVo = cinemaInfoVo;
+    public FieldInfoVo setCinemaInfo(CinemaInfoVo cinemaInfo) {
+        this.cinemaInfo = cinemaInfo;
         return this;
     }
 
-    public FilmInfoVo getFilmInfoVo() {
-        return filmInfoVo;
+    public FilmInfoVo getFilmInfo() {
+        return filmInfo;
     }
 
-    public FieldInfoVo setFilmInfoVo(FilmInfoVo filmInfoVo) {
-        this.filmInfoVo = filmInfoVo;
+    public FieldInfoVo setFilmInfo(FilmInfoVo filmInfo) {
+        this.filmInfo = filmInfo;
         return this;
     }
 
-    public HallInfoVo getHallInfoVo() {
-        return hallInfoVo;
+    public HallInfoVo getHallInfo() {
+        return hallInfo;
     }
 
-    public FieldInfoVo setHallInfoVo(HallInfoVo hallInfoVo) {
-        this.hallInfoVo = hallInfoVo;
+    public FieldInfoVo setHallInfo(HallInfoVo hallInfo) {
+        this.hallInfo = hallInfo;
         return this;
     }
 }
