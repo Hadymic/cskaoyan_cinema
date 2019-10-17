@@ -2,8 +2,11 @@ package com.cskaoyan.cinema.vo.order;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class PayInfoVO {
+public class PayInfoVO implements Serializable {
+    private static final long serialVersionUID = 1415182096237092387L;
     private String orderId;
 
     private String QRCodeAddress;
