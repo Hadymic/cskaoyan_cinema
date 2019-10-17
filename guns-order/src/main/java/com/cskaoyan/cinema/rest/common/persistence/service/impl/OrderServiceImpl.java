@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.core.exception.CinemaException;
-import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
 import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
@@ -46,10 +45,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -281,14 +277,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String getSoldSeatsByFieldId(Integer fieldId) {
-        List<String> seats = orderTMapper.selectSoldSeats(fieldId);
-        StringBuilder s = new StringBuilder();
-        for (String seat : seats) {
-            s.append(",").append(seat);
-        }
-        return s.substring(1);
-
-
+        return orderTMapper.selectSoldSeats(fieldId);
     }
 
     /**
@@ -336,15 +325,17 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean isNotSoldSeats(Integer fieldId, String soldSeats) {
-        List<String> seats = orderTMapper.selectSoldSeats(fieldId);
-        StringBuilder s = new StringBuilder();
-        for (String seat : seats) {
-            s.append(",").append(seat);
+        String seats = orderTMapper.selectSoldSeats(fieldId);
+        if (seats == null || "".equals(seats.trim())) {
+            return true;
         }
-        String soldSeatMsgs = s.substring(1);
-        String[] strings = soldSeats.split(",");
-        for (String string : strings) {
-            if(soldSeatMsgs.contains(string))
+        // 已被购买座位数组
+        String[] seatsArr = seats.split(",");
+        List<String> seatsList = Arrays.asList(seatsArr);
+        // 要购买的座位数组
+        String[] soldSeatsArr = soldSeats.split(",");
+        for (String soldSeat : soldSeatsArr) {
+            if(seatsList.contains(soldSeat))
                 return  false;
         }
         return true;
