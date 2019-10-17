@@ -3,6 +3,8 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
 import com.cskaoyan.cinema.rest.common.persistence.vo.*;
@@ -266,6 +268,8 @@ public class FilmServiceImpl implements FilmService {
             case 3:
                 orderByField = "film_score";
                 break;
+            default:
+                throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
         Page<FilmT> filmList = new Page<FilmT>(offset, pageSize, orderByField);
         Page filmTPage = filmList.setRecords(films);
@@ -277,5 +281,16 @@ public class FilmServiceImpl implements FilmService {
         filmsVo.setImgPre("http://img.meetingshop.cn/");
 
         return filmsVo;
+    }
+
+    /**
+     * 根据id查name
+     * @param filmId
+     * @return
+     */
+    @Override
+    public String selectNameById(Integer filmId) {
+        FilmT filmT = filmTMapper.selectById(filmId);
+        return filmT.getFilmName();
     }
 }

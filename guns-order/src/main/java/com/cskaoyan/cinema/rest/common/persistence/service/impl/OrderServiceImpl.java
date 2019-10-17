@@ -1,5 +1,15 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
+import com.cskaoyan.cinema.service.FilmService;
+import com.cskaoyan.cinema.service.OrderService;
+import org.apache.dubbo.config.annotation.Reference;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.builder.AlipayTradeQueryRequestBuilder;
 import com.alipay.demo.trade.model.result.AlipayF2FQueryResult;
@@ -10,9 +20,7 @@ import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
-import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
-import com.cskaoyan.cinema.service.OrderService;
+
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import org.apache.commons.logging.Log;
@@ -28,16 +36,24 @@ import java.util.List;
 import java.util.UUID;
 
 
+import java.util.ArrayList;
+
+
+
 @Component
 @Service(interfaceClass = OrderService.class)
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderTMapper orderTMapper;
+    @Reference(interfaceClass = FilmService.class, check = false)
+    private FilmService filmService;
+    @Reference(interfaceClass = CinemaService.class, check = false)
+    private CinemaService cinemaService;
+
 
     @Autowired
     private Jedis jedis;
-
 
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
@@ -60,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
         orderT.setOrderStatus(0);
         //把数据插入数据库
         boolean flag = orderTMapper.insertDb(orderT);
-
         OrderMsgVo orderVo = new OrderMsgVo();
         orderVo.setOrderId(orderT.getUuid());
         Integer filmId = orderT.getFilmId();
@@ -74,7 +89,6 @@ public class OrderServiceImpl implements OrderService {
         orderVo.setOrderPrice(price.toString());
         orderVo.setOrderTimestamp(new Date().getTime() + "");
         return new BaseRespVo(0, orderVo, "下单成功");
-
     }
 
     private static Log log = LogFactory.getLog(OrderServiceImpl.class);
@@ -155,6 +169,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return s.substring(1);
 
+
     }
 
     @Override
@@ -181,5 +196,38 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean isNotSoldSeats(Integer fieldId, String soldSeats) {
         return false;
+
+    }
+
+    /**
+     * Zeng-jz
+     * @param nowPage
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    @Override
+    public Object getOrderInfo(Integer nowPage, Integer pageSize, int userId) {
+        Page<OrderT> page = new Page<>();
+        page.setSize(pageSize);
+        page.setCurrent(nowPage);
+        EntityWrapper<OrderT> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("order_user", userId);
+
+        List<OrderT> orderTS = orderTMapper.selectPage(page, entityWrapper);
+        List<OrderVo> orderVos = new ArrayList<>();
+        for (OrderT orderT : orderTS) {
+            OrderVo orderVo = new OrderVo();
+            orderVo.setOrderId(orderT.getUuid());
+            orderVo.setFilmName(filmService.selectNameById(orderT.getFilmId()));
+            orderVo.setFieldTime(cinemaService.selectFieldTimeById(orderT.getFieldId()));
+            orderVo.setCinemaName(cinemaService.selectNameById(orderT.getCinemaId()));
+            orderVo.setOrderPrice(orderT.getOrderPrice());
+            orderVo.setSeatsName(orderT.getSeatsName());
+            orderVo.setOrderStatus(OrderStatusVo.get(orderT.getOrderStatus()));
+            orderVos.add(orderVo);
+        }
+        return orderVos;
+
     }
 }

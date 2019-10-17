@@ -19,7 +19,7 @@
 
     <select id="queryOrderMsg"   resultMap="BaseResultMap">
           select  cinema_id as cinemaId,UUID as fieldId,film_id filmId from mtime_field_t where UUID=#{fieldId}
-=======
+</select>
     <select id="selectSoldSeats" resultType="java.lang.String">
         select seats_ids from mooc_order_t where field_id = #{fieldId}
 
@@ -52,7 +52,7 @@
 LEFT JOIN mtime_field_t f  on f.cinema_id=c.UUID where f.UUID=#{fieldId}
     </select>
 
-    <select id="getSeatMsg">
+    <select id="getSeatMsg"  resultType="string">
         select h.seat_address from mtime_hall_dict_t h LEFT JOIN mtime_field_t f on f.hall_id=h.UUID
         WHERE f.UUID=#{fieldId}
     </select>

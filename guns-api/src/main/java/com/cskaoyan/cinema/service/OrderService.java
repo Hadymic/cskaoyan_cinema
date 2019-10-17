@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface OrderService {
-
+;
     BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName,Integer userId);
 
     /**
@@ -25,7 +25,18 @@ public interface OrderService {
      */
     String getSoldSeatsByFieldId(Integer fieldId);
 
+
     boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException;
 
     boolean isNotSoldSeats(Integer fieldId, String soldSeats);
+
+    /**
+     * 获取用户订单信息接口
+     * @param nowPage
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    Object getOrderInfo(Integer nowPage, Integer pageSize, int userId);
+
 }

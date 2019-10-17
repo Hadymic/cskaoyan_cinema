@@ -35,11 +35,13 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
      */
     List<String> selectSoldSeats(Integer fieldId);
 
+
     /**
      * 查询影厅的座位
      * @param fieldId
      * @return
      */
     String getSeatMsg(Integer fieldId);
+
 
 }
