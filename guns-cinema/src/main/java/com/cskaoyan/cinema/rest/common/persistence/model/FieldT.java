@@ -125,6 +125,7 @@ public class FieldT extends Model<FieldT> {
         this.price = price;
     }
 
+
     @Override
     protected Serializable pkVal() {
         return this.uuid;

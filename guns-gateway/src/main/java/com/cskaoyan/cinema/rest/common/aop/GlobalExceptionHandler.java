@@ -47,4 +47,12 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
     public BaseRespVo cinemaException(CinemaException e) {
         return new BaseRespVo<>(e.getCode(), null, e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BaseRespVo exception(Exception e) {
+        e.printStackTrace();
+        return new BaseRespVo(1, null, e.getMessage());
+    }
 }
