@@ -1,6 +1,8 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
 
+import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
@@ -21,7 +23,7 @@ public class FilmController {
     public FilmVO getIndex() {
         Object indexVO = filmService.selectFilms4Index();
         if (indexVO == null) {
-            return new FilmVO(1, "查询失败，无影片可加载");
+            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         }
         return new FilmVO<>(0, indexVO, null);
     }
@@ -29,11 +31,11 @@ public class FilmController {
     @RequestMapping("films/{name}")
     public FilmVO getFilmInfo(@PathVariable String name, Integer searchType) {
         if (searchType != 0 && searchType != 1) {
-            return new FilmVO(400, "系统出现异常，输入不合法");
+            throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
         Object filmInfoVO = filmService.selectFilmInfo(name, searchType);
         if (filmInfoVO == null) {
-            return new FilmVO(1, "查询失败，无影片可加载");
+            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         }
         return new FilmVO<>(0, filmInfoVO, null);
     }
@@ -48,7 +50,7 @@ public class FilmController {
     public BaseRespVo getConditionList(ConditionNoVO conditionNoVO) {
         Object conditionVo = filmService.selectConfitionList(conditionNoVO);
         if (conditionVo != null) {
-            return new BaseRespVo<>(0, conditionVo, null);
+            throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         } else {
             return new BaseRespVo<>(1, null, "查询失败，无条件可加载");
         }

@@ -3,15 +3,21 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
+import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
+import com.cskaoyan.cinema.rest.common.persistence.model.FieldT;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -19,6 +25,8 @@ import java.util.List;
 public class CinemaServiceImpl implements CinemaService {
     @Autowired
     CinemaTMapper cinemaTMapper;
+    @Autowired
+    private FieldTMapper fieldTMapper;
 //    @Override
 //    public  List<CinemaVo>queryList(CinemaQueryVo cinemaQueryVo) {
 //        Page<CinemaT>  page = new Page<>();
@@ -77,7 +85,6 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     HallFilmInfoTMapper hallFilmInfoTMapper;
     //表`mtime_field_t,场地信息
-    @Autowired FieldTMapper fieldTMapper;
     //获取场次详细信息
     @Override
     public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
@@ -87,6 +94,25 @@ public class CinemaServiceImpl implements CinemaService {
         fieldInfoVo.setFilmInfoVo(hallFilmInfoTMapper.selectByfieldId(cinemaId,fieldId));
         fieldInfoVo.setHallInfoVo(fieldTMapper.selectHallInfo(fieldId));
         return fieldInfoVo;
+    }
+
+    @Override
+    public Date selectFieldTimeById(Integer fieldId) {
+        FieldT fieldT = fieldTMapper.selectById(fieldId);
+        String beginTime = fieldT.getBeginTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+        try {
+            return sdf.parse(beginTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String selectNameById(Integer cinemaId) {
+        CinemaT cinemaT = cinemaTMapper.selectById(cinemaId);
+        return cinemaT.getCinemaName();
     }
 
     @Autowired
