@@ -55,6 +55,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private Jedis jedis;
 
+    /**
+     * author:zt
+     * 创建订单
+     * @param fieldId
+     * @param soldSeats
+     * @param seatsName
+     * @param userId
+     * @return
+     */
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
         String[] seats = soldSeats.split(",");
@@ -172,6 +181,14 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * author:zt
+     * 判断座位号是否存在
+     * @param fieldId
+     * @param soldSeats
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException {
         String seats = orderTMapper.getSeatMsg(fieldId);
@@ -190,12 +207,37 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
         }
-        return false;
+        String seatMsg = jedis.get(seats);
+        String[]cinemaSeats = soldSeats.split(",");
+        for (String cinemaSeat : cinemaSeats) {
+               if(cinemaSeat.contains(seatMsg))
+                   return  false;
+        }
+
+        return true;
     }
 
+    /**
+     * author:zt
+     * 判断座位是否已经售出
+     * @param fieldId
+     * @param soldSeats
+     * @return
+     */
     @Override
     public boolean isNotSoldSeats(Integer fieldId, String soldSeats) {
-        return false;
+        List<String> seats = orderTMapper.selectSoldSeats(fieldId);
+        StringBuilder s = new StringBuilder();
+        for (String seat : seats) {
+            s.append(",").append(seat);
+        }
+        String soldSeatMsgs = s.substring(1);
+        String[] strings = soldSeats.split(",");
+        for (String string : strings) {
+            if(soldSeatMsgs.contains(string))
+                return  false;
+        }
+        return true;
 
     }
 
