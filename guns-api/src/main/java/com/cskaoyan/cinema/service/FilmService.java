@@ -1,7 +1,9 @@
 package com.cskaoyan.cinema.service;
 
+import com.cskaoyan.cinema.vo.film.ConditionListVo;
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
+import com.cskaoyan.cinema.vo.film.FilmVO;
 
 public interface FilmService {
 
@@ -20,9 +22,9 @@ public interface FilmService {
      */
     Object selectFilmInfo(String name, Integer searchType);
 
-    Object selectConfitionList(ConditionNoVO conditionNoVO);
+    ConditionListVo selectConditionList(ConditionNoVO conditionNoVO);
 
-    Object selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset);
+    FilmVO selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset);
 
 
     FilmOrderVo selectFilmByFilmId(Integer filmId);

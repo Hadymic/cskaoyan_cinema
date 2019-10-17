@@ -1,11 +1,11 @@
-package com.cskaoyan.cinema.rest.common.persistence.vo;
+package com.cskaoyan.cinema.vo.film;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class FilmsVo<T> implements Serializable {
+public class FilmsRespVO<T> implements Serializable {
     private static final long serialVersionUID = -8319991555619593140L;
 
     private int status;

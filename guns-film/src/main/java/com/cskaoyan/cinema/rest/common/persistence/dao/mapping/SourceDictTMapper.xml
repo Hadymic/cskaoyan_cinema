@@ -8,7 +8,7 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
-    <select id="selectAll" resultType="com.cskaoyan.cinema.rest.common.persistence.vo.SourceInfoVo">
+    <select id="selectAll" resultType="com.cskaoyan.cinema.vo.film.SourceInfoVo">
         select UUID as sourceId, show_name as sourceName
         from mtime_source_dict_t
     </select>

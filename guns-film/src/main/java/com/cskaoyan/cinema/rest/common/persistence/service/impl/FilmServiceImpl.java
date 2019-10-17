@@ -9,8 +9,7 @@ import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
 import com.cskaoyan.cinema.rest.common.persistence.vo.*;
 import com.cskaoyan.cinema.service.FilmService;
-import com.cskaoyan.cinema.vo.film.ConditionNoVO;
-import com.cskaoyan.cinema.vo.film.FilmOrderVo;
+import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -220,7 +219,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Object selectConfitionList(ConditionNoVO conditionNoVO) {
+    public ConditionListVo selectConditionList(ConditionNoVO conditionNoVO) {
         List<CatInfoVo> catInfo = catDictTMapper.selectAll();
         List<SourceInfoVo> sourceInfo = sourceDictTMapper.selectAll();
         List<YearInfoVo> yearInfo = yearDictTMapper.selectAll();
@@ -247,13 +246,12 @@ public class FilmServiceImpl implements FilmService {
             }
         }
 
-        ConditionVo conditionVo = new ConditionVo(catInfo, sourceInfo, yearInfo);
-        return conditionVo;
+        return new ConditionListVo(catInfo, sourceInfo, yearInfo);
     }
 
     @Override
-    public FilmsVo selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset) {
-        FilmsVo filmsVo = new FilmsVo();
+    public FilmVO selectFilms(ConditionNoVO conditionNoVO, int showType, int sortId, int pageSize, int offset) {
+        FilmsRespVO<FilmT> filmsVo = new FilmsRespVO();
 
         String film_catId = "%#" + conditionNoVO.getCatId() + "#%";
         List<FilmT> films = filmTMapper.selectByIds(conditionNoVO.getSourceId(),
@@ -272,11 +270,19 @@ public class FilmServiceImpl implements FilmService {
             default:
                 throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
-        Page<FilmT> filmList = new Page<FilmT>(offset, pageSize, orderByField);
-        Page filmTPage = filmList.setRecords(films);
+        Page<FilmT> filmTPage = new Page<>();
+        filmTPage.setSize(pageSize);
+        filmTPage.setCurrent(offset + 1);
+        filmTPage.setOrderByField(orderByField);
 
-        filmsVo.setData(filmTPage.getRecords());
-        filmsVo.setStatus(0);
+        EntityWrapper<FilmT> entityWrapper = new EntityWrapper<>();
+        entityWrapper.like( conditionNoVO.getCatId() != 99, "film_cats", film_catId);
+        entityWrapper.eq(conditionNoVO.getSourceId() != 99, "film_source", conditionNoVO.getSourceId());
+        entityWrapper.eq(conditionNoVO.getYearId() != 99, "film_date", conditionNoVO.getYearId());
+
+        List<FilmT> filmTS = filmTMapper.selectPage(filmTPage, entityWrapper);
+
+        filmsVo.setData(filmTS);
         filmsVo.setNowPage(filmTPage.getCurrent());
         filmsVo.setTotalPage(filmTPage.getTotal());
         filmsVo.setImgPre("http://img.meetingshop.cn/");

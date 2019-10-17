@@ -8,7 +8,7 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
-    <select id="selectAll" resultType="com.cskaoyan.cinema.rest.common.persistence.vo.CatInfoVo">
+    <select id="selectAll" resultType="com.cskaoyan.cinema.vo.film.CatInfoVo">
         select UUID as catId, show_name as catName
         from mtime_cat_dict_t
     </select>

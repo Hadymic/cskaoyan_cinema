@@ -5,6 +5,7 @@ import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
+import com.cskaoyan.cinema.vo.film.ConditionListVo;
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
 import com.cskaoyan.cinema.vo.film.FilmVO;
 import org.apache.dubbo.config.annotation.Reference;
@@ -48,11 +49,11 @@ public class FilmController {
      */
     @RequestMapping("getConditionList")
     public BaseRespVo getConditionList(ConditionNoVO conditionNoVO) {
-        Object conditionVo = filmService.selectConfitionList(conditionNoVO);
-        if (conditionVo != null) {
+        ConditionListVo conditionVo = filmService.selectConditionList(conditionNoVO);
+        if (conditionVo == null) {
             throw new GunsException(FilmExceptionEnum.FILM_NOT_FOUND);
         } else {
-            return new BaseRespVo<>(1, null, "查询失败，无条件可加载");
+            return new BaseRespVo<>(0, conditionVo, null);
         }
     }
 
@@ -67,9 +68,9 @@ public class FilmController {
      * @return
      */
     @RequestMapping("getFilms")
-    public Object getFilms(@RequestBody ConditionNoVO conditionNoVO, int showType,
+    public FilmVO getFilms(@RequestBody ConditionNoVO conditionNoVO, int showType,
                            int sortId, int pageSize, int offset) {
-        Object films = filmService.selectFilms(conditionNoVO, showType, sortId, pageSize, offset);
+        FilmVO films = filmService.selectFilms(conditionNoVO, showType, sortId, pageSize, offset);
         return films;
 
     }
