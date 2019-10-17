@@ -37,11 +37,12 @@ public class OrderController {
         boolean flag1 = orderService.isTrueSeats(fieldId, soldSeats);
         //判断座位是不是已经销售
         boolean flag2 = orderService.isNotSoldSeats(fieldId, soldSeats);
-        if (flag1 == false) {
+        if (!flag1) {
             return new BaseRespVo<>(1, null, "座位不存在");
-        } else if (flag2 == false) {
+        } else if (!flag2) {
             return new BaseRespVo<>(1, null, "座位已经售出");
         }
+
 
         BaseRespVo baseRespVo = orderService.buyTickets(fieldId, soldSeats, seatsName, userId);
         return baseRespVo;

@@ -25,7 +25,7 @@
     </select>
 
     <select id="selectSoldSeats" resultType="java.lang.String">
-        select seats_ids from mooc_order_t where field_id = #{fieldId}
+        select group_concat(seats_ids) from mooc_order_t WHERE field_id = #{fieldId} GROUP BY field_id
     </select>
 
     <select id="queryOrderInfo"

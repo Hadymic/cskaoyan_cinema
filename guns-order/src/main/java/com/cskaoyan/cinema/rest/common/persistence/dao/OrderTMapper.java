@@ -32,7 +32,7 @@ public interface OrderTMapper extends BaseMapper<OrderT> {
      * @param fieldId
      * @return
      */
-    List<String> selectSoldSeats(Integer fieldId);
+    String selectSoldSeats(Integer fieldId);
 
     OrderT queryOrderInfo(@Param("uuid") String orderId);
 
