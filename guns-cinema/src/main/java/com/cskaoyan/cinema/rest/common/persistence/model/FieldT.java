@@ -58,9 +58,8 @@ public class FieldT extends Model<FieldT> {
     /**
      * 票价
      */
+    @TableField("price")
     private Integer price;
-
-
 
     public Integer getUuid() {
         return uuid;
@@ -125,7 +124,6 @@ public class FieldT extends Model<FieldT> {
     public void setPrice(Integer price) {
         this.price = price;
     }
-
 
 
     @Override

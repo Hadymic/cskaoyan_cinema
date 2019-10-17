@@ -3,6 +3,7 @@ package com.cskaoyan.cinema.rest.common.aop;
 import com.cskaoyan.cinema.core.aop.BaseControllerExceptionHandler;
 import com.cskaoyan.cinema.core.base.tips.ErrorTip;
 import com.cskaoyan.cinema.rest.common.exception.BizExceptionEnum;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
@@ -36,10 +37,15 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public BaseRespVo bindException(BindException e) {
-        return new BaseRespVo(1, null, e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+        return new BaseRespVo<>(1, null, e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+    }
+
+    @ExceptionHandler(CinemaException.class)
+    @ResponseBody
+    public BaseRespVo cinemaException(CinemaException e) {
+        return new BaseRespVo<>(e.getCode(), null, e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

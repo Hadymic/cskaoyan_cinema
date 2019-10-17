@@ -1,8 +1,5 @@
 package com.cskaoyan.cinema.vo.film;
 
-import com.cskaoyan.cinema.vo.film.CatInfoVo;
-import com.cskaoyan.cinema.vo.film.SourceInfoVo;
-import com.cskaoyan.cinema.vo.film.YearInfoVo;
 import lombok.Data;
 
 import java.io.Serializable;
