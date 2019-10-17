@@ -17,8 +17,7 @@ public class OSSTest {
         String accessSecret = "C6k2x76D2LuULywLoHMFz7YTzu8Aku";
         OSSClient ossClient = new OSSClient(endPoint, accessKeyId, accessSecret);
         File myfile = new File("D:\\tmp\\qr-tradeprecreate1571216057973905377.png");
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String key = uuid + "-123456.png";
+        String key = myfile.getName();
         ossClient.putObject(new PutObjectRequest(bucket, key, myfile));
     }
 }

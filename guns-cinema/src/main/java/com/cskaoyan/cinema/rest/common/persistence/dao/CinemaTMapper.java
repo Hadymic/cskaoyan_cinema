@@ -27,4 +27,8 @@ public interface CinemaTMapper extends BaseMapper<CinemaT> {
     CinemaInfoVo selectCinemaMsg(@Param("cinemaId") String cinemaId);
 
     List<FilmFields> queryHall(Integer filmId);
+
+    String queryHallById(Integer brandId,Integer areaId);
+
+    List<CinemaVo> queryAllCinema();
 }

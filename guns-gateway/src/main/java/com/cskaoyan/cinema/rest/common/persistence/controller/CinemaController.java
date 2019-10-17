@@ -3,16 +3,15 @@ package com.cskaoyan.cinema.rest.common.persistence.controller;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
-import com.cskaoyan.cinema.vo.cinema.*;
+import com.cskaoyan.cinema.vo.cinema.CinemaMsgVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
+import com.cskaoyan.cinema.vo.cinema.FieldInfoVo;
+import com.cskaoyan.cinema.vo.cinema.ListBean;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+ @RequestMapping("cinema")
 public class CinemaController {
     @Reference(interfaceClass = CinemaService.class)
     private CinemaService cinemaService;
@@ -24,9 +23,12 @@ public class CinemaController {
      * @param cinemaQueryVo
      * @return
      */
-    @RequestMapping("cinema/getCinemas")
+    @RequestMapping("getCinemas")
     public ListBean query(CinemaQueryVo cinemaQueryVo) {
         ListBean cinemaList = cinemaService.queryList(cinemaQueryVo);
+        cinemaList.setImgPre(null);
+        cinemaList.setStatus(0);
+        cinemaList.setMsg(null);
         return cinemaList;
 
     }
@@ -39,7 +41,7 @@ public class CinemaController {
      * @param areaId
      * @return
      */
-    @RequestMapping("cinema/getCondition")
+    @RequestMapping("getCondition")
     public BaseRespVo selectGetCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = cinemaService.selectCondition(brandId, hallType, areaId);
         BaseRespVo baseRespVo = new BaseRespVo(0, conditionVo, null);
@@ -51,7 +53,7 @@ public class CinemaController {
      * <p>
      * 3、获取播放场次接口
      */
-    @RequestMapping("cinema/getFields")
+    @RequestMapping("getFields")
     public CinemaMsgVo queryCinemaMsg(String cinemaId) {
         CinemaMsgVo cinemaMsgVo = cinemaService.queryCinemaMsg(cinemaId);
         return cinemaMsgVo;
@@ -60,13 +62,25 @@ public class CinemaController {
     /**
      * 获取场次详细详细接口
      *
-     * @return
-     */
-    @RequestMapping(value = "cinema/getFieldInfo", method = RequestMethod.POST)
-    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
+     * @return**/
+    @PostMapping("getFieldInfo")
+    public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
         //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
-        return fieldInfoVo;
+        //String imgPre = "http://img.meetingshop.cn/";
+        BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+        baseRespVo.setImgPre("http://img.meetingshop.cn/");
+        return baseRespVo;
+        //return  fieldInfoVo;
     }
 
+//    @RequestMapping(value = "cinema/getFieldInfo", method = RequestMethod.POST)
+//    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
+//        FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
+//        //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
+//        //String imgPre = "http://img.meetingshop.cn/";
+//        //BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+//        //return baseRespVo;
+//        return  fieldInfoVo;
+//    }
 }

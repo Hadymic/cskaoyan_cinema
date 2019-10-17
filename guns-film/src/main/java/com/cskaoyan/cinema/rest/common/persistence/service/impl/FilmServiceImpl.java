@@ -3,17 +3,11 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
-import com.cskaoyan.cinema.rest.common.persistence.vo.*;
-import com.cskaoyan.cinema.vo.film.FilmActor;
-import com.cskaoyan.cinema.vo.film.FilmInfo;
-import com.cskaoyan.cinema.vo.film.FilmInfoVO;
-import com.cskaoyan.cinema.vo.film.Films;
 import com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO;
-import com.cskaoyan.cinema.vo.film.IndexVO;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Service;
@@ -52,10 +46,18 @@ public class FilmServiceImpl implements FilmService {
         // 即将上映
         indexVO.setSoonFilms(selectFilms(2));
         // 今日票房
-        indexVO.setBoxRanking(filmTMapper.selectFilmsByStatus(getPage(1), 1));
+        List<FilmInfo> boxRanking = filmTMapper.selectFilmsByStatus(getPage(1), 1);
+        for (FilmInfo filmInfo : boxRanking) {
+            Integer boxNum = filmInfo.getBoxNum();
+            if (boxNum > 10000) {
+                boxNum =  boxNum / 10000;
+            }
+            filmInfo.setBoxNum(boxNum);
+        }
+        indexVO.setBoxRanking(boxRanking);
         // 最受期待
         indexVO.setExpectRanking(filmTMapper.selectFilmsByStatus(getPage(2), 2));
-        indexVO.setTop100(filmTMapper.selectFilmsByStatus(getPage(3), 3));
+        indexVO.setTop100(filmTMapper.selectFilmsByStatus(getPage(0), 0));
         return indexVO;
     }
 
@@ -131,6 +133,7 @@ public class FilmServiceImpl implements FilmService {
     private Films selectFilms(Integer status) {
         Films films = new Films();
         Page<FilmInfo> page = getPage(status);
+        page.setSize(8);
         films.setFilmInfo(filmTMapper.selectFilmsByStatus(page, status));
         films.setFilmNum((int) page.getTotal());
         return films;
@@ -302,7 +305,7 @@ public class FilmServiceImpl implements FilmService {
                 orderByField = "film_score";
                 break;
             default:
-                throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
+                throw new CinemaException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
         Page<FilmT> filmTPage = new Page<>();
         filmTPage.setSize(pageSize);
@@ -310,7 +313,7 @@ public class FilmServiceImpl implements FilmService {
         filmTPage.setOrderByField(orderByField);
 
         EntityWrapper<FilmT> entityWrapper = new EntityWrapper<>();
-        entityWrapper.like( conditionNoVO.getCatId() != 99, "film_cats", film_catId);
+        entityWrapper.like(conditionNoVO.getCatId() != 99, "film_cats", film_catId);
         entityWrapper.eq(conditionNoVO.getSourceId() != 99, "film_source", conditionNoVO.getSourceId());
         entityWrapper.eq(conditionNoVO.getYearId() != 99, "film_date", conditionNoVO.getYearId());
 
@@ -332,7 +335,7 @@ public class FilmServiceImpl implements FilmService {
         }
 
         filmsVo.setData(filmsTVos);
-        filmsVo.setNowPage(offset+1);
+        filmsVo.setNowPage(offset + 1);
         filmsVo.setTotalPage(filmTPage.getTotal());
         filmsVo.setImgPre("http://img.meetingshop.cn/");
 

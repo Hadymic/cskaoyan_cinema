@@ -9,8 +9,8 @@
     </resultMap>
     <select id="selectListByUUID" resultType="com.cskaoyan.cinema.vo.cinema.AreaVo">
         select UUID as areaId,show_name as areaName from `mtime_area_dict_t`
-        <if test="areaId != 99">
-            where UUID = #{areaId}
-        </if>
+        <!--<if test="areaId != 99">-->
+            <!--where UUID = #{areaId}-->
+        <!--</if>-->
     </select>
 </mapper>
