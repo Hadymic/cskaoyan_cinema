@@ -3,16 +3,6 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.cinema.CinemaService;
-import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
-import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
-import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
-import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
-import com.cskaoyan.cinema.service.FilmService;
-import com.cskaoyan.cinema.service.OrderService;
-import org.apache.dubbo.config.annotation.Reference;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
@@ -26,29 +16,39 @@ import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
+import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
+import com.cskaoyan.cinema.rest.common.persistence.model.OrderT;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderStatusVo;
+import com.cskaoyan.cinema.rest.common.persistence.vo.OrderVo;
+import com.cskaoyan.cinema.service.FilmService;
+import com.cskaoyan.cinema.service.OrderService;
 import com.cskaoyan.cinema.service.OssService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
+import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import com.cskaoyan.cinema.vo.order.PayInfoVO;
 import org.apache.commons.lang.StringUtils;
-import com.cskaoyan.cinema.vo.order.OrderMsgVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.io.File;
-import java.util.ArrayList;
 import redis.clients.jedis.Jedis;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-
-
 
 @Component
 @Service(interfaceClass = OrderService.class)

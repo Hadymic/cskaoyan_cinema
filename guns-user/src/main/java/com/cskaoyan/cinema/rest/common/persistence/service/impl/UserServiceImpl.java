@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseRespVo selectUserInfo(Integer userId) {
-        if (userId != null) {
-            UserT userT = userTMapper.selectById(userId);
-            return new BaseRespVo(0, userT, null);
-        } else if (userId == null) {
+        UserVo userVo = userTMapper.selectUserInfoById(userId);
+        if (userVo != null) {
+            return new BaseRespVo(0, null, userVo,null);
+        } else if (userVo == null) {
             return new BaseRespVo(1, null, "查询失败，用户尚未登录");
         }
         return new BaseRespVo(999, null, "系统出现异常，请联系管理员");
@@ -58,12 +58,8 @@ public class UserServiceImpl implements UserService {
         userVo.setUpdateTime(new Date());//更新时间
         Integer code = userTMapper.updateUserInfo(userVo);
         if (code == 1) {//成功
-            UserT userT = userTMapper.selectById(userVo.getUuid());
-            userVo.setId(userT.getUuid());
-            userVo.setHeadAddress(userT.getHeadUrl());
-            userVo.setCreatTime(userT.getBeginTime());
-            userVo.setUpdateTime(userT.getUpdateTime());
-            return new BaseRespVo(0, userVo, null);
+            UserVo userVo1 = userTMapper.selectUserInfoById(userVo.getUuid());
+            return new BaseRespVo(0, userVo1, null);
         } else if (code == 0) {//失败
             return new BaseRespVo(1, null, "用户信息修改失败");
         }
