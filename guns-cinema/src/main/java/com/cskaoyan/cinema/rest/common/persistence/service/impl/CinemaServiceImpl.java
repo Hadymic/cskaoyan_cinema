@@ -5,12 +5,10 @@ import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.cskaoyan.cinema.rest.common.persistence.model.FieldT;
-import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,16 +25,17 @@ public class CinemaServiceImpl implements CinemaService {
     CinemaTMapper cinemaTMapper;
     @Autowired
     private FieldTMapper fieldTMapper;
-   @Override
 
-    public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
-        PageHelper.startPage(cinemaQueryVo.getNowPage(),cinemaQueryVo.getPageSize());
-        List<CinemaVo> cinemaVo= cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(),cinemaQueryVo.getAreaId());
+    @Override
+
+    public ListBean queryList(CinemaQueryVo cinemaQueryVo) {
+        PageHelper.startPage(cinemaQueryVo.getNowPage(), cinemaQueryVo.getPageSize());
+        List<CinemaVo> cinemaVo = cinemaTMapper.queryCinemaMsg(cinemaQueryVo.getBrandId(), cinemaQueryVo.getAreaId());
         PageInfo<CinemaVo> cinemaPageInfo = new PageInfo<>(cinemaVo);
         //总记录
         long total = cinemaPageInfo.getTotal();
         //总页数
-        long totalPage=total/cinemaQueryVo.getPageSize();
+        long totalPage = total / cinemaQueryVo.getPageSize();
 
         ListBean cinemaList = new ListBean<>();
         cinemaList.setData(cinemaVo);
@@ -49,25 +48,25 @@ public class CinemaServiceImpl implements CinemaService {
     public CinemaMsgVo queryCinemaMsg(String cinemaId) {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
         List list = new ArrayList();
-        CinemaInfoVo cinemaMsg =cinemaTMapper.selectCinemaMsg(cinemaId);
-        List<FilmMsgVo> filmList=cinemaTMapper.queryFilmMsg(cinemaId);
+        CinemaInfoVo cinemaMsg = cinemaTMapper.selectCinemaMsg(cinemaId);
+        List<FilmMsgVo> filmList = cinemaTMapper.queryFilmMsg(cinemaId);
         for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
             Integer filmId = filmMsgVo.getFilmId();
-           List<FilmFields> filmFields=cinemaTMapper.queryHall(filmId);
+            List<FilmFields> filmFields = cinemaTMapper.queryHall(filmId);
             for (FilmFields filmField : filmFields) {
                 filmField.setLanguage(filmType);
             }
-           filmMsgVo.setFilmFields(filmFields);
+            filmMsgVo.setFilmFields(filmFields);
             filmMsgVo.setFilmType(filmType);
         }
-       list.add(cinemaMsg);
-       list.add(filmList);
-       cinemaMsgVo.setData(list);
-       cinemaMsgVo.setImgPre(null);
-       cinemaMsgVo.setNowPage(null);
-       cinemaMsgVo.setStatus(0);
-       cinemaMsgVo.setTotalPage(null);
+        list.add(cinemaMsg);
+        list.add(filmList);
+        cinemaMsgVo.setData(list);
+        cinemaMsgVo.setImgPre(null);
+        cinemaMsgVo.setNowPage(null);
+        cinemaMsgVo.setStatus(0);
+        cinemaMsgVo.setTotalPage(null);
         return cinemaMsgVo;
     }
 
@@ -76,6 +75,7 @@ public class CinemaServiceImpl implements CinemaService {
     //表mtime_hall_film_info_t,查询电影信息
     @Autowired
     HallFilmInfoTMapper hallFilmInfoTMapper;
+
     //表`mtime_field_t,场地信息
     //获取场次详细信息
     @Override
@@ -83,7 +83,7 @@ public class CinemaServiceImpl implements CinemaService {
         FieldInfoVo fieldInfoVo = new FieldInfoVo();
         CinemaInfoVo cinemaInfoVo = cinemaTMapper.selectCinemaMsg(cinemaId);
         fieldInfoVo.setCinemaInfoVo(cinemaInfoVo);
-        fieldInfoVo.setFilmInfoVo(hallFilmInfoTMapper.selectByfieldId(cinemaId,fieldId));
+        fieldInfoVo.setFilmInfoVo(hallFilmInfoTMapper.selectByfieldId(cinemaId, fieldId));
         fieldInfoVo.setHallInfoVo(fieldTMapper.selectHallInfo(fieldId));
         return fieldInfoVo;
     }
@@ -113,20 +113,21 @@ public class CinemaServiceImpl implements CinemaService {
     AreaDictTMapper areaDictTMapper;
     @Autowired
     HallDictTMapper hallDictTMapper;
+
     //影院列表查询条件
     public ConditionVo selectCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = new ConditionVo();
         List<BrandVo> brandVos = catDictTMapper.selectListByUUID(brandId);
-        List<AreaVo> areaVos  = areaDictTMapper.selectListByUUID(areaId);
-        List<HalltypeVo> halltypeVos  = hallDictTMapper.selectListByUUID(hallType);
+        List<AreaVo> areaVos = areaDictTMapper.selectListByUUID(areaId);
+        List<HalltypeVo> halltypeVos = hallDictTMapper.selectListByUUID(hallType);
         for (HalltypeVo halltypeVo : halltypeVos) {
-            if (halltypeVo.getHallType() == hallType ) halltypeVo.setActive(true);
+            if (halltypeVo.getHallType() == hallType) halltypeVo.setActive(true);
         }
         for (BrandVo brandVo : brandVos) {
             if (brandVo.getBrandId() == brandId) brandVo.setActive(true);
         }
         for (AreaVo areaVo : areaVos) {
-            if (areaVo.getAreaId() == areaId ) areaVo.setActive(true);
+            if (areaVo.getAreaId() == areaId) areaVo.setActive(true);
         }
         conditionVo.setAreaList(areaVos);
         conditionVo.setBrandList(brandVos);

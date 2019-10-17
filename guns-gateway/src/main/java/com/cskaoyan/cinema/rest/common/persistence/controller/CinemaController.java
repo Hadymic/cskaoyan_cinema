@@ -3,14 +3,14 @@ package com.cskaoyan.cinema.rest.common.persistence.controller;
 import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
-import com.cskaoyan.cinema.vo.cinema.*;
+import com.cskaoyan.cinema.vo.cinema.CinemaMsgVo;
+import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
+import com.cskaoyan.cinema.vo.cinema.FieldInfoVo;
+import com.cskaoyan.cinema.vo.cinema.ListBean;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class CinemaController {

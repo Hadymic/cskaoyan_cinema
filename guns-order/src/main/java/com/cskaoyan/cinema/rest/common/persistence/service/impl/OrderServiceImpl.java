@@ -19,6 +19,7 @@ import com.alipay.demo.trade.utils.ZxingUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;
@@ -224,19 +225,19 @@ public class OrderServiceImpl implements OrderService {
                 log.info("filePath:" + filePath);
                 File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 String imgPre = ossService.upload(qrCodeImge);
-                return new BaseRespVo(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
+                return new BaseRespVo<>(0,imgPre,new PayInfoVO(orderId,qrCodeImge.getName()),null);
 
             case FAILED:
                 log.error("支付宝预下单失败!!!");
-                return new BaseRespVo(1,null,"订单支付失败，请稍后重试");
+                return new BaseRespVo<>(1,null,"订单支付失败，请稍后重试");
 
             case UNKNOWN:
                 log.error("系统异常，预下单状态未知!!!");
-                 return new BaseRespVo(999,null,"系统出现异常，请联系管理员");
+                 return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
 
             default:
                 log.error("不支持的交易状态，交易返回异常!!!");
-                return new BaseRespVo(999,null,"系统出现异常，请联系管理员");
+                return new BaseRespVo<>(999,null,"系统出现异常，请联系管理员");
         }
     }
 
@@ -270,11 +271,11 @@ public class OrderServiceImpl implements OrderService {
 
             case UNKNOWN:
                 log.error("订单号：" + orderId + "，系统异常，订单支付状态未知!!!");
-                throw new GunsException(GunsExceptionEnum.SERVER_ERROR);
+                throw new CinemaException(GunsExceptionEnum.SERVER_ERROR);
 
             default:
                 log.error("订单号：" + orderId + "，不支持的交易状态，交易返回异常!!!");
-                throw new GunsException(GunsExceptionEnum.SERVER_ERROR);
+                throw new CinemaException(GunsExceptionEnum.SERVER_ERROR);
         }
     }
 

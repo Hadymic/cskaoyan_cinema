@@ -1,20 +1,16 @@
 package com.cskaoyan.cinema.rest.modular.auth.controller;
 
-import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.rest.common.exception.BizExceptionEnum;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.modular.auth.controller.dto.AuthRequest;
 import com.cskaoyan.cinema.rest.modular.auth.controller.dto.AuthResponse;
 import com.cskaoyan.cinema.rest.modular.auth.service.UserService;
 import com.cskaoyan.cinema.rest.modular.auth.util.JwtTokenUtil;
-import com.cskaoyan.cinema.rest.modular.auth.validator.IReqValidator;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
-
-import javax.annotation.Resource;
 
 /**
  * 请求验证的
@@ -54,9 +50,9 @@ public class AuthController {
             //redis过期时长5个小时
             jedis.expire(token, 18000);
 
-            return new BaseRespVo(0, new AuthResponse(token, randomKey), null);
+            return new BaseRespVo<>(0, new AuthResponse(token, randomKey), null);
         } else {
-            throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+            throw new CinemaException(BizExceptionEnum.AUTH_REQUEST_ERROR);
         }
     }
 }

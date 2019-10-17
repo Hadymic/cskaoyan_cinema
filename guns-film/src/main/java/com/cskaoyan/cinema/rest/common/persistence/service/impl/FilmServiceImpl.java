@@ -3,17 +3,12 @@ package com.cskaoyan.cinema.rest.common.persistence.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.core.exception.GunsException;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
 import com.cskaoyan.cinema.rest.common.persistence.vo.*;
-import com.cskaoyan.cinema.vo.film.FilmActor;
-import com.cskaoyan.cinema.vo.film.FilmInfo;
-import com.cskaoyan.cinema.vo.film.FilmInfoVO;
-import com.cskaoyan.cinema.vo.film.Films;
 import com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO;
-import com.cskaoyan.cinema.vo.film.IndexVO;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Service;
@@ -302,7 +297,7 @@ public class FilmServiceImpl implements FilmService {
                 orderByField = "film_score";
                 break;
             default:
-                throw new GunsException(FilmExceptionEnum.VAR_REQUEST_NULL);
+                throw new CinemaException(FilmExceptionEnum.VAR_REQUEST_NULL);
         }
         Page<FilmT> filmList = new Page<FilmT>(offset, pageSize, orderByField);
         Page filmTPage = filmList.setRecords(films);
