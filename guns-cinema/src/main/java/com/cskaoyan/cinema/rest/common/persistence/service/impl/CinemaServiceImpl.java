@@ -75,6 +75,7 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
         HashMap map= new HashMap();
         CinemaInfoVo cinemaMsg = cinemaTMapper.selectCinemaMsg(cinemaId);
+        cinemaMsg.setImgUrl("http://img.meetingshop.cn/"+cinemaMsg.getImgUrl());
         List<FilmMsgVo> filmList = cinemaTMapper.queryFilmMsg(cinemaId);
         for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
