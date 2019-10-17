@@ -1,7 +1,9 @@
 package com.cskaoyan.cinema.service;
 
 import com.cskaoyan.cinema.vo.film.ConditionNoVO;
+import com.cskaoyan.cinema.vo.film.FilmInfoVO;
 import com.cskaoyan.cinema.vo.film.FilmOrderVo;
+import com.cskaoyan.cinema.vo.film.IndexVO;
 
 public interface FilmService {
 
@@ -9,7 +11,7 @@ public interface FilmService {
      * 查询首页的电影
      * @return
      */
-    Object selectFilms4Index();
+    IndexVO selectFilms4Index();
 
 
     /**
@@ -18,7 +20,7 @@ public interface FilmService {
      * @param searchType
      * @return
      */
-    Object selectFilmInfo(String name, Integer searchType);
+    FilmInfoVO selectFilmInfo(String name, Integer searchType);
 
     Object selectConfitionList(ConditionNoVO conditionNoVO);
 

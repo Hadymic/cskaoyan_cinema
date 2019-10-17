@@ -24,7 +24,7 @@
     </sql>
 
 
-    <resultMap id="FilmInfoMap" type="com.cskaoyan.cinema.rest.common.persistence.vo.FilmInfo">
+    <resultMap id="FilmInfoMap" type="com.cskaoyan.cinema.vo.film.FilmInfo">
         <id column="UUID" property="filmId" />
         <result column="film_name" property="filmName" />
         <result column="film_type" property="filmType" />
