@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @PostMapping("updateUserInfo")
-    public BaseRespVo updateUserInfo(@RequestBody UserVo userVo) {
+    public BaseRespVo updateUserInfo(UserVo userVo) {
         BaseRespVo baseRespVo = userService.updateUserInfo(userVo);
         return baseRespVo;
     }

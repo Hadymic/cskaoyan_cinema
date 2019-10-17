@@ -31,7 +31,23 @@
         birthday=#{user.birthday},
         life_state=#{user.lifeState},
         biography=#{user.biography},
-        address =#{user.address}
+        address =#{user.address},
+        head_url = #{user.headAddress}
         where UUID = #{user.uuid}
     </update>
+
+    <select id="selectUserInfoById" resultType="com.cskaoyan.cinema.vo.user.UserVo">
+        select user_name as username,
+        nick_name as nickname ,
+        user_sex as sex,
+        birthday,
+        email,user_phone as phone,
+        address,head_url as headAddress,
+        biography,life_state as lifeState,
+        begin_time as beginTime,
+        update_time as updateTime
+        from mtime_user_t
+        where UUID =#{uuid}
+
+    </select>
 </mapper>

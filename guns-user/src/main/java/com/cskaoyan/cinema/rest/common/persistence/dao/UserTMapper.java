@@ -16,4 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface UserTMapper extends BaseMapper<UserT> {
 
     Integer updateUserInfo(@Param("user") UserVo userVo);
+
+    UserVo selectUserInfoById(@Param("uuid") Integer userId);
 }
