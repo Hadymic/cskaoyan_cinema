@@ -13,6 +13,6 @@ public class IndexVO implements Serializable {
     private Films hotFilms;
     private Films soonFilms;
     private List<FilmInfo> boxRanking;
-    private List<FilmInfo> expectRankings;
+    private List<FilmInfo> expectRanking;
     private List<FilmInfo> top100;
 }

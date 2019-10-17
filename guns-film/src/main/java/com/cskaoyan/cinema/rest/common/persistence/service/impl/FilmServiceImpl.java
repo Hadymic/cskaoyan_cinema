@@ -54,7 +54,7 @@ public class FilmServiceImpl implements FilmService {
         // 今日票房
         indexVO.setBoxRanking(filmTMapper.selectFilmsByStatus(getPage(1), 1));
         // 最受期待
-        indexVO.setExpectRankings(filmTMapper.selectFilmsByStatus(getPage(2), 2));
+        indexVO.setExpectRanking(filmTMapper.selectFilmsByStatus(getPage(2), 2));
         indexVO.setTop100(filmTMapper.selectFilmsByStatus(getPage(3), 3));
         return indexVO;
     }
