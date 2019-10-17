@@ -37,6 +37,6 @@ public interface OrderService {
      * @param userId
      * @return
      */
-    Object getOrderInfo(Integer nowPage, Integer pageSize, int userId);
+    Object getOrderInfo(Integer nowPage, Integer pageSize, Integer userId);
 
 }

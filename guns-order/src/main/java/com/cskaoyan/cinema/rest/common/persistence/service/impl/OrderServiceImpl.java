@@ -358,7 +358,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public Object getOrderInfo(Integer nowPage, Integer pageSize, int userId) {
+    public Object getOrderInfo(Integer nowPage, Integer pageSize, Integer userId) {
         Page<OrderT> page = new Page<>();
         page.setSize(pageSize);
         page.setCurrent(nowPage);
