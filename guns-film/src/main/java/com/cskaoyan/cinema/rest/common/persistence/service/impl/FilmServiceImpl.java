@@ -7,7 +7,7 @@ import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.rest.common.exception.FilmExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.*;
-import com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO;
+import com.cskaoyan.cinema.vo.film.ImgVO;
 import com.cskaoyan.cinema.service.FilmService;
 import com.cskaoyan.cinema.vo.film.*;
 import org.apache.dubbo.config.annotation.Service;
@@ -50,7 +50,7 @@ public class FilmServiceImpl implements FilmService {
         for (FilmInfo filmInfo : boxRanking) {
             Integer boxNum = filmInfo.getBoxNum();
             if (boxNum > 10000) {
-                boxNum =  boxNum / 10000;
+                boxNum = boxNum / 10000;
             }
             filmInfo.setBoxNum(boxNum);
         }

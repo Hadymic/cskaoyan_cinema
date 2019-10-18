@@ -78,7 +78,9 @@ public class UserController {
     }
 
     @PostMapping("updateUserInfo")
-    public BaseRespVo updateUserInfo(UserVo userVo) {
+    public BaseRespVo updateUserInfo(UserVo userVo, HttpServletRequest request) {
+        Integer userId = jedisUtils.getUserId(request);
+        userVo.setUuid(userId);
         BaseRespVo baseRespVo = userService.updateUserInfo(userVo);
         return baseRespVo;
     }

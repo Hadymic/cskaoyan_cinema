@@ -138,6 +138,11 @@ public class CinemaServiceImpl implements CinemaService {
         return cinemaT.getCinemaName();
     }
 
+    @Override
+    public CinemaInfoVo selectCinemaInfoById(Integer cinemaId) {
+        return cinemaTMapper.selectCinemaMsg("" + cinemaId);
+    }
+
     //`mtime_brand_dict_t`
     @Autowired
     BrandDictTMapper brandDictTMapper;

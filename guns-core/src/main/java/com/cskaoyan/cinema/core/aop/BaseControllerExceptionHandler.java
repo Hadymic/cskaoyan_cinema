@@ -1,6 +1,7 @@
 package com.cskaoyan.cinema.core.aop;
 
 import com.cskaoyan.cinema.core.base.tips.ErrorTip;
+import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.core.exception.GunsException;
 import com.cskaoyan.cinema.core.base.tips.ErrorTip;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
@@ -41,6 +42,13 @@ public class BaseControllerExceptionHandler {
     public ErrorTip notFount(RuntimeException e) {
         log.error("运行时异常:", e);
         return new ErrorTip(GunsExceptionEnum.SERVER_ERROR.getCode(), GunsExceptionEnum.SERVER_ERROR.getMessage());
+    }
+
+    @ExceptionHandler(CinemaException.class)
+    @ResponseBody
+    public ErrorTip cinemaException(CinemaException e) {
+        log.error(e.getMessage());
+        return new ErrorTip(e.getCode(), e.getMessage());
     }
 
 }

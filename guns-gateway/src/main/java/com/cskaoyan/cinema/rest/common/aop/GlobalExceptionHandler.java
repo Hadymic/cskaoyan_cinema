@@ -42,12 +42,6 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
         return new BaseRespVo<>(1, null, e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
     }
 
-    @ExceptionHandler(CinemaException.class)
-    @ResponseBody
-    public BaseRespVo cinemaException(CinemaException e) {
-        return new BaseRespVo<>(e.getCode(), null, e.getMessage());
-    }
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

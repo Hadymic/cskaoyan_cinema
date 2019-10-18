@@ -1,6 +1,5 @@
 package com.cskaoyan.cinema.vo.film;
 
-import com.cskaoyan.cinema.rest.common.persistence.vo.ImgVO;
 import lombok.Data;
 
 import java.io.Serializable;

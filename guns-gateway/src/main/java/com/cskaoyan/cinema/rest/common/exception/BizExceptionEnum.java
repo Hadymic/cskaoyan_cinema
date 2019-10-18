@@ -24,7 +24,11 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
     /**
      * 其他
      */
-    AUTH_REQUEST_ERROR(1, "用户名或密码错误");
+    AUTH_REQUEST_ERROR(1, "用户名或密码错误"),
+    /**
+     * 未登录异常
+     */
+    LOGIN_ERROR(1, "请先登录");
 
     BizExceptionEnum(int code, String message) {
         this.code = code;

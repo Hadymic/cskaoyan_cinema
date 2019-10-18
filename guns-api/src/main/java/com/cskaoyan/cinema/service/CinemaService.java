@@ -30,4 +30,12 @@ public interface CinemaService {
      * @return
      */
     String selectNameById(Integer cinemaId);
+
+    /**
+     * 根据cinema的id返回cinema详细信息
+     *
+     * @param cinemaId
+     * @return
+     */
+    CinemaInfoVo selectCinemaInfoById(Integer cinemaId);
 }
