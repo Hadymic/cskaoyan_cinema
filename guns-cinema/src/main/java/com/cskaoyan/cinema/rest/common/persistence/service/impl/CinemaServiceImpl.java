@@ -1,15 +1,17 @@
 package com.cskaoyan.cinema.rest.common.persistence.service.impl;
+
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
-import com.cskaoyan.cinema.cinema.CinemaService;
 import com.cskaoyan.cinema.rest.common.persistence.dao.*;
 import com.cskaoyan.cinema.rest.common.persistence.model.CinemaT;
 import com.cskaoyan.cinema.rest.common.persistence.model.FieldT;
+import com.cskaoyan.cinema.service.CinemaService;
 import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class CinemaServiceImpl implements CinemaService {
     private FieldTMapper fieldTMapper;
 
 
-    public  ListBean  queryList(CinemaQueryVo cinemaQueryVo) {
+    public ListBean queryList(CinemaQueryVo cinemaQueryVo) {
         PageHelper.startPage(cinemaQueryVo.getNowPage(), cinemaQueryVo.getPageSize());
         boolean flag = (cinemaQueryVo.getBrandId() == 99 || cinemaQueryVo.getAreaId() == 99);
         List<CinemaVo> cinemaVos;
@@ -63,19 +65,19 @@ public class CinemaServiceImpl implements CinemaService {
         //总页数
         long totalPage = total / cinemaQueryVo.getPageSize();
 
-        ListBean cinemaLists= new ListBean<>();
+        ListBean cinemaLists = new ListBean<>();
         cinemaLists.setData(cinemaList);
         cinemaLists.setNowPage(cinemaQueryVo.getNowPage());
-        cinemaLists.setTotalPage(totalPage+1);
+        cinemaLists.setTotalPage(totalPage + 1);
         return cinemaLists;
     }
 
     @Override
     public CinemaMsgVo queryCinemaMsg(String cinemaId) {
         CinemaMsgVo cinemaMsgVo = new CinemaMsgVo();
-        HashMap map= new HashMap();
+        HashMap map = new HashMap();
         CinemaInfoVo cinemaMsg = cinemaTMapper.selectCinemaMsg(cinemaId);
-        cinemaMsg.setImgUrl("http://img.meetingshop.cn/"+cinemaMsg.getImgUrl());
+        cinemaMsg.setImgUrl(cinemaMsg.getImgUrl());
         List<FilmMsgVo> filmList = cinemaTMapper.queryFilmMsg(cinemaId);
         for (FilmMsgVo filmMsgVo : filmList) {
             String filmType = filmMsgVo.getFilmType();
@@ -87,8 +89,8 @@ public class CinemaServiceImpl implements CinemaService {
             filmMsgVo.setFilmFields(filmFields);
             filmMsgVo.setFilmType(filmType);
         }
-        map.put("cinemaInfo",cinemaMsg);
-        map.put("filmList",filmList);
+        map.put("cinemaInfo", cinemaMsg);
+        map.put("filmList", filmList);
         cinemaMsgVo.setData(map);
         cinemaMsgVo.setImgPre("http://img.meetingshop.cn/");
         cinemaMsgVo.setNowPage(null);
@@ -135,10 +137,11 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaT cinemaT = cinemaTMapper.selectById(cinemaId);
         return cinemaT.getCinemaName();
     }
+
     //`mtime_brand_dict_t`
     @Autowired
     BrandDictTMapper brandDictTMapper;
-//    @Autowired
+    //    @Autowired
 //    CatDictTMapper catDictTMapper;
     @Autowired
     AreaDictTMapper areaDictTMapper;
@@ -152,7 +155,7 @@ public class CinemaServiceImpl implements CinemaService {
         List<AreaVo> areaVos = areaDictTMapper.selectListByUUID(areaId);
         List<HalltypeVo> halltypeVos = hallDictTMapper.selectListByUUID(hallType);
         for (HalltypeVo halltypeVo : halltypeVos) {
-            if (halltypeVo.getHalltypeId() == hallType ) halltypeVo.setActive(true);
+            if (halltypeVo.getHalltypeId() == hallType) halltypeVo.setActive(true);
         }
         for (BrandVo brandVo : brandVos) {
             if (brandVo.getBrandId() == brandId) brandVo.setActive(true);

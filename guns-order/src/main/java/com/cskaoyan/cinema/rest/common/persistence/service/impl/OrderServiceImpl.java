@@ -18,7 +18,7 @@ import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.service.CinemaService;
 import com.cskaoyan.cinema.core.exception.CinemaException;
 import com.cskaoyan.cinema.core.exception.GunsExceptionEnum;
 import com.cskaoyan.cinema.rest.common.persistence.dao.OrderTMapper;

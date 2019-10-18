@@ -1,6 +1,6 @@
 package com.cskaoyan.cinema.rest.common.persistence.controller;
 
-import com.cskaoyan.cinema.cinema.CinemaService;
+import com.cskaoyan.cinema.service.CinemaService;
 import com.cskaoyan.cinema.vo.BaseRespVo;
 import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.cinema.CinemaMsgVo;
@@ -8,10 +8,12 @@ import com.cskaoyan.cinema.vo.cinema.CinemaQueryVo;
 import com.cskaoyan.cinema.vo.cinema.FieldInfoVo;
 import com.cskaoyan.cinema.vo.cinema.ListBean;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
- @RequestMapping("cinema")
+@RequestMapping("cinema")
 public class CinemaController {
     @Reference(interfaceClass = CinemaService.class)
     private CinemaService cinemaService;
@@ -62,13 +64,14 @@ public class CinemaController {
     /**
      * 获取场次详细详细接口
      *
-     * @return**/
+     * @return
+     **/
     @PostMapping("getFieldInfo")
     public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
         //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
         //String imgPre = "http://img.meetingshop.cn/";
-        BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
+        BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo, "");
         baseRespVo.setImgPre("http://img.meetingshop.cn/");
         return baseRespVo;
         //return  fieldInfoVo;

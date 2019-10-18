@@ -13,13 +13,7 @@
         <result column="hall_name" property="hallName" />
         <result column="price" property="price" />
     </resultMap>
-    <select id="selectHallInfo" resultType="com.cskaoyan.cinema.vo.cinema.HallInfoVo">
-        select f.UUID as hallFieldId,f.hall_name as hallName,f.price,h.seatFile
-        from mtime_field_t f
-        left join mtime_hall_dict_t  h on h.UUID = f.film_id
-        where f.cinema_id =#{cinemaId}
-        and f.field_id = #{fieldId}
-    </select>
+
     <select id="selectOneById" resultType="com.cskaoyan.cinema.vo.cinema.FilmInfoVo">
         select film_id as filmId,film_name as filmName,film_language as filmType,
         img_address as imgAddress,film_cats as filmCats,film_length as filmLength
@@ -27,11 +21,11 @@
         where film_id = #{filmId}
     </select>
     <select id="selectHallInfo" resultType="com.cskaoyan.cinema.vo.cinema.HallInfoVo">
-        select mft.film_id as hallFieldId,mft.hall_name as hallName,mft.price,mhdt.seat_address as seatFile,
-        mot.seats_ids as soldSeats
+        select mft.UUID as hallFieldId,mft.hall_name as hallName,mft.price,mhdt.seat_address as seatFile,
+        GROUP_CONCAT(mot.seats_ids) as soldSeats
         from mtime_field_t mft
         left join mtime_hall_dict_t mhdt on mhdt.UUID = mft.hall_id
-        left join mooc_order_t mot on mot.film_id = mft.UUID
-        where mft.UUID = #{fieldId}
+        left join mooc_order_t mot on mot.field_id = mft.UUID
+        where mft.UUID = #{fieldId} GROUP BY mft.UUID
     </select>
 </mapper>

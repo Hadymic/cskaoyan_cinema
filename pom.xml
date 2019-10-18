@@ -19,6 +19,7 @@
         <module>guns-cinema</module>
         <module>guns-user</module>
         <module>guns-order</module>
+        <module>guns-promo</module>
     </modules>
 
     <parent>

@@ -1,8 +1,7 @@
 package com.cskaoyan.cinema.rest.common.persistence.dao;
 
-import com.cskaoyan.cinema.rest.common.persistence.model.FieldT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cskaoyan.cinema.vo.cinema.FieldInfoVo;
+import com.cskaoyan.cinema.rest.common.persistence.model.FieldT;
 import com.cskaoyan.cinema.vo.cinema.FilmInfoVo;
 import com.cskaoyan.cinema.vo.cinema.HallInfoVo;
 import org.apache.ibatis.annotations.Param;
