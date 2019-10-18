@@ -9,6 +9,7 @@ import com.cskaoyan.cinema.vo.cinema.FilmMsgVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -31,4 +32,6 @@ public interface CinemaTMapper extends BaseMapper<CinemaT> {
     String queryHallById(Integer brandId,Integer areaId);
 
     List<CinemaVo> queryAllCinema();
+
+    List<CinemaInfoVo> selectCinemasByIds(@Param("cinemaIds") Set<Integer> cinemaIds);
 }

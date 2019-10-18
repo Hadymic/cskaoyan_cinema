@@ -14,10 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Service(interfaceClass = CinemaService.class)
@@ -136,6 +133,28 @@ public class CinemaServiceImpl implements CinemaService {
     public String selectNameById(Integer cinemaId) {
         CinemaT cinemaT = cinemaTMapper.selectById(cinemaId);
         return cinemaT.getCinemaName();
+    }
+
+    @Override
+    public CinemaInfoVo selectById(Integer cinemaId) {
+        CinemaT cinemaT = cinemaTMapper.selectById(cinemaId);
+        CinemaInfoVo cinemaInfoVo = new CinemaInfoVo();
+        cinemaInfoVo.setCinemaAdress(cinemaT.getCinemaAddress());
+        cinemaInfoVo.setCinemaId(cinemaT.getUuid());
+        cinemaInfoVo.setCinemaName(cinemaT.getCinemaName());
+        cinemaInfoVo.setImgUrl(cinemaT.getImgAddress());
+        cinemaInfoVo.setCinemaPhone(cinemaT.getCinemaPhone());
+        return cinemaInfoVo;
+    }
+
+    @Override
+    public Map<Integer, CinemaInfoVo> selectCinemasById(Set<Integer> cinemaIds) {
+        List<CinemaInfoVo> cinemaInfoVos = cinemaTMapper.selectCinemasByIds(cinemaIds);
+        Map<Integer, CinemaInfoVo> cinemaInfoVoMap = new HashMap<>();
+        for (CinemaInfoVo cinemaInfoVo : cinemaInfoVos) {
+            cinemaInfoVoMap.put(cinemaInfoVo.getCinemaId(), cinemaInfoVo);
+        }
+        return cinemaInfoVoMap;
     }
 
     //`mtime_brand_dict_t`

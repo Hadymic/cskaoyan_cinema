@@ -4,6 +4,8 @@ import com.cskaoyan.cinema.vo.ConditionVo;
 import com.cskaoyan.cinema.vo.cinema.*;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 public interface CinemaService {
 
@@ -30,4 +32,13 @@ public interface CinemaService {
      * @return
      */
     String selectNameById(Integer cinemaId);
+
+    /**
+     * 根据id返回所有信息
+     * @param cinemaId
+     * @return
+     */
+    CinemaInfoVo selectById(Integer cinemaId);
+
+    Map<Integer, CinemaInfoVo> selectCinemasById(Set<Integer> cinemaIds);
 }

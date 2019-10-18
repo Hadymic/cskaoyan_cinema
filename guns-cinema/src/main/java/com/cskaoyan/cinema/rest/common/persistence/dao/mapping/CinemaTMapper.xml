@@ -53,6 +53,19 @@ mtime_field_t f on i.film_id=f.film_id where f.cinema_id=#{cinemaId}
 mtime_cinema_t c LEFT JOIN mtime_brand_dict_t b on c.brand_id=b.UUID
 LEFT JOIN  mtime_area_dict_t  a  on a.UUID=c.area_id
     </select>
+
+    <select id="selectCinemasByIds" resultType="com.cskaoyan.cinema.vo.cinema.CinemaInfoVo">
+        select cinema_address as cinemaAdress, UUID as cinemaId, cinema_name as cinemaName ,
+        cinema_phone as cinemaPhone,img_address as imgUrl
+        from mtime_cinema_t
+        <where>
+        uuid in
+        <foreach collection="cinemaIds" item="cinemaId" separator="," open="(" close=")">
+            #{cinemaId}
+        </foreach>
+        </where>
+    </select>
+
 </mapper>
 
 
