@@ -2,7 +2,10 @@ package com.cskaoyan.cinema.rest.common.persistence.model;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -21,6 +24,7 @@ public class StockLog extends Model<StockLog> {
     /**
      * 主键id
      */
+    @TableId(value = "uuid", type = IdType.UUID)
     private String uuid;
     /**
      * 秒杀活动id
@@ -77,10 +81,10 @@ public class StockLog extends Model<StockLog> {
     @Override
     public String toString() {
         return "StockLog{" +
-        "uuid=" + uuid +
-        ", promoId=" + promoId +
-        ", amount=" + amount +
-        ", status=" + status +
-        "}";
+                "uuid=" + uuid +
+                ", promoId=" + promoId +
+                ", amount=" + amount +
+                ", status=" + status +
+                "}";
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("cinema")
 public class CinemaController {
-    @Reference(interfaceClass = CinemaService.class)
+    @Reference(interfaceClass = CinemaService.class, check = false)
     private CinemaService cinemaService;
 
     /**
@@ -46,8 +46,7 @@ public class CinemaController {
     @RequestMapping("getCondition")
     public BaseRespVo selectGetCondition(Integer brandId, Integer hallType, Integer areaId) {
         ConditionVo conditionVo = cinemaService.selectCondition(brandId, hallType, areaId);
-        BaseRespVo baseRespVo = new BaseRespVo(0, conditionVo, null);
-        return baseRespVo;
+        return new BaseRespVo<>(0, conditionVo, null);
     }
 
     /**
@@ -56,9 +55,8 @@ public class CinemaController {
      * 3、获取播放场次接口
      */
     @RequestMapping("getFields")
-    public CinemaMsgVo queryCinemaMsg(String cinemaId) {
-        CinemaMsgVo cinemaMsgVo = cinemaService.queryCinemaMsg(cinemaId);
-        return cinemaMsgVo;
+    public CinemaMsgVo queryCinemaMsg(Integer cinemaId) {
+        return cinemaService.queryCinemaMsg(cinemaId);
     }
 
     /**
@@ -67,23 +65,10 @@ public class CinemaController {
      * @return
      **/
     @PostMapping("getFieldInfo")
-    public BaseRespVo getFieIdInfo(String cinemaId, String fieldId) {
+    public BaseRespVo getFieIdInfo(Integer cinemaId, Integer fieldId) {
         FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
-        //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
-        //String imgPre = "http://img.meetingshop.cn/";
-        BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo, "");
+        BaseRespVo baseRespVo = new BaseRespVo<>(0, fieldInfoVo, "");
         baseRespVo.setImgPre("http://img.meetingshop.cn/");
         return baseRespVo;
-        //return  fieldInfoVo;
     }
-
-//    @RequestMapping(value = "cinema/getFieldInfo", method = RequestMethod.POST)
-//    public FieldInfoVo getFieIdInfo(String cinemaId, String fieldId) {
-//        FieldInfoVo fieldInfoVo = cinemaService.getFieIdInfo(cinemaId, fieldId);
-//        //BaseRespVo<FieldInfoVo> fieldInfoVoBaseRespVo = new BaseRespVo<>(0, fieldInfoVo, null);
-//        //String imgPre = "http://img.meetingshop.cn/";
-//        //BaseRespVo baseRespVo = new BaseRespVo(0, fieldInfoVo,"");
-//        //return baseRespVo;
-//        return  fieldInfoVo;
-//    }
 }

@@ -22,13 +22,13 @@ public interface CinemaTMapper extends BaseMapper<CinemaT> {
 
     List<CinemaVo> queryCinemaMsg(Integer brandId, Integer areaId);
 
-    List<FilmMsgVo> queryFilmMsg(String cinemaId);
+    List<FilmMsgVo> queryFilmMsg(Integer cinemaId);
 
-    CinemaInfoVo selectCinemaMsg(@Param("cinemaId") String cinemaId);
+    CinemaInfoVo selectCinemaMsg(@Param("cinemaId") Integer cinemaId);
 
-    List<FilmFields> queryHall(Integer filmId);
+    List<FilmFields> queryHall(@Param("cinemaId") Integer cinemaId, @Param("filmId") Integer filmId);
 
-    String queryHallById(Integer brandId,Integer areaId);
+    String queryHallById(Integer brandId, Integer areaId);
 
     List<CinemaVo> queryAllCinema();
 }

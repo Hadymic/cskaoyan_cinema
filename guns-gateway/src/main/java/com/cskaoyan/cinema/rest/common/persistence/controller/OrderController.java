@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("order")
 public class OrderController {
-    @Reference(interfaceClass = OrderService.class)
+    @Reference(interfaceClass = OrderService.class, check = false)
     private OrderService orderService;
 
     @Autowired

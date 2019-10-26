@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("user")
 public class UserController {
-    @Reference(interfaceClass = UserService.class)
+    @Reference(interfaceClass = UserService.class, check = false)
     private UserService userService;
     @Autowired
     private JwtProperties jwtProperties;

@@ -15,5 +15,13 @@ public interface PromoService {
      */
     List<GetPromoVo> getPromo(Integer cinemaId, Integer pageSize, Integer nowPage);
 
-    boolean createOrder(Integer promoId, Integer amount, Integer userId);
+    boolean createOrder(Integer promoId, Integer amount, Integer userId, String stockLogId);
+
+    boolean publishPromoStock(Integer cinemaId);
+
+    boolean transactionCreateOrder(Integer promoId, Integer amount, Integer userId, String stockLogId);
+
+    String initPromoStockLog(Integer promoId, Integer amount);
+
+    String generateToken(String promoId, Integer userId);
 }

@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2019-10-14
  */
 public interface HallFilmInfoTMapper extends BaseMapper<HallFilmInfoT> {
-    FilmInfoVo selectByfieldId(@Param("cinemaId") String cinemaId,
-                               @Param("fieldId") String fieldId);
+    FilmInfoVo selectByfieldId(@Param("cinemaId") Integer cinemaId,
+                               @Param("fieldId") Integer fieldId);
 
 }

@@ -76,9 +76,8 @@ public class AuthFilter extends OncePerRequestFilter {
                 return;
             }*/
 
-            String userId = jedis.get(authToken);
-            if (StringUtils.isEmpty(userId)) {
-                RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
+            if (!jedis.exists(authToken)) {
+                RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.LOGIN_ERROR.getCode(), BizExceptionEnum.LOGIN_ERROR.getMessage()));
                 return;
             } else {
                 //刷新用户缓存时间
@@ -86,7 +85,7 @@ public class AuthFilter extends OncePerRequestFilter {
             }
         } else {
             //header没有带Bearer字段
-            RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
+            RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.LOGIN_ERROR.getCode(), BizExceptionEnum.LOGIN_ERROR.getMessage()));
             return;
         }
         chain.doFilter(request, response);

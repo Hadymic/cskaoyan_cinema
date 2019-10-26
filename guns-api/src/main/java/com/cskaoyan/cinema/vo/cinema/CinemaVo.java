@@ -10,5 +10,15 @@ public class CinemaVo implements Serializable {
     private Integer uuid;
     private String cinemaName;
     private String cinemaAddress;
-    private String minimumPrice;
+    private Integer minimumPrice;
+
+    public CinemaVo(Integer uuid, String cinemaName, String cinemaAddress, Integer minimumPrice) {
+        this.uuid = uuid;
+        this.cinemaName = cinemaName;
+        this.cinemaAddress = cinemaAddress;
+        this.minimumPrice = minimumPrice;
+    }
+
+    public CinemaVo() {
+    }
 }

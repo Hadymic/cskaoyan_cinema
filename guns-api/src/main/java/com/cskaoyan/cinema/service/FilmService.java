@@ -6,6 +6,7 @@ public interface FilmService {
 
     /**
      * 查询首页的电影
+     *
      * @return
      */
     IndexVO selectFilms4Index();
@@ -13,6 +14,7 @@ public interface FilmService {
 
     /**
      * 查询电影详细信息
+     *
      * @param name
      * @param searchType
      * @return
@@ -21,13 +23,14 @@ public interface FilmService {
 
     ConditionListVo selectConditionList(ConditionNoVO conditionNoVO);
 
-    FilmsRespVO selectFilms(ConditionNoVO conditionNoVO, Integer showType, Integer nowPage, Integer sortId, Integer pageSize, Integer offset);
+    FilmsRespVO selectFilms(ConditionNoVO conditionNoVO, Integer showType, Integer nowPage, Integer sortId, Integer pageSize, Integer offset, String kw);
 
 
     FilmOrderVo selectFilmByFilmId(Integer filmId);
 
     /**
      * 通过id查filmName
+     *
      * @param filmId
      * @return
      */

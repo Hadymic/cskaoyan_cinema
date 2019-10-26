@@ -287,12 +287,33 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmsRespVO selectFilms(ConditionNoVO conditionNoVO, Integer showType, Integer nowPage,
-                                   Integer sortId, Integer pageSize, Integer offset) {
+                                   Integer sortId, Integer pageSize, Integer offset, String kw) {
         FilmsRespVO<List> filmsVo = new FilmsRespVO<>();
+        if (kw != null) {
+            EntityWrapper<FilmT> entityWrapper = new EntityWrapper<>();
+            entityWrapper.like("film_name", kw);
+            List<FilmT> filmTS = filmTMapper.selectList(entityWrapper);
+            List<FilmsTVo> filmsTVos = new ArrayList<>();
+            for (FilmT filmT : filmTS) {
+                FilmsTVo filmsTVo = new FilmsTVo();
+                filmsTVo.setBoxNum(filmT.getFilmBoxOffice());
+                filmsTVo.setExpectNum(filmT.getFilmPresalenum());
+                filmsTVo.setFilmId(filmT.getUuid());
+                filmsTVo.setFilmScore(filmT.getFilmScore());
+                filmsTVo.setScore(filmT.getFilmScore());
+                filmsTVo.setImgAddress(filmT.getImgAddress());
+                filmsTVo.setShowTime(filmT.getFilmTime());
+                filmsTVo.setFilmType(filmT.getFilmType());
+                filmsTVo.setFilmName(filmT.getFilmName());
+                filmsTVos.add(filmsTVo);
+            }
 
+            filmsVo.setData(filmsTVos);
+            filmsVo.setImgPre("http://img.meetingshop.cn/");
+
+            return filmsVo;
+        }
         String film_catId = "#" + conditionNoVO.getCatId() + "#";
-        List<FilmT> films = filmTMapper.selectByIds(conditionNoVO.getSourceId(),
-                conditionNoVO.getYearId(), film_catId, showType);
         String orderByField = null;
         switch (sortId) {
             case 1:
@@ -316,6 +337,7 @@ public class FilmServiceImpl implements FilmService {
         entityWrapper.like(conditionNoVO.getCatId() != 99, "film_cats", film_catId);
         entityWrapper.eq(conditionNoVO.getSourceId() != 99, "film_source", conditionNoVO.getSourceId());
         entityWrapper.eq(conditionNoVO.getYearId() != 99, "film_date", conditionNoVO.getYearId());
+        entityWrapper.eq(showType != null, "film_status", showType);
 
         List<FilmT> filmTS = filmTMapper.selectPage(filmTPage, entityWrapper);
 
@@ -331,6 +353,7 @@ public class FilmServiceImpl implements FilmService {
             filmsTVo.setImgAddress(filmT.getImgAddress());
             filmsTVo.setShowTime(filmT.getFilmTime());
             filmsTVo.setFilmType(filmT.getFilmType());
+            filmsTVo.setFilmName(filmT.getFilmName());
             filmsTVos.add(filmsTVo);
         }
 

@@ -28,7 +28,8 @@ public enum GunsExceptionEnum implements ServiceExceptionEnum {
      * 错误的请求
      */
     REQUEST_NULL(400, "请求有错误"),
-    SERVER_ERROR(999, "系统出现异常，请联系管理员");
+    SERVER_ERROR(999, "系统出现异常，请联系管理员"),
+    DATABASE_ERROR(500, "数据库异常，请联系管理员");
 
     GunsExceptionEnum(int code, String message) {
         this.code = code;

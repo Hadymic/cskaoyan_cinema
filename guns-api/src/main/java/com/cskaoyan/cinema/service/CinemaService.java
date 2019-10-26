@@ -11,9 +11,9 @@ public interface CinemaService {
 
     ListBean<CinemaVo> queryList(CinemaQueryVo cinemaQueryVo);
 
-    CinemaMsgVo queryCinemaMsg(String cinemaId);
+    CinemaMsgVo queryCinemaMsg(Integer cinemaId);
 
-    FieldInfoVo getFieIdInfo(String cinemaId, String fieldId);
+    FieldInfoVo getFieIdInfo(Integer cinemaId, Integer fieldId);
 
     /**
      * 根据field的id返回放映时间

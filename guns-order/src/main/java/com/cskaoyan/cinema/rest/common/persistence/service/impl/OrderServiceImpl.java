@@ -45,6 +45,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 @Component
@@ -295,9 +296,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean isTrueSeats(Integer fieldId, String soldSeats) throws IOException {
-        String seats = orderTMapper.getSeatMsg(fieldId);
-        String seatsIds = jedis.get(seats);
-        if (seatsIds == null) {
+        String seats = "seats/" + orderTMapper.getSeatMsg(fieldId);
+        String seatsIds = null;
+        if (!jedis.exists(seats)) {
             String file = this.getClass().getClassLoader().getResource(seats).getPath();
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String tmp;
@@ -310,14 +311,14 @@ public class OrderServiceImpl implements OrderService {
                     break;
                 }
             }
+        } else {
+            seatsIds = jedis.get(seats);
         }
-        String seatMsg = jedis.get(seats);
         String[] cinemaSeats = soldSeats.split(",");
         for (String cinemaSeat : cinemaSeats) {
-            if (cinemaSeat.contains(seatMsg))
+            if (cinemaSeat.contains(seatsIds))
                 return false;
         }
-
         return true;
     }
 
@@ -375,7 +376,7 @@ public class OrderServiceImpl implements OrderService {
             orderVo.setOrderPrice(orderT.getOrderPrice());
             orderVo.setSeatsName(orderT.getSeatsName());
             orderVo.setOrderStatus(OrderStatusVo.get(orderT.getOrderStatus()));
-            String time = String.valueOf(orderT.getOrderTime().getTime()/1000);
+            String time = String.valueOf(orderT.getOrderTime().getTime() / 1000);
             orderVo.setOrderTimestamp(time);
             orderVos.add(orderVo);
         }
